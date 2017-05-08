@@ -1,0 +1,79 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00B873"
+    android:id="@+id/more_fragment"
+    android:clickable="true">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:background="#00B873">
+
+        <com.phungnlg.hellodoctor.Others.MyEditText
+            android:id="@+id/more_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/autotext"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rect"
+            android:drawableLeft="@drawable/ic_search_black_18dp"
+            android:editable="false"
+            android:elevation="8dp"
+            android:hint="     Tìm bác sỹ"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/colorTex"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
+
+        <com.phungnlg.hellodoctor.Others.MyEditText
+            android:id="@+id/more_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/more_2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rect"
+            android:drawableLeft="@drawable/ic_schedule_black_18dp"
+            android:editable="false"
+            android:elevation="8dp"
+            android:hint="     Lịch khám"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/colorTex"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
+
+        <com.phungnlg.hellodoctor.Others.MyEditText
+            android:id="@+id/more_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/more_3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/rect"
+            android:drawableLeft="@drawable/ic_lock_black_18dp"
+            android:editable="false"
+            android:elevation="8dp"
+            android:hint="     Đăng xuất"
+            android:maxLines="1"
+            android:padding="15dp"
+            android:textColor="@color/colorTex"
+            android:textColorHint="@color/black"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>

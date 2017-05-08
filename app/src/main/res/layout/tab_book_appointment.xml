@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/themecolor"
+    android:id="@+id/book_appointment"
+    android:clickable="true">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
+
+            <FrameLayout
+                android:id="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="285dp"
+
+
+                >
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:src="@drawable/calendar"
+                    android:scaleType="centerCrop"
+
+                    />
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:elevation="8dp"
+                    android:layout_marginBottom="10dp"
+                    >
+
+                    <com.phungnlg.hellodoctor.Others.MyEditText
+                        android:id="@+id/book_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/rect"
+                        android:hint="Chọn thời điểm muốn đặt lịch"
+                        android:textColorHint="@color/colorSub"
+                        android:textSize="14dp"
+                        android:editable="false"
+                        android:textColor="@color/colorTex"
+                        android:padding="15dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:drawableRight="@drawable/ic_event_black_24dp"
+                        android:elevation="8dp"
+                        />
+
+
+
+                </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <com.phungnlg.hellodoctor.Others.MyTextView
+                        android:id="@+id/book_doctorname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="110dp"
+                        android:gravity="center"
+                        android:text="Chào mừng bạn đến với phòng mạch bác sỹ Hồ Hà"
+                        android:textColor="@color/white"
+                        android:textSize="16dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="165dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/book_btnProfile"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_account_circle_black_18dp"
+                        android:text="HỒ SƠ" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/book_btnSchedule"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_schedule_black_18dp"
+                        android:text="LỊCH KHÁM" />
+                </LinearLayout>
+
+
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_below="@+id/cover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="5dp"
+                >
+
+
+                <com.phungnlg.hellodoctor.Others.MyTextView
+                    android:id="@+id/myTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="Chọn loại dịch vụ phù hợp với bạn"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+                <com.phungnlg.hellodoctor.Others.MyEditText
+                    android:id="@+id/book_bronze"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rect"
+                    android:drawableLeft="@drawable/ic_directions_walk_black_24dp"
+                    android:drawableTint="#CD9932"
+                    android:editable="false"
+                    android:elevation="8dp"
+                    android:hint="     Gói BRONZE \n     Giá tham khảo : 1,500,000đ"
+                    android:maxLines="1"
+                    android:padding="15dp"
+                    android:textColor="@color/colorTex"
+                    android:textColorHint="#cd9932"
+                    android:textSize="14dp" />
+
+                <com.phungnlg.hellodoctor.Others.MyEditText
+                    android:id="@+id/book_silver"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rect"
+                    android:drawableLeft="@drawable/ic_directions_run_black_24dp"
+                    android:drawableTint="#C0C0C0"
+                    android:editable="false"
+                    android:elevation="8dp"
+                    android:hint="     Gói SILVER \n     Giá tham khảo : 1,800,000đ"
+                    android:maxLines="1"
+                    android:padding="15dp"
+                    android:textColor="@color/colorTex"
+                    android:textColorHint="#C0C0C0"
+                    android:textSize="14dp" />
+
+                <com.phungnlg.hellodoctor.Others.MyEditText
+                    android:id="@+id/book_gold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rect"
+                    android:drawableLeft="@drawable/ic_directions_bike_black_24dp"
+                    android:drawableTint="#FFD700"
+                    android:editable="false"
+                    android:elevation="8dp"
+                    android:hint="     Gói GOLD \n     Giá tham khảo : 2,100,000đ"
+                    android:maxLines="1"
+                    android:padding="15dp"
+                    android:textColor="@android:color/holo_orange_light"
+                    android:textColorHint="#FFD700"
+                    android:textSize="14dp" />
+
+                <com.phungnlg.hellodoctor.Others.MyEditText
+                    android:id="@+id/book_diamond"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/rect"
+                    android:drawableLeft="@drawable/ic_local_airport_black_24dp"
+                    android:drawableTint="@android:color/holo_blue_bright"
+                    android:editable="false"
+                    android:elevation="8dp"
+                    android:hint="     Gói DIAMOND \n     Giá tham khảo : 3,000,000đ"
+                    android:maxLines="1"
+                    android:padding="15dp"
+                    android:textColor="@color/colorTex"
+                    android:textColorHint="@android:color/holo_blue_bright"
+                    android:textSize="14dp" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</RelativeLayout>

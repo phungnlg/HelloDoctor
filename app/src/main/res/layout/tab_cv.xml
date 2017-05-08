@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/themecolor"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="35dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.phungnlg.hellodoctor.Others.MyTextView
+                android:id="@+id/cv_username"
+                android:layout_width="236dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.98"
+                android:gravity="left"
+                android:text="Tên người dùng"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <ImageButton
+                android:id="@+id/cv_btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_send_black_18dp"
+                android:tint="@android:color/white" />
+
+        </LinearLayout>
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/ic_account_circle_black_18dp"
+            android:drawableTint="@android:color/white"
+            android:text="   Trình độ Học vấn"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <com.phungnlg.hellodoctor.Others.MyEditText
+            android:id="@+id/cv_academiclevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rect"
+            android:elevation="8dp"
+            android:hint="Trình độ học vấn"
+            android:maxLines="3"
+            android:padding="15dp"
+            android:textColor="@color/colorTex"
+            android:textColorHint="@color/colorSub"
+            android:textSize="14dp" />
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="   Kinh nghiệm"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:drawableLeft="@drawable/ic_account_circle_black_18dp"
+            android:drawableTint="@android:color/white"
+            android:textSize="14sp"
+            android:textColor="@color/white" />
+
+        <com.phungnlg.hellodoctor.Others.MyEditText
+            android:id="@+id/cv_background"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rect"
+            android:elevation="8dp"
+            android:hint="Kinh nghiệm"
+            android:maxLines="5"
+            android:padding="15dp"
+            android:textColor="@color/colorTex"
+            android:textColorHint="@color/colorSub"
+            android:textSize="14dp" />
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="   Tên phòng khám"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:drawableLeft="@drawable/ic_account_circle_black_18dp"
+            android:drawableTint="@android:color/white"
+            android:textColor="@color/white" />
+
+        <com.phungnlg.hellodoctor.Others.MyEditText
+            android:id="@+id/cv_clinicname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rect"
+
+            android:elevation="8dp"
+            android:hint="Tên Phòng khám"
+            android:maxLines="3"
+            android:padding="15dp"
+            android:textColor="@color/colorTex"
+            android:textColorHint="@color/colorSub"
+            android:textSize="14dp" />
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="   Địa chỉ Phòng khám"
+            android:drawableLeft="@drawable/ic_account_circle_black_18dp"
+            android:drawableTint="@android:color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:textColor="@color/white" />
+        <com.phungnlg.hellodoctor.Others.MyEditText
+            android:id="@+id/cv_clinicaddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rect"
+
+            android:elevation="8dp"
+            android:hint="Địa chỉ Phòng khám"
+            android:maxLines="3"
+            android:padding="15dp"
+            android:textColor="@color/colorTex"
+            android:textColorHint="@color/colorSub"
+            android:textSize="14dp" />
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="   Giải thưởng"
+            android:drawableLeft="@drawable/ic_account_circle_black_18dp"
+            android:drawableTint="@android:color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:textColor="@color/white" />
+        <com.phungnlg.hellodoctor.Others.MyEditText
+            android:id="@+id/cv_adward"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rect"
+
+            android:elevation="8dp"
+            android:hint="Giải thưởng"
+            android:maxLines="3"
+            android:padding="15dp"
+            android:textColor="@color/colorTex"
+            android:textColorHint="@color/colorSub"
+            android:textSize="14dp" />
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="   Hiệp hội"
+            android:drawableLeft="@drawable/ic_account_circle_black_18dp"
+            android:drawableTint="@android:color/white"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:textSize="14sp"
+            android:textColor="@color/white" />
+        <com.phungnlg.hellodoctor.Others.MyEditText
+            android:id="@+id/cv_association"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rect"
+
+            android:elevation="8dp"
+            android:hint="Hiệp hội"
+            android:maxLines="3"
+            android:padding="15dp"
+            android:textColor="@color/colorTex"
+            android:textColorHint="@color/colorSub"
+            android:textSize="14dp" />
+
+
+    </LinearLayout>
+</ScrollView>

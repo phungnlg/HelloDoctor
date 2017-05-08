@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">HelloDoctor</string>
+    <string name="title_activity_log_in">LogIn</string>
+    <string name="password">Mật khẩu</string>
+    <string name="reenter_password">Nhập lại mật khẩu</string>
+    <string name="login">Đăng nhập</string>
+    <string name="signup">Đăng kí</string>
+    <string name="name">Họ tên</string>
+    <string name="address">Địa chỉ</string>
+    <string name="phoneNumber">Số điện thoại</string>
+    <string name="major">Chuyên khoa</string>
+    <string name="workplace">Nơi công tác</string>
+    <string name="link_createAccount">Chưa có tài khoản? Đăng kí ngay!</string>
+    <string name="link_alreadyAMember">Đã là thành viên? Đăng nhập!</string>
+    <string name="creatAccount">Tạo tài khoản</string>
+    <string name="auth_failed">Lỗi đăng nhập</string>
+    <string name="facebook_app_id">1279264815462147</string>
+    <string name="title_activity_newsfeed">Bảng tin</string>
+</resources>

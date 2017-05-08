@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/themecolor"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="35dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="0dp"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <com.phungnlg.hellodoctor.Others.MyTextView
+                android:id="@+id/sche_username"
+                android:layout_width="236dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.98"
+                android:gravity="left"
+                android:text="Tên người dùng"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <ImageButton
+                android:id="@+id/sche_btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_send_black_18dp"
+                android:tint="@android:color/white" />
+
+        </LinearLayout>
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_marginLeft="10dp"
+            android:drawableLeft="@drawable/ic_schedule_black_18dp"
+            android:drawableTint="@android:color/white"
+
+            android:text="   Thứ Hai"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_mon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp"
+                android:gravity="center"/>
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_mon2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:drawableLeft="@drawable/ic_schedule_black_18dp"
+            android:drawableTint="@android:color/white"
+            android:text="   Thứ Ba"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_tue"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_tue2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:id="@+id/myTextView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:drawableLeft="@drawable/ic_schedule_black_18dp"
+            android:drawableTint="@android:color/white"
+
+            android:text="   Thứ Tư"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_wed"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_wed2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:drawableLeft="@drawable/ic_schedule_black_18dp"
+            android:drawableTint="@android:color/white"
+
+            android:text="   Thứ Năm"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_thu"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_thu2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:drawableLeft="@drawable/ic_schedule_black_18dp"
+            android:drawableTint="@android:color/white"
+            android:text="   Thứ Sáu"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_fri"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_fri2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:drawableLeft="@drawable/ic_schedule_black_18dp"
+            android:drawableTint="@android:color/white"
+
+            android:text="   Thứ Bảy"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_sat"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_sat2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+        <com.phungnlg.hellodoctor.Others.MyTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
+            android:drawableLeft="@drawable/ic_schedule_black_18dp"
+            android:drawableTint="@android:color/white"
+            android:text="   Chủ Nhật"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_sun"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+            <com.phungnlg.hellodoctor.Others.MyEditText
+                android:id="@+id/sche_sun2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/rect"
+                android:elevation="8dp"
+                android:gravity="center"
+                android:maxLines="1"
+                android:padding="15dp"
+                android:textColor="@color/colorTex"
+                android:textColorHint="@color/colorSub"
+                android:textSize="14dp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>

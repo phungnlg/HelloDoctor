@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/tab_profile"
+    >
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/themecolor"
+        android:scrollbars="none">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#00b873">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@drawable/bg">
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="100dp"
+
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="70dp"
+                    android:src="@drawable/nurse4"
+                    app:riv_border_color="#fff"
+                    app:riv_border_width="5dip"
+                    app:riv_corner_radius="30dip"
+                    app:riv_mutate_background="true"
+                    app:riv_oval="true"
+                    app:riv_tile_mode="repeat"
+
+
+                    />
+
+
+                <com.phungnlg.hellodoctor.Others.MyTextView
+                    android:id="@+id/profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="30dp"
+                    android:gravity="center"
+                    android:text="Bác sỹ Thành Tâm"
+                    android:textColor="@android:color/white"
+                    android:textSize="24dp"
+                    android:textStyle="bold" />
+
+                <com.phungnlg.hellodoctor.Others.MyTextView
+                    android:id="@+id/profile_bio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.1"
+                    android:maxLines="2"
+                    android:text="Bán thuốc dạo ở chợ đầu mối Nông sản Thủ Đức, bệnh gì cũng có thuốc..."
+                    android:textColor="@android:color/white" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.2dp"
+                    android:background="#c6cbcf"
+                    android:layout_marginTop="25dp"></View>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:src="@drawable/ic_thumb_up_black_24dp" />
+
+
+                    <LinearLayout
+
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center"
+                        >
+
+                        <com.phungnlg.hellodoctor.Others.MyTextView
+                            android:id="@+id/profile_following"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="852"
+                            android:textColor="@android:color/white"
+                            android:textSize="20dp" />
+
+                        <com.phungnlg.hellodoctor.Others.MyTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Following"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <com.phungnlg.hellodoctor.Others.MyTextView
+                            android:id="@+id/profile_follower"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="5562"
+                            android:textColor="@android:color/white"
+                            android:textSize="20dp" />
+
+                        <com.phungnlg.hellodoctor.Others.MyTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Followers"
+                            android:textColor="@android:color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/profile_btnProfile"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_account_circle_black_18dp"
+                        android:text="HỒ SƠ" />
+
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/profile_btnSchedule"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawableLeft="@drawable/ic_schedule_black_18dp"
+                        android:text="LỊCH KHÁM" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.phungnlg.hellodoctor.Others.MyTextView
+                        android:id="@+id/profile_forTest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_weight="3"
+                        android:letterSpacing="0.08"
+                        android:text="Bài viết gần đây..."
+                        android:textColor="@android:color/white"
+                        android:textSize="14dp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/profile_post"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.38">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>
