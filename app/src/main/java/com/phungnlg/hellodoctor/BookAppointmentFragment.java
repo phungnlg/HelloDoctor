@@ -171,7 +171,7 @@ public class BookAppointmentFragment extends Fragment {
                         client_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         doctor_noti.child("isReaded").setValue(false);
-                        doctor_noti.child("notification").setValue(username + " đã đặt lịch khám lúc " + book_time.getText());
+                        doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói BRONZE lúc " + book_time.getText());
                         doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         Toast.makeText(getContext(), "Đặt lịch khám thành công!", Toast.LENGTH_SHORT).show();
@@ -180,9 +180,75 @@ public class BookAppointmentFragment extends Fragment {
                 b.create().show();
             }
         });
+        silver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+                b.setTitle("Xác nhận lịch khám?");
+                b.setMessage("Bạn có muốn đặt gói khám SILVER, vào lúc " + book_time.getText() + " không?" );
+                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        client_noti.child("isReaded").setValue(false);
+                        client_noti.child("notification").setValue("Đặt lịch khám gói SILVER với bác sỹ " + doctor_name + " lúc " + book_time.getText() + " thành công!");
+                        client_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
+                        doctor_noti.child("isReaded").setValue(false);
+                        doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói SILVER lúc " + book_time.getText());
+                        doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
+                        Toast.makeText(getContext(), "Đặt lịch khám thành công!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                b.create().show();
+            }
+        });
+        gold.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+                b.setTitle("Xác nhận lịch khám?");
+                b.setMessage("Bạn có muốn đặt gói khám GOLD, vào lúc " + book_time.getText() + " không?" );
+                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        client_noti.child("isReaded").setValue(false);
+                        client_noti.child("notification").setValue("Đặt lịch khám gói GOLD với bác sỹ " + doctor_name + " lúc " + book_time.getText() + " thành công!");
+                        client_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
+                        doctor_noti.child("isReaded").setValue(false);
+                        doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói GOLD lúc " + book_time.getText());
+                        doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
+
+                        Toast.makeText(getContext(), "Đặt lịch khám thành công!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                b.create().show();
+            }
+        });
+        diamond.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+                b.setTitle("Xác nhận lịch khám?");
+                b.setMessage("Bạn có muốn đặt gói khám DIAMOND, vào lúc " + book_time.getText() + " không?" );
+                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        client_noti.child("isReaded").setValue(false);
+                        client_noti.child("notification").setValue("Đặt lịch khám gói DIAMOND với bác sỹ " + doctor_name + " lúc " + book_time.getText() + " thành công!");
+                        client_noti.child("time").setValue(outputFormat.format(currentLocalTime));
+
+                        doctor_noti.child("isReaded").setValue(false);
+                        doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói DIAMOND lúc " + book_time.getText());
+                        doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
+
+                        Toast.makeText(getContext(), "Đặt lịch khám thành công!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                b.create().show();
+            }
+        });
         return view;
     }
 }
