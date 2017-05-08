@@ -181,6 +181,8 @@ public class BookAppointmentFragment extends Fragment {
             }
         });
 
+
+
         return view;
     }
 }
