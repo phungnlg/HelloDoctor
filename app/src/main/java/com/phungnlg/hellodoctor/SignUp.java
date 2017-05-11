@@ -281,7 +281,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
         setResult(RESULT_OK, null);
         Toast.makeText(getBaseContext(), "Đăng kí tài khoản thành công", Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(getApplicationContext(), LogIn.class);
+        Intent intent = new Intent(getApplicationContext(), TabHome.class);
         intent.putExtra("isDoctor", true);
         startActivity(intent);
         finish();
@@ -326,7 +326,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
             _emailText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()<=10) {
+        if (mobile.isEmpty() || mobile.length()<10) {
             _mobileText.setError("Enter Valid Mobile Number");
             valid = false;
         } else {

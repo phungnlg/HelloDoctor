@@ -83,16 +83,22 @@ public class WritePostFragment extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                p.child("answer").setValue(0);
-                p.child("body").setValue(body.getText().toString());
-                p.child("tag").setValue(major.getSelectedItem().toString());
-                p.child("time").setValue(outputFormat.format(currentLocalTime));
-                p.child("title").setValue(title.getText().toString());
-                p.child("uid").setValue(mCurrentUser.getUid().toString());
-                p.child("username").setValue(username.getText().toString());
-                p.child("vote").setValue(0);
+                if (title.length() < 16 || body.length() <= 25) {
+                    Toast.makeText(getContext(),
+                            "Tiêu đề hoặc nội dung có vẻ quá ngắn, hãy thử viết chi tiết hơn",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    p.child("answer").setValue(0);
+                    p.child("body").setValue(body.getText().toString());
+                    p.child("tag").setValue(major.getSelectedItem().toString());
+                    p.child("time").setValue(outputFormat.format(currentLocalTime));
+                    p.child("title").setValue(title.getText().toString());
+                    p.child("uid").setValue(mCurrentUser.getUid().toString());
+                    p.child("username").setValue(username.getText().toString());
+                    p.child("vote").setValue(0);
 
-                Toast.makeText(getContext(), "Bài viêt '" + title.getText() + "' đã được đăng thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Bài viêt '" + title.getText() + "' đã được đăng thành công!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

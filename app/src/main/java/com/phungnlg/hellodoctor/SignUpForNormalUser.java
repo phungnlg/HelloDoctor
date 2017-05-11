@@ -174,18 +174,18 @@ public class SignUpForNormalUser extends AppCompatActivity {private static final
                 }
             }
         });
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        if(isSignUpSuccessfully)
-                            onSignupSuccess();
-                        else
-                            onSignupFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onSignupSuccess or onSignupFailed
+//                        // depending on success
+//                        if(isSignUpSuccessfully)
+//                            onSignupSuccess();
+//                        else
+//                            onSignupFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 3000);
     }
     public void onBackPressed() {
         // Disable going back to the MainActivity
@@ -200,7 +200,7 @@ public class SignUpForNormalUser extends AppCompatActivity {private static final
         setResult(RESULT_OK, null);
         Toast.makeText(getBaseContext(), "Đăng kí tài khoản thành công", Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(getApplicationContext(), LogIn.class);
+        Intent intent = new Intent(getApplicationContext(), TabHome.class);
         intent.putExtra("isDoctor", false);
         startActivity(intent);
         finish();
@@ -242,7 +242,7 @@ public class SignUpForNormalUser extends AppCompatActivity {private static final
             _emailText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()<=10) {
+        if (mobile.isEmpty() || mobile.length()<10) {
             _mobileText.setError("Enter Valid Mobile Number");
             valid = false;
         } else {
