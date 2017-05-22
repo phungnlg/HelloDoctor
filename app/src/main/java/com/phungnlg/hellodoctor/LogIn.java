@@ -132,7 +132,7 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
         final ProgressDialog progressDialog = new ProgressDialog(LogIn.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Đang đăng nhập...");
+        progressDialog.setMessage(getText(R.string.logging_in));
         progressDialog.show();
 
         String email = _emailText.getText().toString();
@@ -163,7 +163,6 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
                         // On complete call either onLoginSuccess or onLoginFailed
                         if(isLogInSuccessfully)
                             onLoginSuccess();
-                            // onLoginFailed();
                         else
                             onLoginFailed();
                         progressDialog.dismiss();
@@ -174,18 +173,10 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //if (requestCode == REQUEST_SIGNUP) {
-        // if (resultCode == RESULT_OK) {
-
-        // TODO: Implement successful signup logic here
-        // By default we just finish the Activity and log them in automatically
-        //  this.finish();
-        // }
-        // }
         super.onActivityResult(requestCode, resultCode, data);
-
-
     }
+
+    //Không sử dụng nữa
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
 
@@ -226,21 +217,6 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
         final Intent intent = new Intent(getApplicationContext(), TabHome.class);
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        //database.getInstance().setPersistenceEnabled(true);
-//        DatabaseReference userRef = ref.child(user.getUid());
-//
-//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                UserDoctor userDoctor = dataSnapshot.getValue(UserDoctor.class);
-//                intent.putExtra("userName", userDoctor.getName());
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
 
         if(isLogInByFacebook) {
             if (user != null) {
@@ -251,8 +227,6 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
             }
         }
         else {
-            //intent.putExtra("userName", "Tạm thời chưa lấy được tên");
-            //intent.putExtra("userName", tempName);
             intent.putExtra("userEmail", user.getEmail());
             intent.putExtra("isLogInByFacebook", isLogInByFacebook);
             intent.putExtra("isDoctor", true);
@@ -260,11 +234,10 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-        //finish();
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Vui lòng đăng nhập lại", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.please_sign_in_again, Toast.LENGTH_LONG).show();
         _passwordText.setText("");
 
         _loginButton.setEnabled(true);
@@ -277,14 +250,14 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError(getText(R.string.enter_valid_email));
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError(getText(R.string.enter_valid_password));
             valid = false;
         } else {
             _passwordText.setError(null);

@@ -16,4 +16,16 @@
     <string name="auth_failed">Lỗi đăng nhập</string>
     <string name="facebook_app_id">1279264815462147</string>
     <string name="title_activity_newsfeed">Bảng tin</string>
+    <string name="logging_in">Đang đăng nhập...</string>
+    <string name="creating_account">Đang tạo tài khoản...</string>
+    <string name="create_account_successfully">Đăng kí tài khoản thành công</string>
+    <string name="create_account_unsuccessfully">Đăng kí tài khoản không thành công</string>
+    <string name="email_error">enter a valid email address</string>
+    <string name="please_sign_in_again">Vui lòng đăng nhập lại!</string>
+    <string name="enter_valid_email">Định dạng email không đúng</string>
+    <string name="enter_valid_password">Mật khẩu có từ 4 đến 10 ký tự</string>
+    <string name="enter_valid_name">Ít nhất 3 ký tự</string>
+    <string name="enter_valid_address">Vui lòng nhập địa chỉ chính xác</string>
+    <string name="enter_valid_phone_number">Số điện thoại phải có ít nhất 10 ký tự số</string>
+    <string name="enter_matched_password">Mật khẩu không khớp</string>
 </resources>

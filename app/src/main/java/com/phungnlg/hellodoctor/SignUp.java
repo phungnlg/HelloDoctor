@@ -142,7 +142,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
         final ProgressDialog progressDialog = new ProgressDialog(SignUp.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Đang tạo tài khoản...");
+        progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
 
         final String name = _nameText.getText().toString();
@@ -153,7 +153,6 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
         String reEnterPassword = _reEnterPasswordText.getText().toString();
         final String workplace = _workplace.getText().toString();
 
-        // TODO: Implement your own signup logic here
 
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -270,7 +269,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
     public void onBackPressed() {
         // Disable going back to the MainActivity
         // moveTaskToBack(true);
-        Intent intent = new Intent(getApplicationContext(), SignUp.class);
+        Intent intent = new Intent(getApplicationContext(), LogIn.class);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -279,7 +278,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        Toast.makeText(getBaseContext(), "Đăng kí tài khoản thành công", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.create_account_successfully, Toast.LENGTH_LONG).show();
 
         Intent intent = new Intent(getApplicationContext(), TabHome.class);
         intent.putExtra("isDoctor", true);
@@ -289,7 +288,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
     }
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Đăng kí tài khoản không thành công", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.create_account_unsuccessfully, Toast.LENGTH_LONG).show();
 
         _signupButton.setEnabled(true);
     }
@@ -305,14 +304,14 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError("at least 3 characters");
+            _nameText.setError(getText(R.string.enter_valid_name));
             valid = false;
         } else {
             _nameText.setError(null);
         }
 
         if (address.isEmpty()) {
-            _addressText.setError("Enter Valid Address");
+            _addressText.setError(getText(R.string.enter_valid_address));
             valid = false;
         } else {
             _addressText.setError(null);
@@ -320,28 +319,28 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
 
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError(getText(R.string.enter_valid_email));
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (mobile.isEmpty() || mobile.length()<10) {
-            _mobileText.setError("Enter Valid Mobile Number");
+            _mobileText.setError(getText(R.string.enter_valid_phone_number));
             valid = false;
         } else {
             _mobileText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError(getText(R.string.enter_valid_password));
             valid = false;
         } else {
             _passwordText.setError(null);
         }
 
         if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            _reEnterPasswordText.setError("Password Do not match");
+            _reEnterPasswordText.setError(getText(R.string.enter_matched_password));
             valid = false;
         } else {
             _reEnterPasswordText.setError(null);
