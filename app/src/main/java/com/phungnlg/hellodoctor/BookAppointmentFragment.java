@@ -34,13 +34,9 @@ public class BookAppointmentFragment extends Fragment {
     private String doctor_key, doctor_name;
     TextView welcome;
     TextView book_time;
-
     TextView bronze, silver, gold, diamond;
-
     String username;
-
     Date mDate;
-
     AppCompatButton profile, schedule;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
