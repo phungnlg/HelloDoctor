@@ -86,7 +86,7 @@ public class SinglePostFragment extends Fragment {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         Bundle bundle = this.getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             post_key = bundle.getString("post_key");
         }
     }
@@ -96,13 +96,13 @@ public class SinglePostFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.tab_single_post, container, false);
 
-        postName = (TextView)view.findViewById(R.id.tab_name);
-        postStatus = (TextView)view.findViewById(R.id.tab_body);
-        postTime = (TextView)view.findViewById(R.id.tab_time);
-        postTitle = (TextView)view.findViewById(R.id.tab_title);
-        postLikeCount = (TextView)view.findViewById(R.id.tab_txtLikeCount);
-        btnAnswer = (ImageButton)view.findViewById(R.id.tab_btnSendComment);
-        txtAnswer = (EditText)view.findViewById(R.id.tab_txtComment);
+        postName = (TextView) view.findViewById(R.id.tab_name);
+        postStatus = (TextView) view.findViewById(R.id.tab_body);
+        postTime = (TextView) view.findViewById(R.id.tab_time);
+        postTitle = (TextView) view.findViewById(R.id.tab_title);
+        postLikeCount = (TextView) view.findViewById(R.id.tab_txtLikeCount);
+        btnAnswer = (ImageButton) view.findViewById(R.id.tab_btnSendComment);
+        txtAnswer = (EditText) view.findViewById(R.id.tab_txtComment);
         postTag = (TextView) view.findViewById(R.id.tab_tag);
 
         String outputPattern = "h:mm a dd-MM-yyyy";
@@ -112,36 +112,23 @@ public class SinglePostFragment extends Fragment {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
         final Date currentLocalTime = cal.getTime();
 
-        mCommentList = (RecyclerView)view.findViewById(R.id.comment_list);
+        mCommentList = (RecyclerView) view.findViewById(R.id.comment_list);
         mCommentList.setHasFixedSize(true);
         mCommentList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-//        DatabaseReference userInfo = database.getReference("User").child(user.getUid());
-//        userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                txtAnswer.setHint(dataSnapshot.child("name").getValue().toString());
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
 
         name = txtAnswer.getText().toString();
 
         mDatabase.child(post_key).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String postTitle1 = (String)dataSnapshot.child("title").getValue();
-                String postBody = (String)dataSnapshot.child("body").getValue();
-                String postuid = (String)dataSnapshot.child("uid").getValue();
-                long postAnswer = (Long)dataSnapshot.child("answer").getValue();
-                long postVote = (Long)dataSnapshot.child("vote").getValue();
-                String postUser = (String)dataSnapshot.child("username").getValue();
-                String postTag1 = (String)dataSnapshot.child("tag").getValue();
-                String postTime1 = (String)dataSnapshot.child("time").getValue();
+                String postTitle1 = (String) dataSnapshot.child("title").getValue();
+                String postBody = (String) dataSnapshot.child("body").getValue();
+                String postuid = (String) dataSnapshot.child("uid").getValue();
+                long postAnswer = (Long) dataSnapshot.child("answer").getValue();
+                long postVote = (Long) dataSnapshot.child("vote").getValue();
+                String postUser = (String) dataSnapshot.child("username").getValue();
+                String postTag1 = (String) dataSnapshot.child("tag").getValue();
+                String postTime1 = (String) dataSnapshot.child("time").getValue();
 
                 postPreviousVote = postVote;
                 postPreviousAnswer = postAnswer;
@@ -168,7 +155,6 @@ public class SinglePostFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(CommentHolder viewHolder, Comment model, int position) {
-                //viewHolder.setName("Bác sỹ Thanh Mai");
                 viewHolder.setName(model.getName());
                 viewHolder.setContent(model.getComment());
                 viewHolder.setTime(model.getTime());
@@ -209,11 +195,11 @@ public class SinglePostFragment extends Fragment {
                 mDatabase.child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        String postuid = (String)dataSnapshot.child("uid").getValue();
-                        String postTitle1 = (String)dataSnapshot.child("title").getValue();
+                        String postuid = (String) dataSnapshot.child("uid").getValue();
+                        String postTitle1 = (String) dataSnapshot.child("title").getValue();
                         DatabaseReference n = noti.child(postuid).push();
                         n.child("isReaded").setValue(false);
-                        n.child("notification").setValue(user.getDisplayName() + " đã bình luận bài viết \"" +postTitle1.substring(0,15)+ "...\" của bạn");
+                        n.child("notification").setValue(user.getDisplayName() + " đã bình luận bài viết \"" + postTitle1.substring(0, 15) + "...\" của bạn");
                         n.child("time").setValue(outputFormat.format(currentLocalTime));
                     }
 
@@ -236,7 +222,6 @@ public class SinglePostFragment extends Fragment {
     }
 
 
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -249,23 +234,26 @@ public class SinglePostFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
-    public static class CommentHolder extends RecyclerView.ViewHolder{
+    public static class CommentHolder extends RecyclerView.ViewHolder {
         View mView;
 
-        public CommentHolder(View itemView){
+        public CommentHolder(View itemView) {
             super(itemView);
             mView = itemView;
         }
-        public void setName(String _name){
-            TextView name = (TextView)mView.findViewById(R.id.comment_name);
+
+        public void setName(String _name) {
+            TextView name = (TextView) mView.findViewById(R.id.comment_name);
             name.setText(_name);
         }
-        public void setTime(String _time){
-            TextView time = (TextView)mView.findViewById(R.id.comment_time);
+
+        public void setTime(String _time) {
+            TextView time = (TextView) mView.findViewById(R.id.comment_time);
             time.setText(_time);
         }
-        public void setContent(String _title){
-            TextView body = (TextView)mView.findViewById(R.id.comment_content);
+
+        public void setContent(String _title) {
+            TextView body = (TextView) mView.findViewById(R.id.comment_content);
             body.setText(_title);
         }
     }

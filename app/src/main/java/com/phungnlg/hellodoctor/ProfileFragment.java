@@ -68,17 +68,7 @@ public class ProfileFragment extends Fragment {
         layoutManager.setStackFromEnd(true);
 
         post.setHasFixedSize(true);
-        //mBlogList.setLayoutManager(new LinearLayoutManager(this.getContext()));
         post.setLayoutManager(layoutManager);
-
-//        if (isLogInByFacebook) {
-//            //pic.setImageURI(user.getPhotoUrl());
-//            Glide.with(this).load(user.getPhotoUrl())
-//                    .crossFade()
-//                    .thumbnail(0.0f)
-//                    .bitmapTransform(new CircleTransform(getContext()))
-//                    .into(pic);
-//        }
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -88,7 +78,7 @@ public class ProfileFragment extends Fragment {
                 long f1 = (Long) dataSnapshot.child(user.getUid()).child("following").getValue();
                 long f2 = (Long) dataSnapshot.child(user.getUid()).child("follower").getValue();
 
-                isDoctor = (Boolean)dataSnapshot.child(user.getUid()).child("isDoctor").getValue();
+                isDoctor = (Boolean) dataSnapshot.child(user.getUid()).child("isDoctor").getValue();
 
                 name.setText(n);
                 //name.setText(user.getDisplayName());
@@ -96,11 +86,10 @@ public class ProfileFragment extends Fragment {
                 following.setText("" + f1);
                 follower.setText("" + f2);
 
-                if(!isDoctor){
+                if (!isDoctor) {
                     profile.setVisibility(View.GONE);
                     schedule.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                 }
 
             }
@@ -196,6 +185,7 @@ public class ProfileFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public static class ProfileHolder extends RecyclerView.ViewHolder {
         View mView;
 
@@ -205,14 +195,11 @@ public class ProfileFragment extends Fragment {
         }
 
         public void setName(String _name) {
-            //TextView name = (TextView)mView.findViewById(R.id.name);
             TextView name = (TextView) mView.findViewById(R.id.newsname);
             name.setText(_name);
         }
 
         public void setTime(String _time) {
-            //tạm thời dùng titile cho mục này
-            //TextView time = (TextView)mView.findViewById(R.id.timestamp);
             TextView time = (TextView) mView.findViewById(R.id.newstime);
             time.setText(_time);
         }
@@ -223,13 +210,11 @@ public class ProfileFragment extends Fragment {
         }
 
         public void setBody(String _body) {
-            //TextView body = (TextView)mView.findViewById(R.id.txtStatusMsg);
             TextView body = (TextView) mView.findViewById(R.id.newssub);
             body.setText(_body);
         }
 
         public void setHashTag(String _hashTag) {
-            //TextView hashTag = (TextView)mView.findViewById(R.id.txtHastag);
             TextView hashTag = (TextView) mView.findViewById(R.id.intrest);
             hashTag.setText(_hashTag);
         }

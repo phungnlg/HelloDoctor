@@ -9,7 +9,7 @@ import android.widget.TextView;
  * Created by Phil on 07/05/2017.
  */
 
-public class MyTextView extends TextView{
+public class MyTextView extends TextView {
     public MyTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();

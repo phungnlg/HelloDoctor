@@ -30,21 +30,27 @@ import com.google.firebase.database.ValueEventListener;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUp extends AppCompatActivity {private static final String TAG = "SignupActivity";
+public class SignUp extends AppCompatActivity {
+    private static final String TAG = "SignupActivity";
 
     @Bind(R.id.input_name)
     EditText _nameText;
     @Bind(R.id.input_address)
     AutoCompleteTextView _addressText;
-    @Bind(R.id.input_email) EditText _emailText;
-    @Bind(R.id.input_mobile) EditText _mobileText;
-    @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
+    @Bind(R.id.input_email)
+    EditText _emailText;
+    @Bind(R.id.input_mobile)
+    EditText _mobileText;
+    @Bind(R.id.input_password)
+    EditText _passwordText;
+    @Bind(R.id.input_reEnterPassword)
+    EditText _reEnterPasswordText;
     @Bind(R.id.btn_signup)
     Button _signupButton;
     @Bind(R.id.link_login)
     TextView _loginLink;
-    @Bind(R.id.input_workplace) TextView _workplace;
+    @Bind(R.id.input_workplace)
+    TextView _workplace;
     Spinner _major;
 
 
@@ -70,7 +76,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
-        _major = (Spinner)findViewById(R.id.input_major);
+        _major = (Spinner) findViewById(R.id.input_major);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.major, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         _major.setAdapter(adapter);
@@ -90,7 +96,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),LogIn.class);
+                Intent intent = new Intent(getApplicationContext(), LogIn.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -176,7 +182,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
 
         // TODO: Cập nhật các thông tin khác ở đây(tên, địa chỉ, ...)
 
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
@@ -250,14 +256,12 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
         });
 
 
-
-
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
-                        if(isSignUpSuccessfully)
+                        if (isSignUpSuccessfully)
                             onSignupSuccess();
                         else
                             onSignupFailed();
@@ -266,6 +270,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
                     }
                 }, 3000);
     }
+
     public void onBackPressed() {
         // Disable going back to the MainActivity
         // moveTaskToBack(true);
@@ -325,7 +330,7 @@ public class SignUp extends AppCompatActivity {private static final String TAG =
             _emailText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()<10) {
+        if (mobile.isEmpty() || mobile.length() < 10) {
             _mobileText.setError(getText(R.string.enter_valid_phone_number));
             valid = false;
         } else {

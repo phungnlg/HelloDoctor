@@ -9,9 +9,10 @@ import android.support.v4.app.Fragment;
 public class Comment {
     private String name, uid, comment, time;
 
-    public Comment(){}
+    public Comment() {
+    }
 
-    public Comment(String _name, String _uid, String _comment){
+    public Comment(String _name, String _uid, String _comment) {
         this.comment = _comment;
         this.name = _name;
         this.uid = _uid;

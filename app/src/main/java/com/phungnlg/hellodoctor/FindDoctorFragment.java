@@ -35,7 +35,8 @@ public class FindDoctorFragment extends Fragment {
     Query sortMajor;
     ImageButton btnSearch;
 
-    public FindDoctorFragment(){}
+    public FindDoctorFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,7 +70,7 @@ public class FindDoctorFragment extends Fragment {
                     protected void populateViewHolder(dHolder viewHolder, Doctor model, int position) {
                         viewHolder.setName(model.name);
                         viewHolder.setAddress(model.address);
-                        viewHolder.setBio("Bác sỹ "+ model.major + " tại " + model.workplace);
+                        viewHolder.setBio("Bác sỹ " + model.major + " tại " + model.workplace);
                         viewHolder.setMobile(model.mobile);
 
                         final String doctor_key = getRef(position).getKey();
@@ -101,26 +102,30 @@ public class FindDoctorFragment extends Fragment {
         return view;
     }
 
-    public static class dHolder extends RecyclerView.ViewHolder{
+    public static class dHolder extends RecyclerView.ViewHolder {
         View view;
 
-        public dHolder(View itemView){
+        public dHolder(View itemView) {
             super(itemView);
             view = itemView;
         }
-        public void setName(String _name){
+
+        public void setName(String _name) {
             TextView name = (TextView) view.findViewById(R.id.find_name);
             name.setText(_name);
         }
-        public void setBio(String _bio){
+
+        public void setBio(String _bio) {
             TextView bio = (TextView) view.findViewById(R.id.find_bio);
             bio.setText(_bio);
         }
-        public void setAddress(String _a){
+
+        public void setAddress(String _a) {
             TextView add = (TextView) view.findViewById(R.id.find_address);
             add.setText(_a);
         }
-        public void setMobile(String _mobile){
+
+        public void setMobile(String _mobile) {
             TextView mobile = (TextView) view.findViewById(R.id.find_mobile);
             mobile.setText(_mobile);
         }

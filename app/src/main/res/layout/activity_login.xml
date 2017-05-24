@@ -13,7 +13,8 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp">
 
-        <ImageView android:src="@drawable/nurse2"
+        <ImageView
+            android:src="@drawable/nurse2"
             android:layout_width="wrap_content"
             android:layout_height="72dp"
             android:layout_marginBottom="24dp"

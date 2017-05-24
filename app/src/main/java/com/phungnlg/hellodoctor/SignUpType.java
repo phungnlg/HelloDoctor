@@ -10,11 +10,13 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUpType extends AppCompatActivity {private static final String TAG = "SignUpTypeActivity";
+public class SignUpType extends AppCompatActivity {
+    private static final String TAG = "SignUpTypeActivity";
     private static final int REQUEST_SIGNUP = 0;
     @Bind(R.id.btn_bacsy)
     Button _btnBacSy;
-    @Bind(R.id.btn_nguoidung) Button _btnNguoiDung;
+    @Bind(R.id.btn_nguoidung)
+    Button _btnNguoiDung;
     @Bind(R.id.link_signin1)
     TextView _signinLink;
 
@@ -27,7 +29,7 @@ public class SignUpType extends AppCompatActivity {private static final String T
         _btnBacSy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),SignUp.class);
+                Intent intent = new Intent(getApplicationContext(), SignUp.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -36,7 +38,7 @@ public class SignUpType extends AppCompatActivity {private static final String T
         _btnNguoiDung.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(),SignUpForNormalUser.class);
+                Intent intent = new Intent(getApplicationContext(), SignUpForNormalUser.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -47,13 +49,14 @@ public class SignUpType extends AppCompatActivity {private static final String T
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),LogIn.class);
+                Intent intent = new Intent(getApplicationContext(), LogIn.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
     }
+
     public void onBackPressed() {
         // Disable going back to the MainActivity
         // moveTaskToBack(true);

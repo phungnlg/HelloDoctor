@@ -51,7 +51,7 @@ public class BookAppointmentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle bundle = this.getArguments();
-        if(bundle != null) {
+        if (bundle != null) {
             doctor_key = bundle.getString("doctor_key");
             doctor_name = bundle.getString("doctor_name");
         }
@@ -60,12 +60,11 @@ public class BookAppointmentFragment extends Fragment {
         userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                username = (String)dataSnapshot.child("name").getValue();
+                username = (String) dataSnapshot.child("name").getValue();
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 
@@ -80,7 +79,7 @@ public class BookAppointmentFragment extends Fragment {
         profile = (AppCompatButton) view.findViewById(R.id.book_btnProfile);
 
         welcome = (TextView) view.findViewById(R.id.book_doctorname);
-        welcome.setText("Chào mừng bạn đến với phòng mạch bác sỹ "+doctor_name);
+        welcome.setText(getText(R.string.welcome_to_doctor) + doctor_name);
 
         final int myColor = getResources().getColor(R.color.themecolor);
 
@@ -157,8 +156,8 @@ public class BookAppointmentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-                b.setTitle("Xác nhận lịch khám?");
-                b.setMessage("Bạn có muốn đặt gói khám BRONZE, vào lúc " + book_time.getText() + " không?" );
+                b.setTitle(R.string.confirm_appointment);
+                b.setMessage("Bạn có muốn đặt gói khám BRONZE, vào lúc " + book_time.getText() + " không?");
                 b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -170,7 +169,7 @@ public class BookAppointmentFragment extends Fragment {
                         doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói BRONZE lúc " + book_time.getText());
                         doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
-                        Toast.makeText(getContext(), "Đặt lịch khám thành công!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
                     }
                 });
                 b.create().show();
@@ -180,8 +179,8 @@ public class BookAppointmentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-                b.setTitle("Xác nhận lịch khám?");
-                b.setMessage("Bạn có muốn đặt gói khám SILVER, vào lúc " + book_time.getText() + " không?" );
+                b.setTitle(R.string.confirm_appointment);
+                b.setMessage("Bạn có muốn đặt gói khám SILVER, vào lúc " + book_time.getText() + " không?");
                 b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -193,7 +192,7 @@ public class BookAppointmentFragment extends Fragment {
                         doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói SILVER lúc " + book_time.getText());
                         doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
-                        Toast.makeText(getContext(), "Đặt lịch khám thành công!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
                     }
                 });
                 b.create().show();
@@ -203,8 +202,8 @@ public class BookAppointmentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-                b.setTitle("Xác nhận lịch khám?");
-                b.setMessage("Bạn có muốn đặt gói khám GOLD, vào lúc " + book_time.getText() + " không?" );
+                b.setTitle(R.string.confirm_appointment);
+                b.setMessage("Bạn có muốn đặt gói khám GOLD, vào lúc " + book_time.getText() + " không?");
                 b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -216,7 +215,7 @@ public class BookAppointmentFragment extends Fragment {
                         doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói GOLD lúc " + book_time.getText());
                         doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
-                        Toast.makeText(getContext(), "Đặt lịch khám thành công!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
                     }
                 });
                 b.create().show();
@@ -226,8 +225,8 @@ public class BookAppointmentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-                b.setTitle("Xác nhận lịch khám?");
-                b.setMessage("Bạn có muốn đặt gói khám DIAMOND, vào lúc " + book_time.getText() + " không?" );
+                b.setTitle(R.string.confirm_appointment);
+                b.setMessage("Bạn có muốn đặt gói khám DIAMOND, vào lúc " + book_time.getText() + " không?");
                 b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -236,10 +235,10 @@ public class BookAppointmentFragment extends Fragment {
                         client_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         doctor_noti.child("isReaded").setValue(false);
-                        doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói DIAMOND lúc " + book_time.getText());
+                        doctor_noti.child("notification").setValue(username + " " + getText(R.string.diamond_da_dat_lich_kham_luc) + " " + book_time.getText());
                         doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
-                        Toast.makeText(getContext(), "Đặt lịch khám thành công!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
                     }
                 });
                 b.create().show();

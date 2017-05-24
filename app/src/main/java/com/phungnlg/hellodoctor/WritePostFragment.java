@@ -39,7 +39,8 @@ public class WritePostFragment extends Fragment {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Posts");
 
-    public WritePostFragment(){}
+    public WritePostFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -85,7 +86,7 @@ public class WritePostFragment extends Fragment {
             public void onClick(View view) {
                 if (title.length() < 16 || body.length() <= 25) {
                     Toast.makeText(getContext(),
-                            "Tiêu đề hoặc nội dung có vẻ quá ngắn, hãy thử viết chi tiết hơn",
+                            R.string.post_too_short,
                             Toast.LENGTH_SHORT).show();
                 } else {
                     p.child("answer").setValue(0);

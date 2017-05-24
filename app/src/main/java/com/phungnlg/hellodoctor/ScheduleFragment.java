@@ -43,7 +43,7 @@ public class ScheduleFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = this.getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             isEditMode = bundle.getBoolean("isEditMode");
             key = bundle.getString("key");
         }
@@ -72,8 +72,8 @@ public class ScheduleFragment extends Fragment {
         sat2 = (EditText) view.findViewById(R.id.sche_sat2);
         sun2 = (EditText) view.findViewById(R.id.sche_sun2);
 
-        if(!isEditMode){
-            name.setText("LỊCH KHÁM");
+        if (!isEditMode) {
+            name.setText(R.string.sche_1);
             name.setGravity(Gravity.CENTER);
             btnSave.setVisibility(View.GONE);
             mon.setEnabled(false);
@@ -90,8 +90,7 @@ public class ScheduleFragment extends Fragment {
             sat2.setEnabled(false);
             sun.setEnabled(false);
             sun2.setEnabled(false);
-        }
-        else {
+        } else {
             DatabaseReference userInfo = database.getReference("User").child(key);
             userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -150,7 +149,7 @@ public class ScheduleFragment extends Fragment {
                 mDatabase.child("Sun").child("from").setValue(sun.getText().toString());
                 mDatabase.child("Sun").child("to").setValue(sun2.getText().toString());
 
-                Toast.makeText(getContext(), "Cập nhật lịch khám thành công!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.sche_update_successfully, Toast.LENGTH_SHORT).show();
             }
         });
 

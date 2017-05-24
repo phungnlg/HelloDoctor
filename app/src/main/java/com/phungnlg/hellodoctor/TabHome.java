@@ -33,7 +33,7 @@ public class TabHome extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tab_home);
 
-        fab =  (FloatingActionButton)findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         hideFloatingActionButton();
 
         // Setup the viewPager
@@ -61,7 +61,7 @@ public class TabHome extends AppCompatActivity {
 
         public final int PAGE_COUNT = 4;
 
-        private final String[] mTabsTitle = {"Home", "Add User", "Notifications","More"};
+        private final String[] mTabsTitle = {"Home", "Add User", "Notifications", "More"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -102,12 +102,17 @@ public class TabHome extends AppCompatActivity {
         }
 
     }
+
     public void showFloatingActionButton() {
         fab.show();
-    };
+    }
+
+    ;
 
     public void hideFloatingActionButton() {
         fab.hide();
-    };
+    }
+
+    ;
 
 }

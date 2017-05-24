@@ -9,9 +9,10 @@ public class Doctor {
 
     public Doctor() {
     }
-    public Doctor(String n, String a, String m, String ma, String w){
+
+    public Doctor(String n, String a, String m, String ma, String w) {
         this.name = n;
-        this.address =a;
+        this.address = a;
         this.mobile = m;
         this.major = ma;
         this.workplace = w;

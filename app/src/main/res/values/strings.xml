@@ -16,8 +16,8 @@
     <string name="auth_failed">Lỗi đăng nhập</string>
     <string name="facebook_app_id">1279264815462147</string>
     <string name="title_activity_newsfeed">Bảng tin</string>
-    <string name="logging_in">Đang đăng nhập...</string>
-    <string name="creating_account">Đang tạo tài khoản...</string>
+    <string name="logging_in">Đang đăng nhập&#8230;</string>
+    <string name="creating_account">Đang tạo tài khoản&#8230;</string>
     <string name="create_account_successfully">Đăng kí tài khoản thành công</string>
     <string name="create_account_unsuccessfully">Đăng kí tài khoản không thành công</string>
     <string name="email_error">enter a valid email address</string>
@@ -28,4 +28,14 @@
     <string name="enter_valid_address">Vui lòng nhập địa chỉ chính xác</string>
     <string name="enter_valid_phone_number">Số điện thoại phải có ít nhất 10 ký tự số</string>
     <string name="enter_matched_password">Mật khẩu không khớp</string>
+    <string name="welcome_to_doctor">Chào mừng bạn đến với phòng mạch bác sỹ </string>
+    <string name="confirm_appointment">Xác nhận lịch khám?</string>
+    <string name="appointment_success">Đặt lịch khám thành công!</string>
+    <string name="diamond_da_dat_lich_kham_luc">đã đặt lịch khám gói DIAMOND lúc</string>
+    <string name="ho_so_cap_nhat_thanh_cong">Hồ sơ đã được cập nhật thành công</string>
+    <string name="cv_no_info">Chưa có thông tin</string>
+    <string name="cv_doctor">HỒ SƠ BÁC SỸ</string>
+    <string name="sche_update_successfully">Cập nhật lịch khám thành công!</string>
+    <string name="sche_1">LỊCH KHÁM</string>
+    <string name="post_too_short">Tiêu đề hoặc nội dung có vẻ quá ngắn, hãy thử viết chi tiết hơn</string>
 </resources>

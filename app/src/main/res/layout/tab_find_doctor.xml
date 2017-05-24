@@ -95,8 +95,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp"
-                >
+                android:layout_marginTop="5dp">
 
 
                 <com.phungnlg.hellodoctor.Others.MyTextView
@@ -108,8 +107,6 @@
                     android:text="Danh sách bác sỹ"
                     android:textColor="@color/white"
                     android:textSize="16dp" />
-
-
 
 
             </LinearLayout>

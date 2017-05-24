@@ -26,16 +26,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUpForNormalUser extends AppCompatActivity {private static final String TAG = "SignupActivity";
+public class SignUpForNormalUser extends AppCompatActivity {
+    private static final String TAG = "SignupActivity";
 
     @Bind(R.id.input_name)
     EditText _nameText;
     @Bind(R.id.input_address)
     AutoCompleteTextView _addressText;
-    @Bind(R.id.input_email) EditText _emailText;
-    @Bind(R.id.input_mobile) EditText _mobileText;
-    @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
+    @Bind(R.id.input_email)
+    EditText _emailText;
+    @Bind(R.id.input_mobile)
+    EditText _mobileText;
+    @Bind(R.id.input_password)
+    EditText _passwordText;
+    @Bind(R.id.input_reEnterPassword)
+    EditText _reEnterPasswordText;
     @Bind(R.id.btn_signup)
     Button _signupButton;
     @Bind(R.id.link_login)
@@ -77,7 +82,7 @@ public class SignUpForNormalUser extends AppCompatActivity {private static final
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(),LogIn.class);
+                Intent intent = new Intent(getApplicationContext(), LogIn.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -132,7 +137,7 @@ public class SignUpForNormalUser extends AppCompatActivity {private static final
                         }
                     }
                 });
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
@@ -175,6 +180,7 @@ public class SignUpForNormalUser extends AppCompatActivity {private static final
             }
         });
     }
+
     public void onBackPressed() {
         // Disable going back to the MainActivity
         // moveTaskToBack(true);
@@ -183,6 +189,7 @@ public class SignUpForNormalUser extends AppCompatActivity {private static final
         finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
+
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
@@ -194,10 +201,12 @@ public class SignUpForNormalUser extends AppCompatActivity {private static final
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
-    public void onSignupFailed(){
+
+    public void onSignupFailed() {
         Toast.makeText(getBaseContext(), R.string.create_account_unsuccessfully, Toast.LENGTH_LONG).show();
         _signupButton.setEnabled(true);
     }
+
     public boolean validate() {
         boolean valid = true;
 
@@ -230,7 +239,7 @@ public class SignUpForNormalUser extends AppCompatActivity {private static final
             _emailText.setError(null);
         }
 
-        if (mobile.isEmpty() || mobile.length()<10) {
+        if (mobile.isEmpty() || mobile.length() < 10) {
             _mobileText.setError(getText(R.string.enter_valid_phone_number));
             valid = false;
         } else {

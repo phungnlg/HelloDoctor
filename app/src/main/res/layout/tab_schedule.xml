@@ -77,7 +77,7 @@
                 android:textColor="@color/colorTex"
                 android:textColorHint="@color/colorSub"
                 android:textSize="14dp"
-                android:gravity="center"/>
+                android:gravity="center" />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
                 android:id="@+id/sche_mon2"

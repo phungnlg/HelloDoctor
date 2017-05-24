@@ -8,9 +8,10 @@ public class Notification {
     private String time, notification;
     private Boolean isReaded;
 
-    public Notification(){}
+    public Notification() {
+    }
 
-    public Notification(String _time, String _body, Boolean _isReaded){
+    public Notification(String _time, String _body, Boolean _isReaded) {
         this.time = _time;
         this.notification = _body;
         this.isReaded = _isReaded;

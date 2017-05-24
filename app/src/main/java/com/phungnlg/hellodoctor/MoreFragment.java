@@ -34,15 +34,15 @@ public class MoreFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.tab_more, container, false);
 
-        signOut = (EditText)view.findViewById(R.id.more_4);
-        book = (EditText)view.findViewById(R.id.more_2);
+        signOut = (EditText) view.findViewById(R.id.more_4);
+        book = (EditText) view.findViewById(R.id.more_2);
 
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Clicked Sign Out");
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getContext(),LogIn.class);
+                Intent intent = new Intent(getContext(), LogIn.class);
                 startActivity(intent);
             }
         });

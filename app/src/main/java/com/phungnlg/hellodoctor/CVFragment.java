@@ -63,7 +63,7 @@ public class CVFragment extends Fragment {
 
         if (!isEditMode) {
             btnSave.setVisibility(View.GONE);
-            name.setText("HỒ SƠ BÁC SỸ");
+            name.setText(R.string.cv_doctor);
             name.setGravity(Gravity.CENTER);
             AL.setEnabled(false);
             BG.setEnabled(false);
@@ -111,29 +111,29 @@ public class CVFragment extends Fragment {
             public void onClick(View view) {
                 if (AL.getText().toString() != null)
                     mDatabase.child("al").setValue(AL.getText().toString());
-                else mDatabase.child("al").setValue("Chưa có thông tin");
+                else mDatabase.child("al").setValue(getText(R.string.cv_no_info));
 
                 if (BG.getText().toString() != null)
                     mDatabase.child("bg").setValue(BG.getText().toString());
-                else mDatabase.child("bg").setValue("Chưa có thông tin");
+                else mDatabase.child("bg").setValue(getText(R.string.cv_no_info));
 
                 if (CN.getText().toString() != null)
                     mDatabase.child("cn").setValue(CN.getText().toString());
-                else mDatabase.child("cn").setValue("Chưa có thông tin");
+                else mDatabase.child("cn").setValue(getText(R.string.cv_no_info));
 
                 if (CA.getText().toString() != null)
                     mDatabase.child("ca").setValue(CA.getText().toString());
-                else mDatabase.child("ca").setValue("Chưa có thông tin");
+                else mDatabase.child("ca").setValue(getText(R.string.cv_no_info));
 
                 if (AW.getText().toString() != null)
                     mDatabase.child("aw").setValue(AW.getText().toString());
-                else mDatabase.child("aw").setValue("Chưa có thông tin");
+                else mDatabase.child("aw").setValue(getText(R.string.cv_no_info));
 
                 if (AS.getText().toString() != null)
                     mDatabase.child("as").setValue(AS.getText().toString());
-                else mDatabase.child("as").setValue("Chưa có thông tin");
+                else mDatabase.child("as").setValue(getText(R.string.cv_no_info));
 
-                Toast.makeText(getContext(), "Hồ sơ đã được cập nhật thành công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.ho_so_cap_nhat_thanh_cong, Toast.LENGTH_SHORT).show();
             }
         });
 

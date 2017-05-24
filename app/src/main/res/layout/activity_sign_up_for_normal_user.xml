@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/address"
                 android:inputType="textPostalAddress"
-                android:completionThreshold="1"/>
+                android:completionThreshold="1" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -112,7 +112,6 @@
                 android:hint="@string/reenter_password"
                 android:inputType="textPassword" />
         </android.support.design.widget.TextInputLayout>
-
 
 
         <!-- Signup Button -->

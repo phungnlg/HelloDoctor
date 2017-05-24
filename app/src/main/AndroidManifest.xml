@@ -25,12 +25,13 @@
         <activity
             android:name=".SignUpType"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".SignUpForNormalUser"
+        <activity
+            android:name=".SignUpForNormalUser"
             android:theme="@style/AppTheme.Dark"></activity>
-        <activity android:name=".TabHome"
+        <activity
+            android:name=".TabHome"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
     </application>
 
 </manifest>

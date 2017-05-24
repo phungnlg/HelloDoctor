@@ -9,7 +9,7 @@ import android.widget.EditText;
  * Created by Phil on 07/05/2017.
  */
 
-public class MyEditText extends EditText{
+public class MyEditText extends EditText {
     public MyEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();

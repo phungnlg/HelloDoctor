@@ -46,6 +46,7 @@ public class NotificationFragment extends Fragment {
 
         themeColor = getResources().getColor(R.color.themecolor);
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +57,7 @@ public class NotificationFragment extends Fragment {
         layoutManager.setStackFromEnd(true);
 
 
-        noti_list = (RecyclerView)view.findViewById(R.id.noti_list);
+        noti_list = (RecyclerView) view.findViewById(R.id.noti_list);
         noti_list.setHasFixedSize(true);
         //noti_list.setLayoutManager(new LinearLayoutManager(this.getContext()));
         noti_list.setLayoutManager(layoutManager);
@@ -87,23 +88,25 @@ public class NotificationFragment extends Fragment {
         return view;
     }
 
-    public static class NotiHolder extends RecyclerView.ViewHolder{
+    public static class NotiHolder extends RecyclerView.ViewHolder {
         View mView;
         ImageButton btnCheck;
         TextView noti;
 
-        public NotiHolder(View itemView){
+        public NotiHolder(View itemView) {
             super(itemView);
             mView = itemView;
-            btnCheck = (ImageButton)mView.findViewById(R.id.noti_btnCheck);
-            noti = (TextView)mView.findViewById(R.id.noti_body);
+            btnCheck = (ImageButton) mView.findViewById(R.id.noti_btnCheck);
+            noti = (TextView) mView.findViewById(R.id.noti_body);
         }
-        public void setTime(String _time){
-            TextView time = (TextView)mView.findViewById(R.id.noti_time);
+
+        public void setTime(String _time) {
+            TextView time = (TextView) mView.findViewById(R.id.noti_time);
             time.setText(_time);
         }
-        public void setBody(String _body){
-            TextView body = (TextView)mView.findViewById(R.id.noti_body);
+
+        public void setBody(String _body) {
+            TextView body = (TextView) mView.findViewById(R.id.noti_body);
             body.setText(_body);
         }
     }

@@ -88,7 +88,7 @@
                         android:textColor="@color/listsub1"
                         android:textSize="14dp"
                         android:autoLink="all"
-                        android:clickable="true"/>
+                        android:clickable="true" />
 
 
                 </LinearLayout>

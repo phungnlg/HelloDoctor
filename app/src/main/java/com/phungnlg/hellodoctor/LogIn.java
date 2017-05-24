@@ -32,7 +32,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class LogIn extends AppCompatActivity {private static final String TAG = "LoginActivity";
+public class LogIn extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static final int RC_SIGN_IN = 0;
 
@@ -104,14 +105,14 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
     }
 
 
-
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
+
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
@@ -139,7 +140,7 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
@@ -161,7 +162,7 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-                        if(isLogInSuccessfully)
+                        if (isLogInSuccessfully)
                             onLoginSuccess();
                         else
                             onLoginFailed();
@@ -186,7 +187,7 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        Toast.makeText(LogIn.this, "Đã đăng nhập với Google" ,
+                        Toast.makeText(LogIn.this, "Đã đăng nhập với Google",
                                 Toast.LENGTH_SHORT).show();
                         // If sign in fails, display a message to the user. If sign in succeeds
                         // the auth state listener will be notified and logic to handle the
@@ -200,13 +201,13 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
                     }
                 });
     }
+
     @Override
     public void onBackPressed() {
         // Disable going back to the MainActivity
         moveTaskToBack(true);
     }
     //TODO Go to Newsfeed
-
 
 
     public void onLoginSuccess() {
@@ -218,15 +219,14 @@ public class LogIn extends AppCompatActivity {private static final String TAG = 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 
-        if(isLogInByFacebook) {
+        if (isLogInByFacebook) {
             if (user != null) {
                 intent.putExtra("userName", user.getDisplayName());
                 intent.putExtra("userEmail", user.getEmail());
                 intent.putExtra("isLogInByFacebook", isLogInByFacebook);
                 intent.putExtra("isDoctor", true);
             }
-        }
-        else {
+        } else {
             intent.putExtra("userEmail", user.getEmail());
             intent.putExtra("isLogInByFacebook", isLogInByFacebook);
             intent.putExtra("isDoctor", true);
