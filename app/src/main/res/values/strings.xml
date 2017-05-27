@@ -38,4 +38,8 @@
     <string name="sche_update_successfully">Cập nhật lịch khám thành công!</string>
     <string name="sche_1">LỊCH KHÁM</string>
     <string name="post_too_short">Tiêu đề hoặc nội dung có vẻ quá ngắn, hãy thử viết chi tiết hơn</string>
+    <string name="goodbye">\nTạm biệt!\nTrước khi rời đi, hãy xem qua một số mẹo vặt để khỏe mạnh hơn mỗi ngày&#8230;</string>
+    <string name="goodbye_walk">\nĐI BỘ 10,000 BƯỚC MỖI NGÀY\n\nViệc đi bộ 10.000 bước mỗi ngày tương đương với quãng đường đi được 8 km và mất khoảng 2,5 giờ vận động thể chất.</string>
+    <string name="goodbye_water">\nUỐNG ĐỦ LƯỢNG NƯỚC CẦN THIẾT\n\nVề công thức, lượng nước cần cho 1 kg cơ thể trong điều kiện bình thường là 40ml. Một người nặng 50kg cần 2 lít nước mỗi ngày là đủ.</string>
+    <string name="goodbye_mosquito">\nSỬ DỤNG VITAMIN B1 ĐỂ TRÁNH MUỖI ĐỐT\n\nKhi sử dụng Vitamin B1 và tỏi, cơ thể bạn sẽ sản xuất ra một loại mùi hương gây khó chịu cho muỗi nhưng mùi hương này khó phát hiện bởi con người. Vì vậy, bạn có thể sử dụng vitamin B1 3 lần/ ngày để tránh bị muỗi đốt.</string>
 </resources>
