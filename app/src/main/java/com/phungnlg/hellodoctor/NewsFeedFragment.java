@@ -126,7 +126,8 @@ public class NewsFeedFragment extends Fragment {
                 viewHolder.setName(model.username);
                 viewHolder.setTime(model.time);
                 viewHolder.setTitle(model.title);
-                viewHolder.setLikeCount("   " + model.vote + " người có câu hỏi tương tự, " + model.answer + " trả lời.");
+                viewHolder
+                        .setLikeCount("   " + model.vote + " người có câu hỏi tương tự, " + model.answer + " trả lời.");
 
                 final long postPreviousVote = model.vote;
 

@@ -77,7 +77,8 @@ public class SignUp extends AppCompatActivity {
         ButterKnife.bind(this);
 
         _major = (Spinner) findViewById(R.id.input_major);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.major, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter
+                .createFromResource(this, R.array.major, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         _major.setAdapter(adapter);
 
@@ -106,7 +107,9 @@ public class SignUp extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(
+                    @NonNull
+                            FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
@@ -146,7 +149,7 @@ public class SignUp extends AppCompatActivity {
         _signupButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(SignUp.this,
-                R.style.AppTheme_Dark_Dialog);
+                                                                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
@@ -161,99 +164,110 @@ public class SignUp extends AppCompatActivity {
 
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                 @Override
+                 public void onComplete(
+                         @NonNull
+                                 Task<AuthResult> task) {
+                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
 
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        isSignUpSuccessfully = true;
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(SignUp.this, R.string.auth_failed,
-                                    Toast.LENGTH_SHORT).show();
-                            isSignUpSuccessfully = false;
-                        }
+                     // If sign in fails, display a message to the user. If sign in succeeds
+                     // the auth state listener will be notified and logic to handle the
+                     // signed in user can be handled in the listener.
+                     isSignUpSuccessfully = true;
+                     if (!task.isSuccessful()) {
+                         Toast.makeText(SignUp.this, R.string.auth_failed,
+                                        Toast.LENGTH_SHORT).show();
+                         isSignUpSuccessfully = false;
+                     }
 
-                        // ...
-                    }
-                });
+                     // ...
+                 }
+             });
 
         // TODO: Cập nhật các thông tin khác ở đây(tên, địa chỉ, ...)
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Profile").child(mFirebaseUser.getUid());
+        mAuth.signInWithEmailAndPassword(email, password)
+             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                 @Override
+                 public void onComplete(
+                         @NonNull
+                                 Task<AuthResult> task) {
+                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                     mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Profile")
+                                                                   .child(mFirebaseUser.getUid());
 
 
-                String uID = mFirebaseUser.getUid();
-                myRef.child("user-doctor").child(uID).child("name").setValue(name);
-                myRef.child("user-doctor").child(uID).child("address").setValue(address);
-                myRef.child("user-doctor").child(uID).child("mobile").setValue(mobile);
-                myRef.child("user-doctor").child(mFirebaseUser.getUid()).child("major").setValue(_major.getSelectedItem().toString());
-                myRef.child("user-doctor").child(uID).child("workplace").setValue(workplace);
+                     String uID = mFirebaseUser.getUid();
+                     myRef.child("user-doctor").child(uID).child("name").setValue(name);
+                     myRef.child("user-doctor").child(uID).child("address").setValue(address);
+                     myRef.child("user-doctor").child(uID).child("mobile").setValue(mobile);
+                     myRef.child("user-doctor").child(mFirebaseUser.getUid()).child("major")
+                          .setValue(_major.getSelectedItem().toString());
+                     myRef.child("user-doctor").child(uID).child("workplace").setValue(workplace);
 
-                myUser.child(uID).child("bio").setValue("Bác sỹ " + _major.getSelectedItem() + " tại " + workplace);
-                myUser.child(uID).child("following").setValue(0);
-                myUser.child(uID).child("follower").setValue(0);
-                myUser.child(uID).child("isDoctor").setValue(true);
-                myUser.child(uID).child("name").setValue(name);
+                     myUser.child(uID).child("bio")
+                           .setValue("Bác sỹ " + _major.getSelectedItem() + " tại " + workplace);
+                     myUser.child(uID).child("following").setValue(0);
+                     myUser.child(uID).child("follower").setValue(0);
+                     myUser.child(uID).child("isDoctor").setValue(true);
+                     myUser.child(uID).child("name").setValue(name);
 
-                myNotification.child(uID).child("welcome").child("isReaded").setValue(false);
-                myNotification.child(uID).child("welcome").child("notification").setValue("Chào mừng bạn đến với HelloDoctor!");
-                myNotification.child(uID).child("welcome").child("time").setValue("Xin chào!");
+                     myNotification.child(uID).child("welcome").child("isReaded").setValue(false);
+                     myNotification.child(uID).child("welcome").child("notification")
+                                   .setValue("Chào mừng bạn đến với HelloDoctor!");
+                     myNotification.child(uID).child("welcome").child("time").setValue("Xin chào!");
 
-                mDatabase.child("al").setValue("Chưa có thông tin");
-                mDatabase.child("bg").setValue("Chưa có thông tin");
-                mDatabase.child("cn").setValue("Chưa có thông tin");
-                mDatabase.child("ca").setValue("Chưa có thông tin");
-                mDatabase.child("aw").setValue("Chưa có thông tin");
-                mDatabase.child("as").setValue("Chưa có thông tin");
+                     mDatabase.child("al").setValue("Chưa có thông tin");
+                     mDatabase.child("bg").setValue("Chưa có thông tin");
+                     mDatabase.child("cn").setValue("Chưa có thông tin");
+                     mDatabase.child("ca").setValue("Chưa có thông tin");
+                     mDatabase.child("aw").setValue("Chưa có thông tin");
+                     mDatabase.child("as").setValue("Chưa có thông tin");
 
-                mySche.child(uID).child("Mon").child("from").setValue("");
-                mySche.child(uID).child("Mon").child("to").setValue("");
-                mySche.child(uID).child("Tue").child("from").setValue("");
-                mySche.child(uID).child("Tue").child("to").setValue("");
-                mySche.child(uID).child("Wed").child("from").setValue("");
-                mySche.child(uID).child("Wed").child("to").setValue("");
-                mySche.child(uID).child("Thu").child("from").setValue("");
-                mySche.child(uID).child("Thu").child("to").setValue("");
-                mySche.child(uID).child("Fri").child("from").setValue("");
-                mySche.child(uID).child("Fri").child("to").setValue("");
-                mySche.child(uID).child("Sat").child("from").setValue("");
-                mySche.child(uID).child("Sat").child("to").setValue("");
-                mySche.child(uID).child("Sun").child("from").setValue("");
-                mySche.child(uID).child("Sun").child("to").setValue("");
+                     mySche.child(uID).child("Mon").child("from").setValue("");
+                     mySche.child(uID).child("Mon").child("to").setValue("");
+                     mySche.child(uID).child("Tue").child("from").setValue("");
+                     mySche.child(uID).child("Tue").child("to").setValue("");
+                     mySche.child(uID).child("Wed").child("from").setValue("");
+                     mySche.child(uID).child("Wed").child("to").setValue("");
+                     mySche.child(uID).child("Thu").child("from").setValue("");
+                     mySche.child(uID).child("Thu").child("to").setValue("");
+                     mySche.child(uID).child("Fri").child("from").setValue("");
+                     mySche.child(uID).child("Fri").child("to").setValue("");
+                     mySche.child(uID).child("Sat").child("from").setValue("");
+                     mySche.child(uID).child("Sat").child("to").setValue("");
+                     mySche.child(uID).child("Sun").child("from").setValue("");
+                     mySche.child(uID).child("Sun").child("to").setValue("");
 
 
-                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(name).build();
+                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                             .setDisplayName(name).build();
 
-                mFirebaseUser.updateProfile(profileChangeRequest)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "User profile updated.");
-                                }
-                            }
-                        });
+                     mFirebaseUser.updateProfile(profileChangeRequest)
+                                  .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                      @Override
+                                      public void onComplete(
+                                              @NonNull
+                                                      Task<Void> task) {
+                                          if (task.isSuccessful()) {
+                                              Log.d(TAG, "User profile updated.");
+                                          }
+                                      }
+                                  });
 
-                mFirebaseUser.sendEmailVerification();
+                     mFirebaseUser.sendEmailVerification();
 
-                onSignupSuccess();
+                     onSignupSuccess();
 
-                if (!task.isSuccessful()) {
-                    Log.w(TAG, "signInWithEmail:failed", task.getException());
+                     if (!task.isSuccessful()) {
+                         Log.w(TAG, "signInWithEmail:failed", task.getException());
 
-                    //Toast.makeText(LoginActivity.this, R.string.auth_failed,Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                         //Toast.makeText(LoginActivity.this, R.string.auth_failed,Toast.LENGTH_SHORT).show();
+                     }
+                 }
+             });
 
 
         new android.os.Handler().postDelayed(
@@ -344,7 +358,8 @@ public class SignUp extends AppCompatActivity {
             _passwordText.setError(null);
         }
 
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
+        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 ||
+            !(reEnterPassword.equals(password))) {
             _reEnterPasswordText.setError(getText(R.string.enter_matched_password));
             valid = false;
         } else {

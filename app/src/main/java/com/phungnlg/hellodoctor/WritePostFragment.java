@@ -48,7 +48,8 @@ public class WritePostFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_write_post, container, false);
 
         major = (Spinner) view.findViewById(R.id.post_major);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.major, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter
+                .createFromResource(getContext(), R.array.major, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         major.setAdapter(adapter);
 
@@ -86,8 +87,8 @@ public class WritePostFragment extends Fragment {
             public void onClick(View view) {
                 if (title.length() < 16 || body.length() <= 25) {
                     Toast.makeText(getContext(),
-                            R.string.post_too_short,
-                            Toast.LENGTH_SHORT).show();
+                                   R.string.post_too_short,
+                                   Toast.LENGTH_SHORT).show();
                 } else {
                     p.child("answer").setValue(0);
                     p.child("body").setValue(body.getText().toString());
@@ -98,7 +99,8 @@ public class WritePostFragment extends Fragment {
                     p.child("username").setValue(username.getText().toString());
                     p.child("vote").setValue(0);
 
-                    Toast.makeText(getContext(), "Bài viêt '" + title.getText() + "' đã được đăng thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Bài viêt '" + title.getText() + "' đã được đăng thành công!",
+                                   Toast.LENGTH_SHORT).show();
                 }
             }
         });

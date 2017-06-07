@@ -62,7 +62,8 @@ public class NotificationFragment extends Fragment {
         //noti_list.setLayoutManager(new LinearLayoutManager(this.getContext()));
         noti_list.setLayoutManager(layoutManager);
 
-        FirebaseRecyclerAdapter<Notification, NotiHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Notification, NotiHolder>(
+        FirebaseRecyclerAdapter<Notification, NotiHolder> firebaseRecyclerAdapter
+                = new FirebaseRecyclerAdapter<Notification, NotiHolder>(
                 Notification.class,
                 R.layout.notification_item,
                 NotiHolder.class,

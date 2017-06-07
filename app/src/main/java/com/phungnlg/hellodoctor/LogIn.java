@@ -87,7 +87,9 @@ public class LogIn extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(
+                    @NonNull
+                            FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
@@ -131,7 +133,7 @@ public class LogIn extends AppCompatActivity {
         _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LogIn.this,
-                R.style.AppTheme_Dark_Dialog);
+                                                                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.logging_in));
         progressDialog.show();
@@ -140,23 +142,26 @@ public class LogIn extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         // TODO: Implement your own authentication logic here.
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                isLogInSuccessfully = true;
-                isLogInByFacebook = false;
-                // If sign in fails, display a message to the user. If sign in succeeds
-                // the auth state listener will be notified and logic to handle the
-                // signed in user can be handled in the listener.
-                if (!task.isSuccessful()) {
-                    Log.w(TAG, "signInWithEmail:failed", task.getException());
-                    isLogInSuccessfully = false;
-                    Toast.makeText(LogIn.this, R.string.auth_failed,
-                            Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        mAuth.signInWithEmailAndPassword(email, password)
+             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                 @Override
+                 public void onComplete(
+                         @NonNull
+                                 Task<AuthResult> task) {
+                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                     isLogInSuccessfully = true;
+                     isLogInByFacebook = false;
+                     // If sign in fails, display a message to the user. If sign in succeeds
+                     // the auth state listener will be notified and logic to handle the
+                     // signed in user can be handled in the listener.
+                     if (!task.isSuccessful()) {
+                         Log.w(TAG, "signInWithEmail:failed", task.getException());
+                         isLogInSuccessfully = false;
+                         Toast.makeText(LogIn.this, R.string.auth_failed,
+                                        Toast.LENGTH_SHORT).show();
+                     }
+                 }
+             });
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -183,23 +188,25 @@ public class LogIn extends AppCompatActivity {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                        Toast.makeText(LogIn.this, "Đã đăng nhập với Google",
-                                Toast.LENGTH_SHORT).show();
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithCredential", task.getException());
-                            Toast.makeText(LogIn.this, "Authentication failed.",
+             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                 @Override
+                 public void onComplete(
+                         @NonNull
+                                 Task<AuthResult> task) {
+                     Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
+                     Toast.makeText(LogIn.this, "Đã đăng nhập với Google",
                                     Toast.LENGTH_SHORT).show();
-                        }
-                        // ...
-                    }
-                });
+                     // If sign in fails, display a message to the user. If sign in succeeds
+                     // the auth state listener will be notified and logic to handle the
+                     // signed in user can be handled in the listener.
+                     if (!task.isSuccessful()) {
+                         Log.w(TAG, "signInWithCredential", task.getException());
+                         Toast.makeText(LogIn.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                     }
+                     // ...
+                 }
+             });
     }
 
     @Override

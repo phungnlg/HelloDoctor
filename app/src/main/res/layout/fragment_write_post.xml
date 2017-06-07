@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/themecolor"
     android:clickable="true"
-    android:weightSum="1">
+    android:orientation="vertical"
+    android:weightSum="1"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,7 +16,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="35dp"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        >
 
         <com.phungnlg.hellodoctor.Others.MyTextView
             android:id="@+id/post_username"
@@ -24,17 +27,17 @@
             android:gravity="left"
             android:text="Tên người dùng"
             android:textColor="@color/white"
-            android:textSize="16dp" />
+            android:textSize="16dp"
+            />
 
         <ImageButton
             android:id="@+id/post_send"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-
             android:background="@android:color/transparent"
             android:src="@drawable/ic_send_black_18dp"
-            android:tint="@color/white" />
-
+            android:tint="@color/white"
+            />
     </LinearLayout>
 
     <com.phungnlg.hellodoctor.Others.MyEditText
@@ -48,13 +51,14 @@
         android:background="@drawable/rect"
         android:drawableLeft="@drawable/ic_create_black_18dp"
         android:elevation="8dp"
-        android:hint="Tiêu đề"
         android:gravity="center"
+        android:hint="Tiêu đề"
         android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/colorTex"
         android:textColorHint="@color/colorSub"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        />
 
     <com.phungnlg.hellodoctor.Others.MyEditText
         android:id="@+id/post_body"
@@ -65,14 +69,14 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
         android:layout_weight="0.13"
-
         android:background="@drawable/rect"
         android:elevation="8dp"
         android:maxLines="5"
         android:padding="15dp"
         android:textColor="@color/colorTex"
         android:textColorHint="@color/colorSub"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,7 +85,8 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp"
-        android:weightSum="1">
+        android:weightSum="1"
+        >
 
         <TextView
             android:id="@+id/textView3"
@@ -90,13 +95,14 @@
             android:layout_gravity="center_vertical"
             android:text="@string/major"
             android:textColor="@android:color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            />
 
         <Spinner
             android:id="@+id/post_major"
             android:layout_width="219dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2.29"></Spinner>
+            android:layout_weight="2.29"
+            ></Spinner>
     </LinearLayout>
-
 </LinearLayout>

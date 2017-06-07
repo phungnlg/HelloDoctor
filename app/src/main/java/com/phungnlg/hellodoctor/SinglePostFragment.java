@@ -146,8 +146,10 @@ public class SinglePostFragment extends Fragment {
 
             }
         });
-        final DatabaseReference mDatabaseCommentList = FirebaseDatabase.getInstance().getReference().child("Comments").child(post_key);
-        FirebaseRecyclerAdapter<Comment, CommentHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Comment, CommentHolder>(
+        final DatabaseReference mDatabaseCommentList = FirebaseDatabase.getInstance().getReference().child("Comments")
+                                                                       .child(post_key);
+        FirebaseRecyclerAdapter<Comment, CommentHolder> firebaseRecyclerAdapter
+                = new FirebaseRecyclerAdapter<Comment, CommentHolder>(
                 Comment.class,
                 R.layout.comment_item,
                 CommentHolder.class,
@@ -162,7 +164,8 @@ public class SinglePostFragment extends Fragment {
         };
         mCommentList.setAdapter(firebaseRecyclerAdapter);
 
-        final DatabaseReference mDatabaseComment = FirebaseDatabase.getInstance().getReference().child("Comments").child(post_key).push();
+        final DatabaseReference mDatabaseComment = FirebaseDatabase.getInstance().getReference().child("Comments")
+                                                                   .child(post_key).push();
 
         btnAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -199,7 +202,9 @@ public class SinglePostFragment extends Fragment {
                         String postTitle1 = (String) dataSnapshot.child("title").getValue();
                         DatabaseReference n = noti.child(postuid).push();
                         n.child("isReaded").setValue(false);
-                        n.child("notification").setValue(user.getDisplayName() + " đã bình luận bài viết \"" + postTitle1.substring(0, 15) + "...\" của bạn");
+                        n.child("notification").setValue(
+                                user.getDisplayName() + " đã bình luận bài viết \"" + postTitle1.substring(0, 15) +
+                                "...\" của bạn");
                         n.child("time").setValue(outputFormat.format(currentLocalTime));
                     }
 
