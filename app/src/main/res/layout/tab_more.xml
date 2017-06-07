@@ -1,17 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/more_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#00B873"
-    android:id="@+id/more_fragment"
-    android:clickable="true">
-
+    android:clickable="true"
+    >
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="40dp"
-        android:background="#00B873">
+        android:background="#00B873"
+        >
 
         <com.phungnlg.hellodoctor.Others.MyEditText
             android:id="@+id/more_2"
@@ -31,7 +33,8 @@
             android:padding="15dp"
             android:textColor="@color/colorTex"
             android:textColorHint="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            />
 
         <com.phungnlg.hellodoctor.Others.MyEditText
             android:id="@+id/more_3"
@@ -51,7 +54,8 @@
             android:padding="15dp"
             android:textColor="@color/colorTex"
             android:textColorHint="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            />
 
         <com.phungnlg.hellodoctor.Others.MyEditText
             android:id="@+id/more_4"
@@ -71,9 +75,7 @@
             android:padding="15dp"
             android:textColor="@color/colorTex"
             android:textColorHint="@color/black"
-            android:textSize="16sp" />
-
+            android:textSize="16sp"
+            />
     </RelativeLayout>
-
-
 </FrameLayout>

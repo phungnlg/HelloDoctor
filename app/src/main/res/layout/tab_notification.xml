@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/themecolor"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:orientation="horizontal"
-        android:weightSum="1">
+        android:weightSum="1"
+        >
 
         <com.phungnlg.hellodoctor.Others.MyTextView
             android:layout_width="wrap_content"
@@ -21,7 +24,8 @@
             android:layout_weight="0.95"
             android:text="Các thông báo của bạn..."
             android:textColor="@color/white"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            />
 
         <ImageButton
             android:id="@+id/noti_btnCheckAll"
@@ -30,7 +34,8 @@
             android:layout_marginRight="20dp"
             android:layout_weight="0.07"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_done_all_black_18dp" />
+            android:src="@drawable/ic_done_all_black_18dp"
+            />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -42,5 +47,6 @@
         android:layout_below="@+id/cardView"
         android:layout_marginTop="14dp"
         android:background="@color/themecolor"
-        android:paddingBottom="4dp" />
+        android:paddingBottom="4dp"
+        />
 </LinearLayout>

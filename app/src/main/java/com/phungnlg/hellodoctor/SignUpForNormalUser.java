@@ -90,7 +90,9 @@ public class SignUpForNormalUser extends AppCompatActivity {
         });
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+            public void onAuthStateChanged(
+                    @NonNull
+                            FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     // User is signed in
@@ -113,7 +115,7 @@ public class SignUpForNormalUser extends AppCompatActivity {
         _signupButton.setEnabled(false);
         //Hiển  thị dialog tạo tài khoản
         final ProgressDialog progressDialog = new ProgressDialog(SignUpForNormalUser.this,
-                R.style.AppTheme_Dark_Dialog);
+                                                                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
@@ -126,59 +128,67 @@ public class SignUpForNormalUser extends AppCompatActivity {
         String reEnterPassword = _reEnterPasswordText.getText().toString();
 
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        isSignUpSuccessfully = true;
-                        if (!task.isSuccessful()) {
-                            Toast.makeText(SignUpForNormalUser.this, R.string.create_account_successfully,
-                                    Toast.LENGTH_SHORT).show();
-                            isSignUpSuccessfully = false;
-                        }
-                    }
-                });
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                String uID = mFirebaseUser.getUid();
-                myRef.child("user-normal").child(uID).child("name").setValue(name);
-                myRef.child("user-normal").child(uID).child("address").setValue(address);
-                myRef.child("user-normal").child(uID).child("mobile").setValue(mobile);
+             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                 @Override
+                 public void onComplete(
+                         @NonNull
+                                 Task<AuthResult> task) {
+                     isSignUpSuccessfully = true;
+                     if (!task.isSuccessful()) {
+                         Toast.makeText(SignUpForNormalUser.this, R.string.create_account_successfully,
+                                        Toast.LENGTH_SHORT).show();
+                         isSignUpSuccessfully = false;
+                     }
+                 }
+             });
+        mAuth.signInWithEmailAndPassword(email, password)
+             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                 @Override
+                 public void onComplete(
+                         @NonNull
+                                 Task<AuthResult> task) {
+                     //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                     mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                     String uID = mFirebaseUser.getUid();
+                     myRef.child("user-normal").child(uID).child("name").setValue(name);
+                     myRef.child("user-normal").child(uID).child("address").setValue(address);
+                     myRef.child("user-normal").child(uID).child("mobile").setValue(mobile);
 
-                myUser.child(uID).child("bio").setValue(address);
-                myUser.child(uID).child("following").setValue(0);
-                myUser.child(uID).child("follower").setValue(0);
-                myUser.child(uID).child("isDoctor").setValue(false);
-                myUser.child(uID).child("name").setValue(name);
+                     myUser.child(uID).child("bio").setValue(address);
+                     myUser.child(uID).child("following").setValue(0);
+                     myUser.child(uID).child("follower").setValue(0);
+                     myUser.child(uID).child("isDoctor").setValue(false);
+                     myUser.child(uID).child("name").setValue(name);
 
-                myNotification.child(uID).child("welcome").child("isReaded").setValue(false);
-                myNotification.child(uID).child("welcome").child("notification").setValue("Chào mừng bạn đến với HelloDoctor!");
-                myNotification.child(uID).child("welcome").child("time").setValue("Xin chào!");
+                     myNotification.child(uID).child("welcome").child("isReaded").setValue(false);
+                     myNotification.child(uID).child("welcome").child("notification")
+                                   .setValue("Chào mừng bạn đến với HelloDoctor!");
+                     myNotification.child(uID).child("welcome").child("time").setValue("Xin chào!");
 
 
-                UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(name).build();
+                     UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                             .setDisplayName(name).build();
 
-                mFirebaseUser.updateProfile(profileChangeRequest)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "User profile updated.");
-                                }
-                            }
-                        });
+                     mFirebaseUser.updateProfile(profileChangeRequest)
+                                  .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                      @Override
+                                      public void onComplete(
+                                              @NonNull
+                                                      Task<Void> task) {
+                                          if (task.isSuccessful()) {
+                                              Log.d(TAG, "User profile updated.");
+                                          }
+                                      }
+                                  });
 
-                mFirebaseUser.sendEmailVerification();
+                     mFirebaseUser.sendEmailVerification();
 
-                onSignupSuccess();
+                     onSignupSuccess();
 
-                if (!task.isSuccessful()) {
-                }
-            }
-        });
+                     if (!task.isSuccessful()) {
+                     }
+                 }
+             });
     }
 
     public void onBackPressed() {
@@ -253,7 +263,8 @@ public class SignUpForNormalUser extends AppCompatActivity {
             _passwordText.setError(null);
         }
 
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
+        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 ||
+            !(reEnterPassword.equals(password))) {
             _reEnterPasswordText.setError(getText(R.string.enter_matched_password));
             valid = false;
         } else {

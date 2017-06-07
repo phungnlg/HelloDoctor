@@ -101,7 +101,8 @@ public class ProfileFragment extends Fragment {
         });
         Query sortByTime = Post.orderByChild("uid").equalTo(user.getUid());
 
-        FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder>(
+        FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> firebaseRecyclerAdapter
+                = new FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder>(
                 Post.class,
                 R.layout.feed_item,
                 NewsFeedFragment.Holder.class,
@@ -117,7 +118,8 @@ public class ProfileFragment extends Fragment {
                 viewHolder.setName(model.username);
                 viewHolder.setTime(model.time);
                 viewHolder.setTitle(model.title);
-                viewHolder.setLikeCount("   " + model.vote + " người có câu hỏi tương tự, " + model.answer + " trả lời.");
+                viewHolder
+                        .setLikeCount("   " + model.vote + " người có câu hỏi tương tự, " + model.answer + " trả lời.");
 
                 final long postPreviousVote = model.vote;
 

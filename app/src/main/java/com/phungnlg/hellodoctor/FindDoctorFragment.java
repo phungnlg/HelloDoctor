@@ -25,7 +25,8 @@ import com.google.firebase.database.Query;
  */
 
 public class FindDoctorFragment extends Fragment {
-    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("message").child("user-doctor");
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("message")
+                                                          .child("user-doctor");
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     RecyclerView doctorlist;
@@ -48,7 +49,8 @@ public class FindDoctorFragment extends Fragment {
         doctorlist.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         major = (Spinner) view.findViewById(R.id.find_major);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.major, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter
+                .createFromResource(getContext(), R.array.major, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         major.setAdapter(adapter);
 
@@ -59,7 +61,8 @@ public class FindDoctorFragment extends Fragment {
             public void onClick(View view) {
                 sortMajor = mDatabase.orderByChild("major").equalTo(major.getSelectedItem().toString());
 
-                FirebaseRecyclerAdapter<Doctor, dHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Doctor, dHolder>(
+                FirebaseRecyclerAdapter<Doctor, dHolder> firebaseRecyclerAdapter
+                        = new FirebaseRecyclerAdapter<Doctor, dHolder>(
                         Doctor.class,
                         R.layout.doctor_item,
                         dHolder.class,

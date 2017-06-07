@@ -31,18 +31,17 @@ import java.util.TimeZone;
  */
 
 public class BookAppointmentFragment extends Fragment {
-    private String doctor_key, doctor_name;
     TextView welcome;
     TextView book_time;
     TextView bronze, silver, gold, diamond;
     String username;
     Date mDate;
     AppCompatButton profile, schedule;
-
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference client_noti;
     DatabaseReference doctor_noti;
     FirebaseUser user;
+    private String doctor_key, doctor_name;
 
     public BookAppointmentFragment() {
     }
@@ -162,11 +161,14 @@ public class BookAppointmentFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         client_noti.child("isReaded").setValue(false);
-                        client_noti.child("notification").setValue("Đặt lịch khám gói BRONZE với bác sỹ " + doctor_name + " lúc " + book_time.getText() + " thành công!");
+                        client_noti.child("notification").setValue(
+                                "Đặt lịch khám gói BRONZE với bác sỹ " + doctor_name + " lúc " + book_time.getText() +
+                                " thành công!");
                         client_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         doctor_noti.child("isReaded").setValue(false);
-                        doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói BRONZE lúc " + book_time.getText());
+                        doctor_noti.child("notification")
+                                   .setValue(username + " đã đặt lịch khám gói BRONZE lúc " + book_time.getText());
                         doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
@@ -185,11 +187,14 @@ public class BookAppointmentFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         client_noti.child("isReaded").setValue(false);
-                        client_noti.child("notification").setValue("Đặt lịch khám gói SILVER với bác sỹ " + doctor_name + " lúc " + book_time.getText() + " thành công!");
+                        client_noti.child("notification").setValue(
+                                "Đặt lịch khám gói SILVER với bác sỹ " + doctor_name + " lúc " + book_time.getText() +
+                                " thành công!");
                         client_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         doctor_noti.child("isReaded").setValue(false);
-                        doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói SILVER lúc " + book_time.getText());
+                        doctor_noti.child("notification")
+                                   .setValue(username + " đã đặt lịch khám gói SILVER lúc " + book_time.getText());
                         doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
@@ -208,11 +213,14 @@ public class BookAppointmentFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         client_noti.child("isReaded").setValue(false);
-                        client_noti.child("notification").setValue("Đặt lịch khám gói GOLD với bác sỹ " + doctor_name + " lúc " + book_time.getText() + " thành công!");
+                        client_noti.child("notification").setValue(
+                                "Đặt lịch khám gói GOLD với bác sỹ " + doctor_name + " lúc " + book_time.getText() +
+                                " thành công!");
                         client_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         doctor_noti.child("isReaded").setValue(false);
-                        doctor_noti.child("notification").setValue(username + " đã đặt lịch khám gói GOLD lúc " + book_time.getText());
+                        doctor_noti.child("notification")
+                                   .setValue(username + " đã đặt lịch khám gói GOLD lúc " + book_time.getText());
                         doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
@@ -231,11 +239,15 @@ public class BookAppointmentFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         client_noti.child("isReaded").setValue(false);
-                        client_noti.child("notification").setValue("Đặt lịch khám gói DIAMOND với bác sỹ " + doctor_name + " lúc " + book_time.getText() + " thành công!");
+                        client_noti.child("notification").setValue(
+                                "Đặt lịch khám gói DIAMOND với bác sỹ " + doctor_name + " lúc " + book_time.getText() +
+                                " thành công!");
                         client_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         doctor_noti.child("isReaded").setValue(false);
-                        doctor_noti.child("notification").setValue(username + " " + getText(R.string.diamond_da_dat_lich_kham_luc) + " " + book_time.getText());
+                        doctor_noti.child("notification").setValue(
+                                username + " " + getText(R.string.diamond_da_dat_lich_kham_luc) + " " +
+                                book_time.getText());
                         doctor_noti.child("time").setValue(outputFormat.format(currentLocalTime));
 
                         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();

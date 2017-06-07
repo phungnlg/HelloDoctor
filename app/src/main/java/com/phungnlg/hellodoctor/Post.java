@@ -11,7 +11,8 @@ public class Post {
     public Post() {
     }
 
-    public Post(String _uid, String _tittle, String _body, int _vote, int _answer, String _username, String _tag, String _time) {
+    public Post(String _uid, String _tittle, String _body, int _vote, int _answer, String _username, String _tag,
+                String _time) {
         this.uid = _uid;
         this.title = _tittle;
         this.body = _body;
