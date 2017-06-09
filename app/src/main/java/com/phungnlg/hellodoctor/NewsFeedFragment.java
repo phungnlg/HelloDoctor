@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ import java.util.List;
 
 public class NewsFeedFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
+    private static final String TAG = "NewsFeedFragment";
     String userName;
     String userEmail;
     TextView _userName;
@@ -40,19 +42,8 @@ public class NewsFeedFragment extends Fragment {
 
     EditText write_post;
 
-    private String urlProfilePicture;
-    private Boolean isLogInByFacebook;
-    private Boolean isDoctor;
-
     DatabaseReference ref;
     DatabaseReference userRef;
-
-    private ListView listView;
-
-    private List<Post> feedItems;
-
-    //private long postPreviousVote;
-    //private long postPreviousAnswer;
 
     private DatabaseReference mDatabase;
 
@@ -85,14 +76,13 @@ public class NewsFeedFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_newsfeed, container, false);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
         mBlogList = (RecyclerView) view.findViewById(R.id.blog_list);
+        mBlogList.setNestedScrollingEnabled(false);
         mBlogList.setHasFixedSize(true);
-        //mBlogList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        mBlogList.setLayoutManager(layoutManager);
 
         write_post = (EditText) view.findViewById(R.id.autotext);
         write_post.setOnClickListener(new View.OnClickListener() {
@@ -108,9 +98,9 @@ public class NewsFeedFragment extends Fragment {
             }
         });
 
-        Query sortByTime = mDatabase.orderByKey().limitToLast(10);
+        Query sortByTime = mDatabase.orderByKey().limitToLast(50);
 
-        FirebaseRecyclerAdapter<Post, Holder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, Holder>(
+        final FirebaseRecyclerAdapter<Post, Holder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, Holder>(
                 Post.class,
                 R.layout.feed_item,
                 Holder.class,
@@ -120,6 +110,8 @@ public class NewsFeedFragment extends Fragment {
             @Override
             protected void populateViewHolder(final Holder viewHolder, Post model, int position) {
                 final String post_key = getRef(position).getKey();
+
+                Log.d(TAG, "Data added");
 
                 viewHolder.setBody(model.body);
                 viewHolder.setHashTag(model.tag);
@@ -169,7 +161,26 @@ public class NewsFeedFragment extends Fragment {
                 });
             }
         };
-        firebaseRecyclerAdapter.notifyDataSetChanged();
+        //firebaseRecyclerAdapter.notifyDataSetChanged();
+
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(final int positionStart, final int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = firebaseRecyclerAdapter.getItemCount();
+                int lastVisiblePosition =
+                        layoutManager.findLastCompletelyVisibleItemPosition();
+                // If the recycler view is initially being loaded or the
+                // user is at the bottom of the list, scroll to the bottom
+                // of the list to show the newly added message.
+                if (lastVisiblePosition == -1
+                    || (positionStart >= (friendlyMessageCount - 1)
+                        && lastVisiblePosition == (positionStart - 1))) {
+                    mBlogList.scrollToPosition(positionStart);
+                }
+            }
+        });
+        mBlogList.setLayoutManager(layoutManager);
         mBlogList.setAdapter(firebaseRecyclerAdapter);
 
         getActivity().setTitle("Bảng tin");

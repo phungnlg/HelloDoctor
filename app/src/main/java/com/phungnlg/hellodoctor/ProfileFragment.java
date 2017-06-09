@@ -63,10 +63,10 @@ public class ProfileFragment extends Fragment {
         test = (TextView) view.findViewById(R.id.profile_forTest);
         post = (RecyclerView) view.findViewById(R.id.profile_post);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-
+        post.setNestedScrollingEnabled(false);
         post.setHasFixedSize(true);
         post.setLayoutManager(layoutManager);
 
@@ -101,7 +101,7 @@ public class ProfileFragment extends Fragment {
         });
         Query sortByTime = Post.orderByChild("uid").equalTo(user.getUid());
 
-        FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> firebaseRecyclerAdapter
+        final FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder>(
                 Post.class,
                 R.layout.feed_item,
@@ -173,6 +173,24 @@ public class ProfileFragment extends Fragment {
                 ft.replace(R.id.tab_profile, f);
                 ft.addToBackStack(null);
                 ft.commit();
+            }
+        });
+
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(){
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = firebaseRecyclerAdapter.getItemCount();
+                int lastVisiblePosition =
+                        layoutManager.findLastCompletelyVisibleItemPosition();
+                // If the recycler view is initially being loaded or the
+                // user is at the bottom of the list, scroll to the bottom
+                // of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                    (positionStart >= (friendlyMessageCount - 1) &&
+                     lastVisiblePosition == (positionStart - 1))) {
+                    post.scrollToPosition(positionStart);
+                }
             }
         });
 
