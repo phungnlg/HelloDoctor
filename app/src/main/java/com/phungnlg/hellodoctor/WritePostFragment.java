@@ -42,6 +42,10 @@ public class WritePostFragment extends Fragment {
     public WritePostFragment() {
     }
 
+    public void onBackPressed(){
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

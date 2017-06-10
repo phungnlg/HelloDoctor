@@ -15,30 +15,25 @@
         android:scrollbars="none"
         >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00b873"
+            android:orientation="vertical"
+            android:weightSum="1"
             >
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="200dp"
                 android:background="@drawable/bg"
-                ></FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
                 >
-
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/profile_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="10dp"
                     android:src="@drawable/nurse4"
                     app:riv_border_color="#fff"
                     app:riv_border_width="5dip"
@@ -47,13 +42,19 @@
                     app:riv_oval="true"
                     app:riv_tile_mode="repeat"
                     />
+            </FrameLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
                 <com.phungnlg.hellodoctor.Others.MyTextView
                     android:id="@+id/profile_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="0dp"
                     android:gravity="center"
                     android:text="Bác sỹ Thành Tâm"
                     android:textColor="@android:color/white"
@@ -193,18 +194,18 @@
                         android:textSize="14dp"
                         />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/profile_post"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="7dp"
-                        android:layout_weight="0.38"
-                        android:background="@color/themecolor"
-                        android:paddingBottom="4dp"
-                        >
-                    </android.support.v7.widget.RecyclerView>
+
                 </LinearLayout>
             </LinearLayout>
-        </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/profile_post"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="7dp"
+                android:background="@color/themecolor"
+                android:paddingBottom="4dp"
+                >
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
     </ScrollView>
 </RelativeLayout>

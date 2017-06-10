@@ -46,6 +46,7 @@ public class FindDoctorFragment extends Fragment {
 
         doctorlist = (RecyclerView) view.findViewById(R.id.find_list);
         doctorlist.setHasFixedSize(true);
+        doctorlist.setNestedScrollingEnabled(false);
         doctorlist.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
         major = (Spinner) view.findViewById(R.id.find_major);
@@ -64,7 +65,7 @@ public class FindDoctorFragment extends Fragment {
                 FirebaseRecyclerAdapter<Doctor, dHolder> firebaseRecyclerAdapter
                         = new FirebaseRecyclerAdapter<Doctor, dHolder>(
                         Doctor.class,
-                        R.layout.doctor_item,
+                        R.layout.item_doctor,
                         dHolder.class,
                         //mDatabase.orderByChild("major").equalTo("Nhi khoa")
                         sortMajor
@@ -74,7 +75,7 @@ public class FindDoctorFragment extends Fragment {
                         viewHolder.setName(model.name);
                         viewHolder.setAddress(model.address);
                         viewHolder.setBio("Bác sỹ " + model.major + " tại " + model.workplace);
-                        viewHolder.setMobile(model.mobile);
+                        viewHolder.setRating("  " + model.mobile);
 
                         final String doctor_key = getRef(position).getKey();
                         final String doctor_name = model.name;
@@ -114,22 +115,22 @@ public class FindDoctorFragment extends Fragment {
         }
 
         public void setName(String _name) {
-            TextView name = (TextView) view.findViewById(R.id.find_name);
+            TextView name = (TextView) view.findViewById(R.id.item_doctor_name);
             name.setText(_name);
         }
 
         public void setBio(String _bio) {
-            TextView bio = (TextView) view.findViewById(R.id.find_bio);
+            TextView bio = (TextView) view.findViewById(R.id.item_doctor_description);
             bio.setText(_bio);
         }
 
         public void setAddress(String _a) {
-            TextView add = (TextView) view.findViewById(R.id.find_address);
+            TextView add = (TextView) view.findViewById(R.id.item_doctor_address);
             add.setText(_a);
         }
 
-        public void setMobile(String _mobile) {
-            TextView mobile = (TextView) view.findViewById(R.id.find_mobile);
+        public void setRating(String _mobile) {
+            TextView mobile = (TextView) view.findViewById(R.id.item_doctor_rating);
             mobile.setText(_mobile);
         }
     }

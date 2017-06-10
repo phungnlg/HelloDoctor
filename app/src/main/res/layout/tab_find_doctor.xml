@@ -96,24 +96,13 @@
                 android:layout_marginTop="5dp"
                 android:orientation="vertical"
                 >
-
-                <com.phungnlg.hellodoctor.Others.MyTextView
-                    android:id="@+id/myTextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:gravity="center"
-                    android:text="Danh sách bác sỹ"
-                    android:textColor="@color/white"
-                    android:textSize="16dp"
-                    />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/find_list"
                 android:layout_width="match_parent"
-                android:layout_height="318dp"
-                android:layout_weight="2.10"
+                android:layout_height="358dp"
+                android:layout_weight="32.70"
                 >
             </android.support.v7.widget.RecyclerView>
         </LinearLayout>

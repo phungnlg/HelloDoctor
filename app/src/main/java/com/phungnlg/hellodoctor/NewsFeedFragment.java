@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +122,7 @@ public class NewsFeedFragment extends Fragment {
                 viewHolder.setTitle(model.title);
                 viewHolder
                         .setLikeCount("   " + model.vote + " người có câu hỏi tương tự, " + model.answer + " trả lời.");
+                viewHolder.setPhoto(model.photoUrl);
 
                 final long postPreviousVote = model.vote;
 
@@ -213,14 +216,11 @@ public class NewsFeedFragment extends Fragment {
         }
 
         public void setName(String _name) {
-            //TextView name = (TextView)mView.findViewById(R.id.name);
             TextView name = (TextView) mView.findViewById(R.id.newsname);
             name.setText(_name);
         }
 
         public void setTime(String _time) {
-            //tạm thời dùng titile cho mục này
-            //TextView time = (TextView)mView.findViewById(R.id.timestamp);
             TextView time = (TextView) mView.findViewById(R.id.newstime);
             time.setText(_time);
         }
@@ -231,13 +231,11 @@ public class NewsFeedFragment extends Fragment {
         }
 
         public void setBody(String _body) {
-            //TextView body = (TextView)mView.findViewById(R.id.txtStatusMsg);
             TextView body = (TextView) mView.findViewById(R.id.newssub);
             body.setText(_body);
         }
 
         public void setHashTag(String _hashTag) {
-            //TextView hashTag = (TextView)mView.findViewById(R.id.txtHastag);
             TextView hashTag = (TextView) mView.findViewById(R.id.intrest);
             hashTag.setText(_hashTag);
         }
@@ -245,6 +243,15 @@ public class NewsFeedFragment extends Fragment {
         public void setLikeCount(String _like) {
             TextView t = (TextView) mView.findViewById(R.id.newsfeed_txtLikeCount);
             t.setText(_like);
+        }
+
+        public void setPhoto(String photoUrl){
+            ImageView iv = (ImageView) mView.findViewById(R.id.feed_iv_photo);
+            Picasso.with(mView.getContext())
+                   .load(photoUrl)
+                   .resize(300, 150)
+                   .centerCrop()
+                   .into(iv);
         }
     }
 }
