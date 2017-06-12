@@ -85,7 +85,7 @@ public class SignUpForNormalUser extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), LogIn.class);
                 startActivity(intent);
                 finish();
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             }
         });
         mAuthListener = new FirebaseAuth.AuthStateListener() {
