@@ -23,17 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 public class NotificationFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     private int mPageNo;
-
     private DatabaseReference mDatabase;
-
     private FirebaseUser mUser;
-
     private RecyclerView noti_list;
-
     int themeColor;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPageNo = getArguments().getInt(ARG_PAGE);
 
@@ -41,15 +37,16 @@ public class NotificationFragment extends Fragment {
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        mDatabase = database.getReference("Notifications").child(mUser.getUid());
+        mDatabase = database.getReference("Notifications")
+                            .child(mUser.getUid());
         mDatabase.keepSynced(true);
 
         themeColor = getResources().getColor(R.color.themecolor);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+                             final Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.tab_notification, container, false);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
@@ -59,6 +56,7 @@ public class NotificationFragment extends Fragment {
 
         noti_list = (RecyclerView) view.findViewById(R.id.noti_list);
         noti_list.setHasFixedSize(true);
+        noti_list.setNestedScrollingEnabled(false);
         //noti_list.setLayoutManager(new LinearLayoutManager(this.getContext()));
         noti_list.setLayoutManager(layoutManager);
 
@@ -70,17 +68,16 @@ public class NotificationFragment extends Fragment {
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(NotiHolder viewHolder, Notification model, int position) {
+            protected void populateViewHolder(final NotiHolder viewHolder, final Notification model, final int position) {
 
-                final String noti_key = getRef(position).getKey();
+                final String notificationKey = getRef(position).getKey();
                 final Boolean isReaded;
-
                 viewHolder.setTime(model.getTime());
                 viewHolder.setBody(model.getNotification());
                 viewHolder.btnCheck.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mDatabase.child(noti_key).removeValue();
+                        mDatabase.child(notificationKey).removeValue();
                     }
                 });
             }
@@ -90,29 +87,31 @@ public class NotificationFragment extends Fragment {
     }
 
     public static class NotiHolder extends RecyclerView.ViewHolder {
-        View mView;
-        ImageButton btnCheck;
-        TextView noti;
+        private View mView;
+        private ImageButton btnCheck;
+        private TextView noti;
 
-        public NotiHolder(View itemView) {
+        public NotiHolder(final View itemView) {
             super(itemView);
             mView = itemView;
             btnCheck = (ImageButton) mView.findViewById(R.id.noti_btnCheck);
             noti = (TextView) mView.findViewById(R.id.noti_body);
         }
 
-        public void setTime(String _time) {
+        public void setTime(final String notificationTime) {
             TextView time = (TextView) mView.findViewById(R.id.noti_time);
-            time.setText(_time);
+            time.setText(notificationTime);
         }
 
-        public void setBody(String _body) {
+        public void setBody(final String notificationBody) {
             TextView body = (TextView) mView.findViewById(R.id.noti_body);
-            body.setText(_body);
+            body.setText(notificationBody);
         }
     }
-
-    public static NotificationFragment newInstance(int pageNo) {
+    /**
+     *
+     */
+    public static NotificationFragment newInstance(final int pageNo) {
 
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNo);

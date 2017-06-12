@@ -27,7 +27,7 @@ public class MyEditText extends EditText {
 
     private void init() {
         if (!isInEditMode()) {
-            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Lato-Regular.ttf");
+            Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto.ttf");
             setTypeface(tf);
         }
     }

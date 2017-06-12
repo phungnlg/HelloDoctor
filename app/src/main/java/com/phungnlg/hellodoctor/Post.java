@@ -6,7 +6,7 @@ package com.phungnlg.hellodoctor;
 
 public class Post {
     public int vote, answer;
-    public String uid, body, title, username, tag, time;
+    public String uid, body, title, username, tag, time, photoUrl;
 
     public Post() {
     }

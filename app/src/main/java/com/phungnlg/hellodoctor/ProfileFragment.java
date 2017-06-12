@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Phil on 07/05/2017.
@@ -63,10 +65,10 @@ public class ProfileFragment extends Fragment {
         test = (TextView) view.findViewById(R.id.profile_forTest);
         post = (RecyclerView) view.findViewById(R.id.profile_post);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-
+        post.setNestedScrollingEnabled(false);
         post.setHasFixedSize(true);
         post.setLayoutManager(layoutManager);
 
@@ -101,7 +103,7 @@ public class ProfileFragment extends Fragment {
         });
         Query sortByTime = Post.orderByChild("uid").equalTo(user.getUid());
 
-        FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> firebaseRecyclerAdapter
+        final FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder>(
                 Post.class,
                 R.layout.feed_item,
@@ -120,6 +122,7 @@ public class ProfileFragment extends Fragment {
                 viewHolder.setTitle(model.title);
                 viewHolder
                         .setLikeCount("   " + model.vote + " người có câu hỏi tương tự, " + model.answer + " trả lời.");
+                viewHolder.setPhoto(model.photoUrl);
 
                 final long postPreviousVote = model.vote;
 
@@ -176,6 +179,24 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(){
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = firebaseRecyclerAdapter.getItemCount();
+                int lastVisiblePosition =
+                        layoutManager.findLastCompletelyVisibleItemPosition();
+                // If the recycler view is initially being loaded or the
+                // user is at the bottom of the list, scroll to the bottom
+                // of the list to show the newly added message.
+                if (lastVisiblePosition == -1 ||
+                    (positionStart >= (friendlyMessageCount - 1) &&
+                     lastVisiblePosition == (positionStart - 1))) {
+                    post.scrollToPosition(positionStart);
+                }
+            }
+        });
+
         return view;
     }
 
@@ -224,6 +245,14 @@ public class ProfileFragment extends Fragment {
         public void setLikeCount(String _like) {
             TextView t = (TextView) mView.findViewById(R.id.newsfeed_txtLikeCount);
             t.setText(_like);
+        }
+        public void setPhoto(String photoUrl){
+            ImageView iv = (ImageView) mView.findViewById(R.id.feed_iv_photo);
+            Picasso.with(mView.getContext())
+                   .load(photoUrl)
+                   .resize(300, 150)
+                   .centerCrop()
+                   .into(iv);
         }
     }
 }

@@ -113,6 +113,7 @@ public class SinglePostFragment extends Fragment {
         final Date currentLocalTime = cal.getTime();
 
         mCommentList = (RecyclerView) view.findViewById(R.id.comment_list);
+        mCommentList.setNestedScrollingEnabled(false);
         mCommentList.setHasFixedSize(true);
         mCommentList.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
