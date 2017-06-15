@@ -71,6 +71,7 @@ public class ProfileFragment extends Fragment {
         post.setNestedScrollingEnabled(false);
         post.setHasFixedSize(true);
         post.setLayoutManager(layoutManager);
+        post.setFocusable(false);
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

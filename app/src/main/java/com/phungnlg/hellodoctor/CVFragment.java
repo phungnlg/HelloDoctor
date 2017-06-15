@@ -1,6 +1,7 @@
 package com.phungnlg.hellodoctor;
 
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class CVFragment extends Fragment {
     ImageButton btnSave;
     Boolean isEditMode;
     String key;
+    private String doctorName;
 
     public CVFragment() {
     }
@@ -44,6 +46,7 @@ public class CVFragment extends Fragment {
         if (bundle != null) {
             isEditMode = bundle.getBoolean("isEditMode");
             key = bundle.getString("key");
+            doctorName = bundle.getString("doctorName");
         }
     }
 
@@ -63,7 +66,7 @@ public class CVFragment extends Fragment {
 
         if (!isEditMode) {
             btnSave.setVisibility(View.GONE);
-            name.setText(R.string.cv_doctor);
+            name.setText(getText(R.string.cv_doctor) + " - BS " + doctorName);
             name.setGravity(Gravity.CENTER);
             AL.setEnabled(false);
             BG.setEnabled(false);

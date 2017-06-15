@@ -4,6 +4,10 @@
     package="com.phungnlg.hellodoctor"
     >
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/nurse2"
@@ -39,5 +43,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             ></activity>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+                   android:value="AIzaSyBzE-t4fWJazQhH7VWlbAtScZQtL-uJdwE"/>
     </application>
 </manifest>

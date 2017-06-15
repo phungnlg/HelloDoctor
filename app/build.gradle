@@ -36,6 +36,8 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.github.florent37:singledateandtimepicker:1.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.geniusforapp.fancydialog:FancyDialog:0.1.0'
+    compile 'com.google.android.gms:play-services:10.0.1'
     testCompile 'junit:junit:4.12'
 }
 

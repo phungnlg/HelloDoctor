@@ -78,7 +78,7 @@ public class BookAppointmentFragment extends Fragment {
         profile = (AppCompatButton) view.findViewById(R.id.book_btnProfile);
 
         welcome = (TextView) view.findViewById(R.id.book_doctorname);
-        welcome.setText(getText(R.string.welcome_to_doctor) + doctor_name);
+        welcome.setText(getText(R.string.welcome_to_doctor) + " " + doctor_name);
 
         final int myColor = getResources().getColor(R.color.themecolor);
 
@@ -123,6 +123,7 @@ public class BookAppointmentFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isEditMode", false);
                 bundle.putString("key", doctor_key);
+                bundle.putString("doctorName", doctor_name);
 
                 ScheduleFragment f = new ScheduleFragment();
                 f.setArguments(bundle);
@@ -140,6 +141,7 @@ public class BookAppointmentFragment extends Fragment {
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isEditMode", false);
                 bundle.putString("key", doctor_key);
+                bundle.putString("doctorName", doctor_name);
 
                 CVFragment f = new CVFragment();
                 f.setArguments(bundle);

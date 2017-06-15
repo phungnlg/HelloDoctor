@@ -34,6 +34,7 @@ public class ScheduleFragment extends Fragment {
     ImageButton btnSave;
     Boolean isEditMode;
     String key;
+    private String doctorName;
 
     public ScheduleFragment() {
     }
@@ -46,6 +47,7 @@ public class ScheduleFragment extends Fragment {
         if (bundle != null) {
             isEditMode = bundle.getBoolean("isEditMode");
             key = bundle.getString("key");
+            doctorName = bundle.getString("doctorName");
         }
     }
 
@@ -73,7 +75,7 @@ public class ScheduleFragment extends Fragment {
         sun2 = (EditText) view.findViewById(R.id.sche_sun2);
 
         if (!isEditMode) {
-            name.setText(R.string.sche_1);
+            name.setText(getText(R.string.sche_1) + " - BS " + doctorName);
             name.setGravity(Gravity.CENTER);
             btnSave.setVisibility(View.GONE);
             mon.setEnabled(false);

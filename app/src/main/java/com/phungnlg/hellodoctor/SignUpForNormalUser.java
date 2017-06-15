@@ -14,6 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -22,11 +27,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.phungnlg.hellodoctor.Others.PlaceAutocompleteAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUpForNormalUser extends AppCompatActivity {
+public class SignUpForNormalUser extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "SignupActivity";
 
     @Bind(R.id.input_name)
@@ -52,6 +58,12 @@ public class SignUpForNormalUser extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mFirebaseUser;
 
+    private PlaceAutocompleteAdapter mAdapter;
+    protected GoogleApiClient mGoogleApiClient;
+
+    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
+            new LatLng(10.562400, 106.580979), new LatLng(10.998982, 106.699151));
+
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("message");
@@ -65,9 +77,16 @@ public class SignUpForNormalUser extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_for_normal_user);
         ButterKnife.bind(this);
 
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+        mAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, BOUNDS_GREATER_SYDNEY,
+                                                null);
+
         String[] province = getResources().getStringArray(R.array.province);
         ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, province);
-        _addressText.setAdapter(adapter1);
+        _addressText.setAdapter(mAdapter);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -272,5 +291,16 @@ public class SignUpForNormalUser extends AppCompatActivity {
         }
 
         return valid;
+    }
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+        Log.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
+                   + connectionResult.getErrorCode());
+
+        // TODO(Developer): Check error code and notify the user of error state and resolution.
+        Toast.makeText(this,
+                       "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+                       Toast.LENGTH_SHORT).show();
     }
 }

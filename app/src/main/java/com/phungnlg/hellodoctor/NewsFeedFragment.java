@@ -69,8 +69,6 @@ public class NewsFeedFragment extends Fragment {
 
         mDatabase = database.getReference("Posts");
         mDatabase.keepSynced(true);
-
-
     }
 
     @Override
@@ -106,8 +104,8 @@ public class NewsFeedFragment extends Fragment {
                 Post.class,
                 R.layout.feed_item,
                 Holder.class,
-                //mDatabase
-                sortByTime
+                mDatabase
+                //sortByTime
         ) {
             @Override
             protected void populateViewHolder(final Holder viewHolder, Post model, int position) {
@@ -164,7 +162,7 @@ public class NewsFeedFragment extends Fragment {
                 });
             }
         };
-        //firebaseRecyclerAdapter.notifyDataSetChanged();
+        //firebaseRecyclerAdapter.notify();
 
         firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -183,6 +181,7 @@ public class NewsFeedFragment extends Fragment {
                 }
             }
         });
+
         mBlogList.setLayoutManager(layoutManager);
         mBlogList.setAdapter(firebaseRecyclerAdapter);
 
