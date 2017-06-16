@@ -32,7 +32,7 @@ public class MoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.tab_more, container, false);
+        View view = inflater.inflate(R.layout.fragment_more_utilities, container, false);
 
         signOut = (EditText) view.findViewById(R.id.more_4);
         book = (EditText) view.findViewById(R.id.more_2);

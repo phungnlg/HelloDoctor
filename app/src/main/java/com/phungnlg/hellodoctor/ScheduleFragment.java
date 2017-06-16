@@ -55,7 +55,7 @@ public class ScheduleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.tab_schedule, container, false);
+        final View view = inflater.inflate(R.layout.fragment_doctor_schedule, container, false);
 
         name = (TextView) view.findViewById(R.id.sche_username);
         btnSave = (ImageButton) view.findViewById(R.id.sche_btnSave);

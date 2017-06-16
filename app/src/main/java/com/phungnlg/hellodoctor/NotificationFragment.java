@@ -47,7 +47,7 @@ public class NotificationFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.tab_notification, container, false);
+        final View view = inflater.inflate(R.layout.fragment_notification, container, false);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
@@ -63,7 +63,7 @@ public class NotificationFragment extends Fragment {
         FirebaseRecyclerAdapter<Notification, NotiHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Notification, NotiHolder>(
                 Notification.class,
-                R.layout.notification_item,
+                R.layout.item_notification,
                 NotiHolder.class,
                 mDatabase
         ) {

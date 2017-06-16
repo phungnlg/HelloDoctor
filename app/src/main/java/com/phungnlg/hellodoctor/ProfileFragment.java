@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("User");
         user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment {
         final FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder>(
                 Post.class,
-                R.layout.feed_item,
+                R.layout.item_news_feed,
                 NewsFeedFragment.Holder.class,
                 //mDatabase
                 sortByTime

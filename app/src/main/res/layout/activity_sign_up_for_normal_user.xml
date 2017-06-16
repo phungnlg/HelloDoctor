@@ -21,7 +21,7 @@
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:src="@drawable/nurse2"
+            android:src="@drawable/ic_nurse_2"
             />
         <!-- Name Label -->
         <android.support.design.widget.TextInputLayout
@@ -32,7 +32,7 @@
             >
 
             <EditText
-                android:id="@+id/input_name"
+                android:id="@+id/activity_sign_up_et_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name"
@@ -48,7 +48,7 @@
             >
 
             <AutoCompleteTextView
-                android:id="@+id/input_address"
+                android:id="@+id/activity_sign_up_et_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:completionThreshold="1"
@@ -65,7 +65,7 @@
             >
 
             <EditText
-                android:id="@+id/input_email"
+                android:id="@+id/activity_sign_up_et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
@@ -81,7 +81,7 @@
             >
 
             <EditText
-                android:id="@+id/input_mobile"
+                android:id="@+id/activity_sign_up_et_mobile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/phoneNumber"
@@ -97,7 +97,7 @@
             >
 
             <EditText
-                android:id="@+id/input_password"
+                android:id="@+id/activity_sign_up_et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -113,7 +113,7 @@
             >
 
             <EditText
-                android:id="@+id/input_reEnterPassword"
+                android:id="@+id/activity_sign_up_et_reenter_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/reenter_password"
@@ -122,7 +122,7 @@
         </android.support.design.widget.TextInputLayout>
         <!-- Signup Button -->
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_signup"
+            android:id="@+id/activity_sign_up_btn_signup"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
@@ -132,7 +132,7 @@
             />
 
         <TextView
-            android:id="@+id/link_login"
+            android:id="@+id/activity_sign_up_link"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"

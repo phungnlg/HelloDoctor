@@ -37,7 +37,7 @@
                     android:id="@+id/feed_iv_photo"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:background="@drawable/nav_background"
+                    android:background="@drawable/bg_doctor"
                     android:layout_alignParentRight="true"
                     android:scaleType="fitXY"
                     />
@@ -60,7 +60,7 @@
                         android:layout_height="105px"
                         android:layout_margin="10dp"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/la"
+                        android:src="@drawable/img_profile_picture_small"
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView

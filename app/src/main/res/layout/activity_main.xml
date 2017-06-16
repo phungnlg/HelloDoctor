@@ -34,11 +34,11 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/tip_1"
+                android:id="@+id/activity_main_tip_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/tip_2"
+                android:layout_below="@+id/activity_main_tip_2"
                 android:layout_gravity="center"
                 android:layout_marginTop="11dp"
                 android:background="@drawable/rect"
@@ -57,7 +57,7 @@
                 />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/tip_2"
+                android:id="@+id/activity_main_tip_2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -79,11 +79,11 @@
                 />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/tip_3"
+                android:id="@+id/activity_main_tip_3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_below="@+id/tip_1"
+                android:layout_below="@+id/activity_main_tip_1"
                 android:layout_gravity="center"
                 android:layout_marginTop="11dp"
                 android:background="@drawable/rect"

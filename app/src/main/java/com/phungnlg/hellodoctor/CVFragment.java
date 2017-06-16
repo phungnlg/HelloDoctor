@@ -1,7 +1,6 @@
 package com.phungnlg.hellodoctor;
 
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -53,7 +52,7 @@ public class CVFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.tab_cv, container, false);
+        final View view = inflater.inflate(R.layout.fragment_doctor_background, container, false);
 
         name = (TextView) view.findViewById(R.id.cv_username);
         AL = (EditText) view.findViewById(R.id.cv_academiclevel);

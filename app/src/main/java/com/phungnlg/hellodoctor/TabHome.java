@@ -1,6 +1,5 @@
 package com.phungnlg.hellodoctor;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -31,7 +30,7 @@ public class TabHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_home);
+        setContentView(R.layout.activity_home);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         hideFloatingActionButton();
@@ -68,7 +67,7 @@ public class TabHome extends AppCompatActivity {
         }
 
         public View getTabView(int position) {
-            View view = LayoutInflater.from(TabHome.this).inflate(R.layout.tab_custom, null);
+            View view = LayoutInflater.from(TabHome.this).inflate(R.layout.activity_custom, null);
             ImageView icon = (ImageView) view.findViewById(R.id.icon);
             icon.setImageResource(mTabsIcons[position]);
             return view;

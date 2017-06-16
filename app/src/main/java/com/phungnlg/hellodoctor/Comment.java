@@ -7,7 +7,11 @@ import android.support.v4.app.Fragment;
  */
 
 public class Comment {
-    private String name, uid, comment, time;
+    private String name;
+    private String uid;
+    private String comment;
+    private String time;
+
 
     public Comment() {
     }

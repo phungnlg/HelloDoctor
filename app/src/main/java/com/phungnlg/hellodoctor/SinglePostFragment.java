@@ -1,6 +1,5 @@
 package com.phungnlg.hellodoctor;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -94,7 +93,7 @@ public class SinglePostFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_single_post, container, false);
+        View view = inflater.inflate(R.layout.fragment_single_post, container, false);
 
         postName = (TextView) view.findViewById(R.id.tab_name);
         postStatus = (TextView) view.findViewById(R.id.tab_body);
@@ -152,7 +151,7 @@ public class SinglePostFragment extends Fragment {
         FirebaseRecyclerAdapter<Comment, CommentHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Comment, CommentHolder>(
                 Comment.class,
-                R.layout.comment_item,
+                R.layout.item_comment,
                 CommentHolder.class,
                 mDatabaseCommentList
         ) {
