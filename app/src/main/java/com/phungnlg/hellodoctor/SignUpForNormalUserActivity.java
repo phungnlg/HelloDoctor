@@ -7,11 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,21 +24,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.phungnlg.hellodoctor.Others.PlaceAutocompleteAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class SignUpForNormalUserActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "SignupActivity";
-    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
-            new LatLng(10.562400, 106.580979), new LatLng(10.998982, 106.699151));
-    protected GoogleApiClient mGoogleApiClient;
+
     @Bind(R.id.activity_sign_up_et_name)
     EditText etName;
     @Bind(R.id.activity_sign_up_et_address)
@@ -56,61 +49,59 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
     @Bind(R.id.activity_sign_up_btn_signup)
     Button btnSignUp;
     @Bind(R.id.activity_sign_up_link)
-    TextView linkLogIn;
-    @Bind(R.id.activity_sign_up_et_workplace)
-    TextView etWorkplace;
-    private Spinner spnMajor;
+    TextView linkSignIn;
+
     private boolean isSignUpSuccessfully;
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mFirebaseUser;
+
     private PlaceAutocompleteAdapter mAdapter;
+    protected GoogleApiClient mGoogleApiClient;
+
+    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
+            new LatLng(10.562400, 106.580979), new LatLng(10.998982, 106.699151));
+
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference("message");
     private DatabaseReference myUser = database.getReference("User");
     private DatabaseReference myNotification = database.getReference("Notifications");
-    private DatabaseReference mySche = database.getReference("Schedule");
+
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up_for_normal_user);
         ButterKnife.bind(this);
-
-        spnMajor = (Spinner) findViewById(R.id.activity_sign_up_spn_major);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter
-                .createFromResource(this, R.array.major, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnMajor.setAdapter(adapter);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
                 .addApi(Places.GEO_DATA_API)
                 .build();
-
         mAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, BOUNDS_GREATER_SYDNEY,
                                                 null);
         etAddress.setAdapter(mAdapter);
 
+        mAuth = FirebaseAuth.getInstance();
+
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 signup();
             }
         });
 
-        linkLogIn.setOnClickListener(new View.OnClickListener() {
+        linkSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(), LogIn.class);
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
             }
         });
-
-        mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(
@@ -127,34 +118,17 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
                 // ...
             }
         };
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                /*String value = dataSnapshot.getValue(String.class);
-                Log.d(TAG, "Value is: " + value);*/
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", databaseError.toException());
-            }
-        });
     }
 
     public void signup() {
-        Log.d(TAG, "Signup");
 
         if (!validate()) {
             onSignupFailed();
             return;
         }
-
         btnSignUp.setEnabled(false);
-
-        final ProgressDialog progressDialog = new ProgressDialog(SignUp.this,
+        //Hiển  thị dialog tạo tài khoản
+        final ProgressDialog progressDialog = new ProgressDialog(SignUpForNormalUserActivity.this,
                                                                  R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.creating_account));
@@ -166,8 +140,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
         final String mobile = etMobileNumber.getText().toString();
         String password = etPassword.getText().toString();
         String reEnterPassword = etReenterPassword.getText().toString();
-        final String workplace = etWorkplace.getText().toString();
-
 
         mAuth.createUserWithEmailAndPassword(email, password)
              .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -175,77 +147,37 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
                  public void onComplete(
                          @NonNull
                                  Task<AuthResult> task) {
-                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-
-                     // If sign in fails, display a message to the user. If sign in succeeds
-                     // the auth state listener will be notified and logic to handle the
-                     // signed in user can be handled in the listener.
                      isSignUpSuccessfully = true;
                      if (!task.isSuccessful()) {
-                         Toast.makeText(SignUp.this, R.string.auth_failed,
+                         Toast.makeText(SignUpForNormalUserActivity.this, R.string.create_account_successfully,
                                         Toast.LENGTH_SHORT).show();
                          isSignUpSuccessfully = false;
                      }
-
-                     // ...
                  }
              });
-
-        // TODO: Cập nhật các thông tin khác ở đây(tên, địa chỉ, ...)
-
         mAuth.signInWithEmailAndPassword(email, password)
              .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                  @Override
                  public void onComplete(
                          @NonNull
                                  Task<AuthResult> task) {
-                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                     //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                      mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Profile")
-                                                                   .child(mFirebaseUser.getUid());
-
-
                      String uid = mFirebaseUser.getUid();
-                     myRef.child("user-doctor").child(uid).child("name").setValue(name);
-                     myRef.child("user-doctor").child(uid).child("address").setValue(address);
-                     myRef.child("user-doctor").child(uid).child("mobile").setValue(mobile);
-                     myRef.child("user-doctor").child(mFirebaseUser.getUid()).child("major")
-                          .setValue(spnMajor.getSelectedItem().toString());
-                     myRef.child("user-doctor").child(uid).child("workplace").setValue(workplace);
+                     myRef.child("user-normal").child(uid).child("name").setValue(name);
+                     myRef.child("user-normal").child(uid).child("address").setValue(address);
+                     myRef.child("user-normal").child(uid).child("mobile").setValue(mobile);
 
-                     myUser.child(uid).child("bio")
-                           .setValue("Bác sỹ " + spnMajor.getSelectedItem() + " tại " + workplace);
+                     myUser.child(uid).child("bio").setValue(address);
                      myUser.child(uid).child("following").setValue(0);
                      myUser.child(uid).child("follower").setValue(0);
-                     myUser.child(uid).child("isDoctor").setValue(true);
+                     myUser.child(uid).child("isDoctor").setValue(false);
                      myUser.child(uid).child("name").setValue(name);
 
                      myNotification.child(uid).child("welcome").child("isReaded").setValue(false);
                      myNotification.child(uid).child("welcome").child("notification")
                                    .setValue("Chào mừng bạn đến với HelloDoctor!");
                      myNotification.child(uid).child("welcome").child("time").setValue("Xin chào!");
-
-                     mDatabase.child("al").setValue("Chưa có thông tin");
-                     mDatabase.child("bg").setValue("Chưa có thông tin");
-                     mDatabase.child("cn").setValue("Chưa có thông tin");
-                     mDatabase.child("ca").setValue("Chưa có thông tin");
-                     mDatabase.child("aw").setValue("Chưa có thông tin");
-                     mDatabase.child("as").setValue("Chưa có thông tin");
-
-                     mySche.child(uid).child("Mon").child("from").setValue("");
-                     mySche.child(uid).child("Mon").child("to").setValue("");
-                     mySche.child(uid).child("Tue").child("from").setValue("");
-                     mySche.child(uid).child("Tue").child("to").setValue("");
-                     mySche.child(uid).child("Wed").child("from").setValue("");
-                     mySche.child(uid).child("Wed").child("to").setValue("");
-                     mySche.child(uid).child("Thu").child("from").setValue("");
-                     mySche.child(uid).child("Thu").child("to").setValue("");
-                     mySche.child(uid).child("Fri").child("from").setValue("");
-                     mySche.child(uid).child("Fri").child("to").setValue("");
-                     mySche.child(uid).child("Sat").child("from").setValue("");
-                     mySche.child(uid).child("Sat").child("to").setValue("");
-                     mySche.child(uid).child("Sun").child("from").setValue("");
-                     mySche.child(uid).child("Sun").child("to").setValue("");
 
 
                      UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
@@ -268,31 +200,15 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
                      onSignupSuccess();
 
                      if (!task.isSuccessful()) {
-                         Log.w(TAG, "signInWithEmail:failed", task.getException());
                      }
                  }
              });
-
-
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        if (isSignUpSuccessfully) {
-                            onSignupSuccess();
-                        } else {
-                            onSignupFailed();
-                        }
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
     }
 
     public void onBackPressed() {
         // Disable going back to the MainActivity
         // moveTaskToBack(true);
-        Intent intent = new Intent(getApplicationContext(), SignUpType.class);
+        Intent intent = new Intent(getApplicationContext(), SignUpTypeActivity.class);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -303,8 +219,8 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
         setResult(RESULT_OK, null);
         Toast.makeText(getBaseContext(), R.string.create_account_successfully, Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(getApplicationContext(), TabHome.class);
-        intent.putExtra("isDoctor", true);
+        Intent intent = new Intent(getApplicationContext(), TabHomeActivity.class);
+        intent.putExtra("isDoctor", false);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -312,7 +228,6 @@ public class SignUp extends AppCompatActivity implements GoogleApiClient.OnConne
 
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), R.string.create_account_unsuccessfully, Toast.LENGTH_LONG).show();
-
         btnSignUp.setEnabled(true);
     }
 

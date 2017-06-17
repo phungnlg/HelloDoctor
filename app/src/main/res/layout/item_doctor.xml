@@ -36,7 +36,7 @@
                 >
 
                 <ImageView
-                    android:id="@+id/item_doctor_photo"
+                    android:id="@+id/item_doctor_iv_photo"
                     android:layout_width="80dp"
                     android:layout_height="120dp"
                     android:scaleType="centerCrop"
@@ -50,7 +50,7 @@
                     >
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/item_doctor_name"
+                        android:id="@+id/item_doctor_tv_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -62,7 +62,7 @@
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/item_doctor_address"
+                        android:id="@+id/item_doctor_tv_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -74,7 +74,7 @@
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/item_doctor_description"
+                        android:id="@+id/item_doctor_tv_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -86,7 +86,7 @@
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/item_doctor_rating"
+                        android:id="@+id/item_doctor_tv_rating"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"

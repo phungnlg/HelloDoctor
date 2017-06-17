@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -24,7 +23,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import butterknife.ButterKnife;
 
-public class LogIn extends AppCompatActivity {
+public class LogInActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static final int RC_SIGN_IN = 0;
@@ -54,7 +53,7 @@ public class LogIn extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), SignUpType.class);
+                Intent intent = new Intent(getApplicationContext(), SignUpTypeActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -114,7 +113,7 @@ public class LogIn extends AppCompatActivity {
 
         btnLogIn.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LogIn.this,
+        final ProgressDialog progressDialog = new ProgressDialog(LogInActivity.this,
                                                                  R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.logging_in));
@@ -138,7 +137,7 @@ public class LogIn extends AppCompatActivity {
                      if (!task.isSuccessful()) {
                          Log.w(TAG, "signInWithEmail:failed", task.getException());
                          isLogInSuccessfully = false;
-                         Toast.makeText(LogIn.this, R.string.auth_failed,
+                         Toast.makeText(LogInActivity.this, R.string.auth_failed,
                                         Toast.LENGTH_SHORT).show();
                      }
                  }
@@ -176,14 +175,14 @@ public class LogIn extends AppCompatActivity {
                          @NonNull
                                  Task<AuthResult> task) {
                      Log.d(TAG, "signInWithCredential:onComplete:" + task.isSuccessful());
-                     Toast.makeText(LogIn.this, "Đã đăng nhập với Google",
+                     Toast.makeText(LogInActivity.this, "Đã đăng nhập với Google",
                                     Toast.LENGTH_SHORT).show();
                      // If sign in fails, display a message to the user. If sign in succeeds
                      // the auth state listener will be notified and logic to handle the
                      // signed in user can be handled in the listener.
                      if (!task.isSuccessful()) {
                          Log.w(TAG, "signInWithCredential", task.getException());
-                         Toast.makeText(LogIn.this, "Authentication failed.",
+                         Toast.makeText(LogInActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                      }
                      // ...
@@ -202,7 +201,7 @@ public class LogIn extends AppCompatActivity {
 
         //TODO Get user's name
 
-        final Intent intent = new Intent(getApplicationContext(), TabHome.class);
+        final Intent intent = new Intent(getApplicationContext(), TabHomeActivity.class);
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
 

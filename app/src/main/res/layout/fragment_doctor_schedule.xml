@@ -28,7 +28,7 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyTextView
-                android:id="@+id/sche_username"
+                android:id="@+id/fragment_schedule_tv_username"
                 android:layout_width="236dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.98"
@@ -39,7 +39,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/sche_btnSave"
+                android:id="@+id/fragment_schedule_btn_Save"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
@@ -68,7 +68,7 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_mon"
+                android:id="@+id/fragment_schedule_et_mon"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -87,7 +87,7 @@
                 />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_mon2"
+                android:id="@+id/fragment_schedule_et_mon2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -125,7 +125,7 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_tue"
+                android:id="@+id/fragment_schedule_et_tue"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -144,7 +144,7 @@
                 />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_tue2"
+                android:id="@+id/fragment_schedule_et_tue2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -183,7 +183,7 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_wed"
+                android:id="@+id/fragment_schedule_et_wed"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -202,7 +202,7 @@
                 />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_wed2"
+                android:id="@+id/fragment_schedule_et_wed2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -240,7 +240,7 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_thu"
+                android:id="@+id/fragment_schedule_et_thu"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -259,7 +259,7 @@
                 />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_thu2"
+                android:id="@+id/fragment_schedule_et_thu2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -297,7 +297,7 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_fri"
+                android:id="@+id/fragment_schedule_et_fri"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -316,7 +316,7 @@
                 />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_fri2"
+                android:id="@+id/fragment_schedule_et_fri2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -354,7 +354,7 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_sat"
+                android:id="@+id/fragment_schedule_et_sat"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -373,7 +373,7 @@
                 />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_sat2"
+                android:id="@+id/fragment_schedule_et_sat2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -411,7 +411,7 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_sun"
+                android:id="@+id/fragment_schedule_et_sun"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
@@ -430,7 +430,7 @@
                 />
 
             <com.phungnlg.hellodoctor.Others.MyEditText
-                android:id="@+id/sche_sun2"
+                android:id="@+id/fragment_schedule_et_sun2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"

@@ -30,19 +30,20 @@ import java.util.TimeZone;
  */
 
 public class WritePostFragment extends Fragment {
-    Spinner major;
-    EditText title, body;
-    TextView username;
-    ImageButton send;
+    private Spinner spnMajor;
+    private EditText etTitle;
+    private EditText etBody;
+    private TextView tvUserName;
+    private ImageButton ibSend;
 
     private FirebaseUser mCurrentUser;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Posts");
 
     public WritePostFragment() {
     }
 
-    public void onBackPressed(){
+    public void onBackPressed() {
 
     }
 
@@ -51,16 +52,16 @@ public class WritePostFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_write_post, container, false);
 
-        major = (Spinner) view.findViewById(R.id.post_major);
+        spnMajor = (Spinner) view.findViewById(R.id.fragment_write_post_spn_major);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter
                 .createFromResource(getContext(), R.array.major, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        major.setAdapter(adapter);
+        spnMajor.setAdapter(adapter);
 
-        username = (TextView) view.findViewById(R.id.post_username);
-        title = (EditText) view.findViewById(R.id.post_title);
-        body = (EditText) view.findViewById(R.id.post_body);
-        send = (ImageButton) view.findViewById(R.id.post_send);
+        tvUserName = (TextView) view.findViewById(R.id.fragment_write_post_tv_username);
+        etTitle = (EditText) view.findViewById(R.id.fragment_write_post_et_title);
+        etBody = (EditText) view.findViewById(R.id.fragment_write_post_et_content);
+        ibSend = (ImageButton) view.findViewById(R.id.fragment_write_post_ib_send);
 
         String outputPattern = "h:mm a dd-MM-yyyy";
         String inputPattern = "yyyy-MM-dd HH:mm:ss";
@@ -77,7 +78,7 @@ public class WritePostFragment extends Fragment {
         userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                username.setText(dataSnapshot.child("name").getValue().toString());
+                tvUserName.setText(dataSnapshot.child("name").getValue().toString());
             }
 
             @Override
@@ -86,24 +87,24 @@ public class WritePostFragment extends Fragment {
             }
         });
 
-        send.setOnClickListener(new View.OnClickListener() {
+        ibSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (title.length() < 16 || body.length() <= 25) {
+                if (etTitle.length() < 16 || etBody.length() <= 25) {
                     Toast.makeText(getContext(),
                                    R.string.post_too_short,
                                    Toast.LENGTH_SHORT).show();
                 } else {
                     p.child("answer").setValue(0);
-                    p.child("body").setValue(body.getText().toString());
-                    p.child("tag").setValue(major.getSelectedItem().toString());
+                    p.child("body").setValue(etBody.getText().toString());
+                    p.child("tag").setValue(spnMajor.getSelectedItem().toString());
                     p.child("time").setValue(outputFormat.format(currentLocalTime));
-                    p.child("title").setValue(title.getText().toString());
+                    p.child("title").setValue(etTitle.getText().toString());
                     p.child("uid").setValue(mCurrentUser.getUid().toString());
-                    p.child("username").setValue(username.getText().toString());
+                    p.child("username").setValue(tvUserName.getText().toString());
                     p.child("vote").setValue(0);
 
-                    Toast.makeText(getContext(), "Bài viêt '" + title.getText() + "' đã được đăng thành công!",
+                    Toast.makeText(getContext(), "Bài viêt '" + etTitle.getText() + "' đã được đăng thành công!",
                                    Toast.LENGTH_SHORT).show();
                 }
             }

@@ -58,7 +58,7 @@
                     >
 
                     <com.phungnlg.hellodoctor.Others.MyEditText
-                        android:id="@+id/autotext"
+                        android:id="@+id/fragment_newsfeed_et_question"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rect"
@@ -84,7 +84,7 @@
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/blog_list"
+                android:id="@+id/fragment_newsfeed_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"

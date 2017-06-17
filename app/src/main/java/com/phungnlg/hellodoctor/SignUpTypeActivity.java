@@ -10,7 +10,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUpType extends AppCompatActivity {
+public class SignUpTypeActivity extends AppCompatActivity {
     private static final String TAG = "SignUpTypeActivity";
     private static final int REQUEST_SIGNUP = 0;
     @Bind(R.id.activity_sign_up_type_btn_bacsy)
@@ -29,7 +29,7 @@ public class SignUpType extends AppCompatActivity {
         btnBacSy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUp.class);
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -38,7 +38,7 @@ public class SignUpType extends AppCompatActivity {
         btnNguoiDung.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpForNormalUser.class);
+                Intent intent = new Intent(getApplicationContext(), SignUpForNormalUserActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -49,7 +49,7 @@ public class SignUpType extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(), LogIn.class);
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -60,7 +60,7 @@ public class SignUpType extends AppCompatActivity {
     public void onBackPressed() {
         // Disable going back to the MainActivity
         // moveTaskToBack(true);
-        Intent intent = new Intent(getApplicationContext(), LogIn.class);
+        Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);

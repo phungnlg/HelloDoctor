@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -21,7 +20,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by Phil on 07/05/2017.
@@ -30,15 +28,15 @@ import com.squareup.picasso.Picasso;
 public class ProfileFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
 
-    TextView name, bio, following, follower;
+    private TextView name, bio, following, follower;
 
-    TextView test;
-    RecyclerView post;
+    private TextView test;
+    private RecyclerView post;
 
-    Boolean isDoctor;
-    Boolean isLogInByFacebook = true;
-    com.makeramen.roundedimageview.RoundedImageView pic;
-    AppCompatButton profile, schedule;
+    private Boolean isDoctor;
+    private Boolean isLogInByFacebook = true;
+    private com.makeramen.roundedimageview.RoundedImageView pic;
+    private AppCompatButton profile, schedule;
 
     private DatabaseReference mDatabase;
     private DatabaseReference Post = FirebaseDatabase.getInstance().getReference("Posts");
@@ -54,16 +52,16 @@ public class ProfileFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("User");
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        profile = (AppCompatButton) view.findViewById(R.id.profile_btnProfile);
-        schedule = (AppCompatButton) view.findViewById(R.id.profile_btnSchedule);
+        profile = (AppCompatButton) view.findViewById(R.id.fragment_profile_btn_profile);
+        schedule = (AppCompatButton) view.findViewById(R.id.fragment_profile_btn_Schedule);
 
-        name = (TextView) view.findViewById(R.id.profile_name);
-        bio = (TextView) view.findViewById(R.id.profile_bio);
-        following = (TextView) view.findViewById(R.id.profile_following);
-        follower = (TextView) view.findViewById(R.id.profile_follower);
-        pic = (com.makeramen.roundedimageview.RoundedImageView) view.findViewById(R.id.profile_image);
-        test = (TextView) view.findViewById(R.id.profile_forTest);
-        post = (RecyclerView) view.findViewById(R.id.profile_post);
+        name = (TextView) view.findViewById(R.id.fragment_profile_tv_user_name);
+        bio = (TextView) view.findViewById(R.id.fragment_profile_tv_user_bio);
+        following = (TextView) view.findViewById(R.id.fragment_profile_tv_user_following);
+        follower = (TextView) view.findViewById(R.id.fragment_profile_tv_user_follower);
+        pic = (com.makeramen.roundedimageview.RoundedImageView) view.findViewById(R.id.fragment_profile_iv_image);
+        test = (TextView) view.findViewById(R.id.fragment_profile_tv_Test);
+        post = (RecyclerView) view.findViewById(R.id.fragment_profile_list_user_post);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
@@ -187,9 +185,6 @@ public class ProfileFragment extends Fragment {
                 int friendlyMessageCount = firebaseRecyclerAdapter.getItemCount();
                 int lastVisiblePosition =
                         layoutManager.findLastCompletelyVisibleItemPosition();
-                // If the recycler view is initially being loaded or the
-                // user is at the bottom of the list, scroll to the bottom
-                // of the list to show the newly added message.
                 if (lastVisiblePosition == -1 ||
                     (positionStart >= (friendlyMessageCount - 1) &&
                      lastVisiblePosition == (positionStart - 1))) {
@@ -208,52 +203,5 @@ public class ProfileFragment extends Fragment {
         ProfileFragment fragment = new ProfileFragment();
         fragment.setArguments(args);
         return fragment;
-    }
-
-    public static class ProfileHolder extends RecyclerView.ViewHolder {
-        View mView;
-
-        public ProfileHolder(View itemView) {
-            super(itemView);
-            mView = itemView;
-        }
-
-        public void setName(String _name) {
-            TextView name = (TextView) mView.findViewById(R.id.newsname);
-            name.setText(_name);
-        }
-
-        public void setTime(String _time) {
-            TextView time = (TextView) mView.findViewById(R.id.newstime);
-            time.setText(_time);
-        }
-
-        public void setTitle(String _title) {
-            TextView body = (TextView) mView.findViewById(R.id.news);
-            body.setText(_title);
-        }
-
-        public void setBody(String _body) {
-            TextView body = (TextView) mView.findViewById(R.id.newssub);
-            body.setText(_body);
-        }
-
-        public void setHashTag(String _hashTag) {
-            TextView hashTag = (TextView) mView.findViewById(R.id.intrest);
-            hashTag.setText(_hashTag);
-        }
-
-        public void setLikeCount(String _like) {
-            TextView t = (TextView) mView.findViewById(R.id.newsfeed_txtLikeCount);
-            t.setText(_like);
-        }
-        public void setPhoto(String photoUrl){
-            ImageView iv = (ImageView) mView.findViewById(R.id.feed_iv_photo);
-            Picasso.with(mView.getContext())
-                   .load(photoUrl)
-                   .resize(300, 150)
-                   .centerCrop()
-                   .into(iv);
-        }
     }
 }

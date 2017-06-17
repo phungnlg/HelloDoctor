@@ -16,7 +16,7 @@ import android.widget.ImageView;
  * Created by Phil on 07/05/2017.
  */
 
-public class TabHome extends AppCompatActivity {
+public class TabHomeActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
 
     FloatingActionButton fab;
@@ -67,7 +67,7 @@ public class TabHome extends AppCompatActivity {
         }
 
         public View getTabView(int position) {
-            View view = LayoutInflater.from(TabHome.this).inflate(R.layout.activity_custom, null);
+            View view = LayoutInflater.from(TabHomeActivity.this).inflate(R.layout.activity_custom, null);
             ImageView icon = (ImageView) view.findViewById(R.id.icon);
             icon.setImageResource(mTabsIcons[position]);
             return view;

@@ -22,24 +22,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LogIn"
+            android:name=".LogInActivity"
             android:label="@string/title_activity_log_in"
             android:theme="@style/AppTheme.Dark"
             />
         <activity
-            android:name=".SignUp"
+            android:name=".SignUpActivity"
             android:theme="@style/AppTheme.Dark"
             />
         <activity
-            android:name=".SignUpType"
+            android:name=".SignUpTypeActivity"
             android:theme="@style/AppTheme.Dark"
             />
         <activity
-            android:name=".SignUpForNormalUser"
+            android:name=".SignUpForNormalUserActivity"
             android:theme="@style/AppTheme.Dark"
             ></activity>
         <activity
-            android:name=".TabHome"
+            android:name=".TabHomeActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan"
             ></activity>

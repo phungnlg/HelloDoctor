@@ -34,7 +34,7 @@
                 >
 
                 <ImageView
-                    android:id="@+id/feed_iv_photo"
+                    android:id="@+id/item_newsfeed_iv_cover_photo"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:background="@drawable/bg_doctor"
@@ -55,7 +55,7 @@
                     >
 
                     <ImageView
-                        android:id="@+id/newsimage1"
+                        android:id="@+id/item_newsfeed_iv_profile_picture"
                         android:layout_width="105px"
                         android:layout_height="105px"
                         android:layout_margin="10dp"
@@ -64,7 +64,7 @@
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/newsname"
+                        android:id="@+id/item_newsfeed_tv_user_name"
                         android:layout_width="158dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -76,7 +76,7 @@
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/newstime"
+                        android:id="@+id/item_newsfeed_tv_post_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -104,7 +104,7 @@
                     >
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/news"
+                        android:id="@+id/item_newsfeed_tv_post_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="3dp"
@@ -115,7 +115,7 @@
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/newssub"
+                        android:id="@+id/item_newsfeed_tv_post_body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="13dp"
@@ -126,7 +126,7 @@
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/intrest"
+                        android:id="@+id/item_newsfeed_tv_post_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="13dp"
@@ -144,7 +144,7 @@
                         >
 
                         <ImageButton
-                            android:id="@+id/newsfeed_btnLike"
+                            android:id="@+id/item_newsfeed_ib_like"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
@@ -152,7 +152,7 @@
                             />
 
                         <TextView
-                            android:id="@+id/newsfeed_txtLikeCount"
+                            android:id="@+id/item_newsfeed_tv_like_count"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="   Có 3 người có cùng câu hỏi, 2 trả lời."

@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.geniusforapp.fancydialog.FancyAlertDialog;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -46,23 +45,17 @@ public class FindDoctorFragment extends Fragment {
                                                           .child("user-doctor");
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-    RecyclerView doctorlist;
+    private RecyclerView doctorList;
     private TextView tvLocation;
     private EditText etLocation;
 
-    Spinner major;
+    private Spinner spnMajor;
 
-    Query sortMajor;
-    ImageButton btnSearch;
+    private Query sortMajor;
+    private ImageButton btnSearch;
 
     private Location location;
     private Geocoder geocoder;
-
-    // Đối tượng tương tác với Google API
-    private GoogleApiClient gac;
-    private LocationManager locationManager;
-    private android.location.LocationListener locationListener;
-
 
     public FindDoctorFragment() {
     }
@@ -71,23 +64,23 @@ public class FindDoctorFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_find_doctor, container, false);
-        tvLocation = (TextView) view.findViewById(R.id.find_doctor_tv_location);
-        etLocation = (EditText) view.findViewById(R.id.find_doctor_et_location);
+        tvLocation = (TextView) view.findViewById(R.id.fragment_find_doctor_tv_location);
+        etLocation = (EditText) view.findViewById(R.id.fragment_find_doctor_et_location);
 
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED) {
 
-        }
-        else {
-            ActivityCompat.requestPermissions(getActivity(), new String[] {
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
                                                       android.Manifest.permission.ACCESS_FINE_LOCATION,
-                                                      android.Manifest.permission.ACCESS_COARSE_LOCATION },
+                                                      android.Manifest.permission.ACCESS_COARSE_LOCATION},
                                               1);
         }
 
-        LocationManager locationManager= (LocationManager)getActivity().getSystemService(getContext().LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getActivity()
+                .getSystemService(getContext().LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         //Vị trí hiện tại
         Location lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
@@ -108,23 +101,23 @@ public class FindDoctorFragment extends Fragment {
 
         etLocation.setHint(addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
 
-        doctorlist = (RecyclerView) view.findViewById(R.id.find_list);
-        doctorlist.setHasFixedSize(true);
-        doctorlist.setNestedScrollingEnabled(false);
-        doctorlist.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        doctorList = (RecyclerView) view.findViewById(R.id.fragment_find_doctor_list);
+        doctorList.setHasFixedSize(true);
+        doctorList.setNestedScrollingEnabled(false);
+        doctorList.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        major = (Spinner) view.findViewById(R.id.find_major);
+        spnMajor = (Spinner) view.findViewById(R.id.fragment_find_doctor_spn_major);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter
                 .createFromResource(getContext(), R.array.major, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        major.setAdapter(adapter);
+        spnMajor.setAdapter(adapter);
 
-        btnSearch = (ImageButton) view.findViewById(R.id.find_search);
+        btnSearch = (ImageButton) view.findViewById(R.id.fragment_find_doctor_btn_search);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
-                sortMajor = mDatabase.orderByChild("major").equalTo(major.getSelectedItem().toString());
+                sortMajor = mDatabase.orderByChild("major").equalTo(spnMajor.getSelectedItem().toString());
 
                 FirebaseRecyclerAdapter<Doctor, dHolder> firebaseRecyclerAdapter
                         = new FirebaseRecyclerAdapter<Doctor, dHolder>(
@@ -167,7 +160,7 @@ public class FindDoctorFragment extends Fragment {
                                 FancyAlertDialog.Builder alert = new FancyAlertDialog.Builder(getContext())
                                         .setImageRecourse(R.drawable.ic_test)
                                         .setTextSubTitle(model.mobile)
-                                        .setBody("Gọi cho bác sĩ "+model.name)
+                                        .setBody("Gọi cho bác sĩ " + model.name)
                                         .setNegativeColor(R.color.jet)
                                         .setNegativeButtonText("Để sau")
                                         .setOnNegativeClicked(new FancyAlertDialog.OnNegativeClicked() {
@@ -184,11 +177,11 @@ public class FindDoctorFragment extends Fragment {
                                                 Intent intent = new Intent(Intent.ACTION_CALL);
                                                 intent.setData(Uri.parse("tel:" + model.mobile));
 
-                                                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.CALL_PHONE) !=
+                                                if (ActivityCompat.checkSelfPermission(getContext(),
+                                                                                       android.Manifest.permission.CALL_PHONE) !=
                                                     PackageManager.PERMISSION_GRANTED) {
                                                     return;
-                                                }
-                                                else startActivity(intent);
+                                                } else startActivity(intent);
                                             }
                                         })
                                         .setButtonsGravity(FancyAlertDialog.PanelGravity.CENTER)
@@ -235,7 +228,7 @@ public class FindDoctorFragment extends Fragment {
                     }
                 };
 
-                doctorlist.setAdapter(firebaseRecyclerAdapter);
+                doctorList.setAdapter(firebaseRecyclerAdapter);
             }
         });
 
@@ -259,22 +252,22 @@ public class FindDoctorFragment extends Fragment {
         }
 
         public void setName(String _name) {
-            TextView name = (TextView) view.findViewById(R.id.item_doctor_name);
+            TextView name = (TextView) view.findViewById(R.id.item_doctor_tv_name);
             name.setText(_name);
         }
 
         public void setBio(String _bio) {
-            TextView bio = (TextView) view.findViewById(R.id.item_doctor_description);
+            TextView bio = (TextView) view.findViewById(R.id.item_doctor_tv_description);
             bio.setText(_bio);
         }
 
         public void setAddress(String _a) {
-            TextView add = (TextView) view.findViewById(R.id.item_doctor_address);
+            TextView add = (TextView) view.findViewById(R.id.item_doctor_tv_address);
             add.setText(_a);
         }
 
         public void setRating(String _mobile) {
-            TextView mobile = (TextView) view.findViewById(R.id.item_doctor_rating);
+            TextView mobile = (TextView) view.findViewById(R.id.item_doctor_tv_rating);
             mobile.setText(_mobile);
         }
     }

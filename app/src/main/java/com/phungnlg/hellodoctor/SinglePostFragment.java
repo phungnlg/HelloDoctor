@@ -40,20 +40,25 @@ public class SinglePostFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private String post_key;
+    private String postKey;
 
     private DatabaseReference mDatabase;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference noti;
+    private DatabaseReference notificationDatabase;
 
     private FirebaseUser user;
 
-    TextView postName, postStatus, postTitle, postTag, postTime, postLikeCount;
-    ImageButton btnAnswer;
+    private TextView postName;
+    private TextView postStatus;
+    private TextView postTitle;
+    private TextView postTag;
+    private TextView postTime;
+    private TextView postLikeCount;
+    private ImageButton btnAnswer;
 
-    EditText txtAnswer;
+    private EditText txtAnswer;
 
-    String name;
+    private String name;
 
     private long postPreviousVote;
     private long postPreviousAnswer;
@@ -81,12 +86,12 @@ public class SinglePostFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Posts");
-        noti = database.getReference("Notifications");
+        notificationDatabase = database.getReference("Notifications");
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            post_key = bundle.getString("post_key");
+            postKey = bundle.getString("post_key");
         }
     }
 
@@ -118,7 +123,7 @@ public class SinglePostFragment extends Fragment {
 
         name = txtAnswer.getText().toString();
 
-        mDatabase.child(post_key).addValueEventListener(new ValueEventListener() {
+        mDatabase.child(postKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String postTitle1 = (String) dataSnapshot.child("title").getValue();
@@ -147,7 +152,7 @@ public class SinglePostFragment extends Fragment {
             }
         });
         final DatabaseReference mDatabaseCommentList = FirebaseDatabase.getInstance().getReference().child("Comments")
-                                                                       .child(post_key);
+                                                                       .child(postKey);
         FirebaseRecyclerAdapter<Comment, CommentHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Comment, CommentHolder>(
                 Comment.class,
@@ -165,7 +170,7 @@ public class SinglePostFragment extends Fragment {
         mCommentList.setAdapter(firebaseRecyclerAdapter);
 
         final DatabaseReference mDatabaseComment = FirebaseDatabase.getInstance().getReference().child("Comments")
-                                                                   .child(post_key).push();
+                                                                   .child(postKey).push();
 
         btnAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +178,7 @@ public class SinglePostFragment extends Fragment {
                 mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        mDatabase.child(post_key).child("answer").setValue(postPreviousAnswer + 1);
+                        mDatabase.child(postKey).child("answer").setValue(postPreviousAnswer + 1);
                     }
 
                     @Override
@@ -195,12 +200,12 @@ public class SinglePostFragment extends Fragment {
 
                     }
                 });
-                mDatabase.child(post_key).addListenerForSingleValueEvent(new ValueEventListener() {
+                mDatabase.child(postKey).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         String postuid = (String) dataSnapshot.child("uid").getValue();
                         String postTitle1 = (String) dataSnapshot.child("title").getValue();
-                        DatabaseReference n = noti.child(postuid).push();
+                        DatabaseReference n = notificationDatabase.child(postuid).push();
                         n.child("isReaded").setValue(false);
                         n.child("notification").setValue(
                                 user.getDisplayName() + " đã bình luận bài viết \"" + postTitle1.substring(0, 15) +
@@ -226,13 +231,11 @@ public class SinglePostFragment extends Fragment {
         }
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
     }
-
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
@@ -240,7 +243,7 @@ public class SinglePostFragment extends Fragment {
     }
 
     public static class CommentHolder extends RecyclerView.ViewHolder {
-        View mView;
+        private View mView;
 
         public CommentHolder(View itemView) {
             super(itemView);
@@ -248,17 +251,17 @@ public class SinglePostFragment extends Fragment {
         }
 
         public void setName(String _name) {
-            TextView name = (TextView) mView.findViewById(R.id.comment_name);
+            TextView name = (TextView) mView.findViewById(R.id.item_comment_tv_name);
             name.setText(_name);
         }
 
         public void setTime(String _time) {
-            TextView time = (TextView) mView.findViewById(R.id.comment_time);
+            TextView time = (TextView) mView.findViewById(R.id.item_comment_tv_time);
             time.setText(_time);
         }
 
         public void setContent(String _title) {
-            TextView body = (TextView) mView.findViewById(R.id.comment_content);
+            TextView body = (TextView) mView.findViewById(R.id.item_comment_tv_content);
             body.setText(_title);
         }
     }
