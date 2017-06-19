@@ -3,6 +3,7 @@ package com.phungnlg.hellodoctor;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
@@ -33,6 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -83,7 +85,7 @@ public class FindDoctorFragment extends Fragment {
                 .getSystemService(getContext().LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         //Vị trí hiện tại
-        Location lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        final Location lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
         List<android.location.Address> addresses = null;
 
         geocoder = new Geocoder(this.getContext(), Locale.getDefault());
@@ -132,7 +134,16 @@ public class FindDoctorFragment extends Fragment {
                         viewHolder.setName(model.name);
                         viewHolder.setAddress(model.address);
                         viewHolder.setBio("Bác sỹ " + model.major + " tại " + model.workplace);
-                        viewHolder.setRating("  " + model.mobile);
+                        //viewHolder.setRating("  " + model.mobile);
+
+                        try {
+                            List<Address> doctorLocation = geocoder.getFromLocationName(String.valueOf(model.address), 1);
+                            Address location = doctorLocation.get(0);
+                            Double distance = distance(lastLocation.getLatitude(), lastLocation.getLongitude(), location.getLatitude(), location.getLongitude());
+                            viewHolder.setRating("  " + Math.round(distance) + " km");
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
                         final String DOCTOR_KEY = getRef(position).getKey();
                         final String DOCTOR_NAME = model.name;
@@ -227,7 +238,6 @@ public class FindDoctorFragment extends Fragment {
                         });
                     }
                 };
-
                 doctorList.setAdapter(firebaseRecyclerAdapter);
             }
         });
@@ -270,5 +280,25 @@ public class FindDoctorFragment extends Fragment {
             TextView mobile = (TextView) view.findViewById(R.id.item_doctor_tv_rating);
             mobile.setText(_mobile);
         }
+    }
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                      * Math.sin(deg2rad(lat2))
+                      + Math.cos(deg2rad(lat1))
+                        * Math.cos(deg2rad(lat2))
+                        * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 }
