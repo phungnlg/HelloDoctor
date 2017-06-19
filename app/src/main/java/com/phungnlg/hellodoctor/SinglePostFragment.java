@@ -71,7 +71,6 @@ public class SinglePostFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     public static SinglePostFragment newInstance(String param1, String param2) {
         SinglePostFragment fragment = new SinglePostFragment();
         Bundle args = new Bundle();
@@ -100,14 +99,14 @@ public class SinglePostFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_single_post, container, false);
 
-        postName = (TextView) view.findViewById(R.id.tab_name);
-        postStatus = (TextView) view.findViewById(R.id.tab_body);
-        postTime = (TextView) view.findViewById(R.id.tab_time);
-        postTitle = (TextView) view.findViewById(R.id.tab_title);
-        postLikeCount = (TextView) view.findViewById(R.id.tab_txtLikeCount);
-        btnAnswer = (ImageButton) view.findViewById(R.id.tab_btnSendComment);
-        txtAnswer = (EditText) view.findViewById(R.id.tab_txtComment);
-        postTag = (TextView) view.findViewById(R.id.tab_tag);
+        postName = (TextView) view.findViewById(R.id.fragment_single_post_tv_user_name);
+        postStatus = (TextView) view.findViewById(R.id.fragment_single_post_tv_body);
+        postTime = (TextView) view.findViewById(R.id.fragment_single_post_tv_time);
+        postTitle = (TextView) view.findViewById(R.id.fragment_single_post_tv_title);
+        postLikeCount = (TextView) view.findViewById(R.id.fragment_single_post_tv_like_count);
+        btnAnswer = (ImageButton) view.findViewById(R.id.fragment_single_post_ib_send);
+        txtAnswer = (EditText) view.findViewById(R.id.fragment_single_post_et_comment);
+        postTag = (TextView) view.findViewById(R.id.fragment_single_post_tv_category);
 
         String outputPattern = "h:mm a dd-MM-yyyy";
         String inputPattern = "yyyy-MM-dd HH:mm:ss";
@@ -116,7 +115,7 @@ public class SinglePostFragment extends Fragment {
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
         final Date currentLocalTime = cal.getTime();
 
-        mCommentList = (RecyclerView) view.findViewById(R.id.comment_list);
+        mCommentList = (RecyclerView) view.findViewById(R.id.fragment_single_post_list_comment);
         mCommentList.setNestedScrollingEnabled(false);
         mCommentList.setHasFixedSize(true);
         mCommentList.setLayoutManager(new LinearLayoutManager(this.getContext()));

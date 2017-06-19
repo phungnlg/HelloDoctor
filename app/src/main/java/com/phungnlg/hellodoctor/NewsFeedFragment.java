@@ -39,11 +39,10 @@ public class NewsFeedFragment extends Fragment {
     private RecyclerView mBlogList;
 
     private Boolean isLiked = false;
+    private int mPageNo;
 
     public NewsFeedFragment() {
     }
-
-    private int mPageNo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

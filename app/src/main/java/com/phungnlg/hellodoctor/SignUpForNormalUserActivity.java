@@ -68,7 +68,6 @@ public class SignUpForNormalUserActivity extends AppCompatActivity implements Go
     private DatabaseReference myUser = database.getReference("User");
     private DatabaseReference myNotification = database.getReference("Notifications");
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

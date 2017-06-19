@@ -19,7 +19,7 @@ import android.widget.ImageView;
 public class TabHomeActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
 
-    FloatingActionButton fab;
+    private FloatingActionButton fab;
 
     private int[] mTabsIcons = {
             R.drawable.ic_home_white_24dp,
@@ -38,8 +38,9 @@ public class TabHomeActivity extends AppCompatActivity {
         // Setup the viewPager
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        if (viewPager != null)
+        if (viewPager != null) {
             viewPager.setAdapter(pagerAdapter);
+        }
 
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (mTabLayout != null) {
@@ -47,14 +48,14 @@ public class TabHomeActivity extends AppCompatActivity {
 
             for (int i = 0; i < mTabLayout.getTabCount(); i++) {
                 TabLayout.Tab tab = mTabLayout.getTabAt(i);
-                if (tab != null)
+                if (tab != null) {
                     tab.setCustomView(pagerAdapter.getTabView(i));
+                }
             }
 
             mTabLayout.getTabAt(0).getCustomView().setSelected(true);
         }
     }
-
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 

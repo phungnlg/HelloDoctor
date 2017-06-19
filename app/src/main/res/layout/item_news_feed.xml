@@ -55,7 +55,7 @@
                     >
 
                     <ImageView
-                        android:id="@+id/item_newsfeed_iv_profile_picture"
+                        android:id="@+id/fragment_single_post_iv_user_pic"
                         android:layout_width="105px"
                         android:layout_height="105px"
                         android:layout_margin="10dp"

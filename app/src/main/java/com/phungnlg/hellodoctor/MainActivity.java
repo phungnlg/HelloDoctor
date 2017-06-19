@@ -9,7 +9,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView t;
     private boolean isLoggedIn;
 
     private FirebaseAuth mAuth;

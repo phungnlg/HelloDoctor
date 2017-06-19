@@ -54,7 +54,7 @@ public class NotificationFragment extends Fragment {
         layoutManager.setStackFromEnd(true);
 
 
-        notificationList = (RecyclerView) view.findViewById(R.id.noti_list);
+        notificationList = (RecyclerView) view.findViewById(R.id.fragment_notification_list_notification);
         notificationList.setHasFixedSize(true);
         notificationList.setNestedScrollingEnabled(false);
         notificationList.setLayoutManager(layoutManager);

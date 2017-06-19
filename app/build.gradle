@@ -1,6 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        debug {
+            keyAlias 'debug_key'
+            keyPassword 'jafung01677'
+            storeFile file('C:/Users/Phil/Desktop/HelloDoctor/Key/key_debug.jks')
+            storePassword 'jafung01677'
+        }
+        release {
+            keyAlias 'release_key'
+            keyPassword 'jafung01677'
+            storeFile file('C:/Users/Phil/Desktop/HelloDoctor/Key/key_release.jks')
+            storePassword 'jafung01677'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "25.0.1"
     defaultConfig {
@@ -17,10 +31,21 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+        dev {
+            minSdkVersion 19
+            applicationId 'com.phungnlg.hellodoctor'
+            signingConfig signingConfigs.debug
+            targetSdkVersion 25
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+            versionCode 4
+            versionName '1.03'
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

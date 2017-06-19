@@ -5,7 +5,11 @@ package com.phungnlg.hellodoctor;
  */
 
 public class Doctor {
-    public String name, mobile, address, major, workplace;
+    public String name;
+    public String mobile;
+    public String address;
+    public String major;
+    public String workplace;
 
     public Doctor() {
     }

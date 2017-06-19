@@ -14,7 +14,6 @@ import com.google.android.gms.location.places.AutocompletePredictionBuffer;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.model.LatLngBounds;
 
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.text.style.CharacterStyle;
@@ -167,21 +166,6 @@ public class PlaceAutocompleteAdapter
         };
     }
 
-    /**
-     * Submits an autocomplete query to the Places Geo Data Autocomplete API.
-     * Results are returned as frozen AutocompletePrediction objects, ready to be cached.
-     * objects to store the Place ID and description that the API returns.
-     * Returns an empty list if no results were found.
-     * Returns null if the API client is not available or the query did not complete
-     * successfully.
-     * This method MUST be called off the main UI thread, as it will block until data is returned
-     * from the API, which may include a network request.
-     *
-     * @param constraint Autocomplete query string
-     * @return Results from the autocomplete API or null if the query was not successful.
-     * @see Places#GEO_DATA_API#getAutocomplete(CharSequence)
-     * @see AutocompletePrediction#freeze()
-     */
     private ArrayList<AutocompletePrediction> getAutocomplete(CharSequence constraint) {
         if (mGoogleApiClient.isConnected()) {
             //Log.i(TAG, "Starting autocomplete query for: " + constraint);
@@ -217,6 +201,4 @@ public class PlaceAutocompleteAdapter
         //Log.e(TAG, "Google API client is not connected for autocomplete query.");
         return null;
     }
-
-
 }

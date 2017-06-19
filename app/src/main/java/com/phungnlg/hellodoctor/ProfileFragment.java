@@ -28,18 +28,21 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
 
-    private TextView name, bio, following, follower;
+    private TextView name;
+    private TextView bio;
+    private TextView following;
+    private TextView follower;
 
-    private TextView test;
-    private RecyclerView post;
+    private TextView tvTest;
+    private RecyclerView listPost;
 
     private Boolean isDoctor;
-    private Boolean isLogInByFacebook = true;
-    private com.makeramen.roundedimageview.RoundedImageView pic;
-    private AppCompatButton profile, schedule;
+    private com.makeramen.roundedimageview.RoundedImageView ivProfilePic;
+    private AppCompatButton btnProfile;
+    private AppCompatButton btnSchedule;
 
     private DatabaseReference mDatabase;
-    private DatabaseReference Post = FirebaseDatabase.getInstance().getReference("Posts");
+    private DatabaseReference postDatabase = FirebaseDatabase.getInstance().getReference("Posts");
     private FirebaseUser user;
 
     public ProfileFragment() {
@@ -52,44 +55,45 @@ public class ProfileFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("User");
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        profile = (AppCompatButton) view.findViewById(R.id.fragment_profile_btn_profile);
-        schedule = (AppCompatButton) view.findViewById(R.id.fragment_profile_btn_Schedule);
+        btnProfile = (AppCompatButton) view.findViewById(R.id.fragment_profile_btn_profile);
+        btnSchedule = (AppCompatButton) view.findViewById(R.id.fragment_profile_btn_Schedule);
 
         name = (TextView) view.findViewById(R.id.fragment_profile_tv_user_name);
         bio = (TextView) view.findViewById(R.id.fragment_profile_tv_user_bio);
         following = (TextView) view.findViewById(R.id.fragment_profile_tv_user_following);
         follower = (TextView) view.findViewById(R.id.fragment_profile_tv_user_follower);
-        pic = (com.makeramen.roundedimageview.RoundedImageView) view.findViewById(R.id.fragment_profile_iv_image);
-        test = (TextView) view.findViewById(R.id.fragment_profile_tv_Test);
-        post = (RecyclerView) view.findViewById(R.id.fragment_profile_list_user_post);
+        ivProfilePic = (com.makeramen.roundedimageview.RoundedImageView) view
+                .findViewById(R.id.fragment_profile_iv_image);
+        tvTest = (TextView) view.findViewById(R.id.fragment_profile_tv_Test);
+        listPost = (RecyclerView) view.findViewById(R.id.fragment_profile_list_user_post);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-        post.setNestedScrollingEnabled(false);
-        post.setHasFixedSize(true);
-        post.setLayoutManager(layoutManager);
-        post.setFocusable(false);
+        listPost.setNestedScrollingEnabled(false);
+        listPost.setHasFixedSize(true);
+        listPost.setLayoutManager(layoutManager);
+        listPost.setFocusable(false);
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String n = (String) dataSnapshot.child(user.getUid()).child("name").getValue();
                 String b = (String) dataSnapshot.child(user.getUid()).child("bio").getValue();
-                long f1 = (Long) dataSnapshot.child(user.getUid()).child("following").getValue();
-                long f2 = (Long) dataSnapshot.child(user.getUid()).child("follower").getValue();
+                long followingCount = (Long) dataSnapshot.child(user.getUid()).child("following").getValue();
+                long followerCount = (Long) dataSnapshot.child(user.getUid()).child("follower").getValue();
 
                 isDoctor = (Boolean) dataSnapshot.child(user.getUid()).child("isDoctor").getValue();
 
                 name.setText(n);
                 //name.setText(user.getDisplayName());
                 bio.setText(b);
-                following.setText("" + f1);
-                follower.setText("" + f2);
+                following.setText("" + followingCount);
+                follower.setText("" + followerCount);
 
                 if (!isDoctor) {
-                    profile.setVisibility(View.GONE);
-                    schedule.setVisibility(View.GONE);
+                    btnProfile.setVisibility(View.GONE);
+                    btnSchedule.setVisibility(View.GONE);
                 } else {
                 }
 
@@ -100,7 +104,7 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        Query sortByTime = Post.orderByChild("uid").equalTo(user.getUid());
+        Query sortByTime = postDatabase.orderByChild("uid").equalTo(user.getUid());
 
         final FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder>(
@@ -143,9 +147,9 @@ public class ProfileFragment extends Fragment {
 
             }
         };
-        post.setAdapter(firebaseRecyclerAdapter);
+        listPost.setAdapter(firebaseRecyclerAdapter);
 
-        profile.setOnClickListener(new View.OnClickListener() {
+        btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
@@ -161,7 +165,7 @@ public class ProfileFragment extends Fragment {
                 ft.commit();
             }
         });
-        schedule.setOnClickListener(new View.OnClickListener() {
+        btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
@@ -178,7 +182,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver(){
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
@@ -188,7 +192,7 @@ public class ProfileFragment extends Fragment {
                 if (lastVisiblePosition == -1 ||
                     (positionStart >= (friendlyMessageCount - 1) &&
                      lastVisiblePosition == (positionStart - 1))) {
-                    post.scrollToPosition(positionStart);
+                    listPost.scrollToPosition(positionStart);
                 }
             }
         });
