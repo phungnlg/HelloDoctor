@@ -41,24 +41,15 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
             new LatLng(10.562400, 106.580979), new LatLng(10.998982, 106.699151));
     protected GoogleApiClient mGoogleApiClient;
-    @Bind(R.id.activity_sign_up_et_name)
-    EditText etName;
-    @Bind(R.id.activity_sign_up_et_address)
-    AutoCompleteTextView etAddress;
-    @Bind(R.id.activity_sign_up_et_email)
-    EditText etEmail;
-    @Bind(R.id.activity_sign_up_et_mobile)
-    EditText etMobileNumber;
-    @Bind(R.id.activity_sign_up_et_password)
-    EditText etPassword;
-    @Bind(R.id.activity_sign_up_et_reenter_password)
-    EditText etReenterPassword;
-    @Bind(R.id.activity_sign_up_btn_signup)
-    Button btnSignUp;
-    @Bind(R.id.activity_sign_up_link)
-    TextView linkLogIn;
-    @Bind(R.id.activity_sign_up_et_workplace)
-    TextView etWorkplace;
+    private EditText etName;
+    private AutoCompleteTextView etAddress;
+    private EditText etEmail;
+    private EditText etMobileNumber;
+    private EditText etPassword;
+    private EditText etReenterPassword;
+    private Button btnSignUp;
+    private TextView linkLogIn;
+    private TextView etWorkplace;
     private Spinner spnMajor;
     private boolean isSignUpSuccessfully;
     private FirebaseAuth mAuth;
@@ -76,6 +67,16 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
+
+        etName = (EditText) findViewById(R.id.activity_sign_up_et_name);
+        etAddress = (AutoCompleteTextView) findViewById(R.id.activity_sign_up_et_address);
+        etEmail = (EditText) findViewById(R.id.activity_sign_up_et_email);
+        etMobileNumber = (EditText) findViewById(R.id.activity_sign_up_et_mobile);
+        etPassword = (EditText) findViewById(R.id.activity_sign_up_et_password);
+        etReenterPassword = (EditText) findViewById(R.id.activity_sign_up_et_reenter_password);
+        btnSignUp = (Button) findViewById(R.id.activity_sign_up_btn_signup);
+        linkLogIn = (TextView) findViewById(R.id.activity_sign_up_link);
+        etWorkplace = (EditText) findViewById(R.id.activity_sign_up_et_workplace);
 
         spnMajor = (Spinner) findViewById(R.id.activity_sign_up_spn_major);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter
@@ -154,19 +155,19 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
         btnSignUp.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
+        final ProgressDialog PROGRESSDIALOG = new ProgressDialog(SignUpActivity.this,
                                                                  R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getText(R.string.creating_account));
-        progressDialog.show();
+        PROGRESSDIALOG.setIndeterminate(true);
+        PROGRESSDIALOG.setMessage(getText(R.string.creating_account));
+        PROGRESSDIALOG.show();
 
-        final String name = etName.getText().toString();
-        final String address = etAddress.getText().toString();
+        final String NAME = etName.getText().toString();
+        final String ADDRESS = etAddress.getText().toString();
         String email = etEmail.getText().toString();
-        final String mobile = etMobileNumber.getText().toString();
+        final String MOBILE = etMobileNumber.getText().toString();
         String password = etPassword.getText().toString();
         String reEnterPassword = etReenterPassword.getText().toString();
-        final String workplace = etWorkplace.getText().toString();
+        final String WORKPLACE = etWorkplace.getText().toString();
 
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -206,19 +207,19 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
 
                      String uid = mFirebaseUser.getUid();
-                     myRef.child("user-doctor").child(uid).child("name").setValue(name);
-                     myRef.child("user-doctor").child(uid).child("address").setValue(address);
-                     myRef.child("user-doctor").child(uid).child("mobile").setValue(mobile);
+                     myRef.child("user-doctor").child(uid).child("name").setValue(NAME);
+                     myRef.child("user-doctor").child(uid).child("address").setValue(ADDRESS);
+                     myRef.child("user-doctor").child(uid).child("mobile").setValue(MOBILE);
                      myRef.child("user-doctor").child(mFirebaseUser.getUid()).child("major")
                           .setValue(spnMajor.getSelectedItem().toString());
-                     myRef.child("user-doctor").child(uid).child("workplace").setValue(workplace);
+                     myRef.child("user-doctor").child(uid).child("workplace").setValue(WORKPLACE);
 
                      myUser.child(uid).child("bio")
-                           .setValue("Bác sỹ " + spnMajor.getSelectedItem() + " tại " + workplace);
+                           .setValue("Bác sỹ " + spnMajor.getSelectedItem() + " tại " + WORKPLACE);
                      myUser.child(uid).child("following").setValue(0);
                      myUser.child(uid).child("follower").setValue(0);
                      myUser.child(uid).child("isDoctor").setValue(true);
-                     myUser.child(uid).child("name").setValue(name);
+                     myUser.child(uid).child("name").setValue(NAME);
 
                      myNotification.child(uid).child("welcome").child("isReaded").setValue(false);
                      myNotification.child(uid).child("welcome").child("notification")
@@ -249,7 +250,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
 
                      UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                             .setDisplayName(name).build();
+                             .setDisplayName(NAME).build();
 
                      mFirebaseUser.updateProfile(profileChangeRequest)
                                   .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -284,7 +285,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                         } else {
                             onSignupFailed();
                         }
-                        progressDialog.dismiss();
+                        PROGRESSDIALOG.dismiss();
                     }
                 }, 3000);
     }

@@ -76,12 +76,8 @@ public class LogInActivity extends AppCompatActivity {
                             FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    // User is signed in
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    //Sẽ gọi hàm onLoginSuccess sau khi làm xong main activity
-                    //onLoginSuccess();
                 } else {
-                    // User is signed out
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
             }
@@ -113,11 +109,11 @@ public class LogInActivity extends AppCompatActivity {
 
         btnLogIn.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LogInActivity.this,
+        final ProgressDialog PROGRESSDIALOG = new ProgressDialog(LogInActivity.this,
                                                                  R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getText(R.string.logging_in));
-        progressDialog.show();
+        PROGRESSDIALOG.setIndeterminate(true);
+        PROGRESSDIALOG.setMessage(getText(R.string.logging_in));
+        PROGRESSDIALOG.show();
 
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
@@ -153,7 +149,7 @@ public class LogInActivity extends AppCompatActivity {
                         else {
                             onLoginFailed();
                         }
-                        progressDialog.dismiss();
+                        PROGRESSDIALOG.dismiss();
                     }
                 }, 3000);
     }
@@ -201,23 +197,23 @@ public class LogInActivity extends AppCompatActivity {
 
         //TODO Get user's name
 
-        final Intent intent = new Intent(getApplicationContext(), TabHomeActivity.class);
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final Intent INTENT = new Intent(getApplicationContext(), TabHomeActivity.class);
+        final FirebaseUser USER = FirebaseAuth.getInstance().getCurrentUser();
 
 
         if (isLogInByFacebook) {
-            if (user != null) {
-                intent.putExtra("userName", user.getDisplayName());
-                intent.putExtra("userEmail", user.getEmail());
-                intent.putExtra("isLogInByFacebook", isLogInByFacebook);
-                intent.putExtra("isDoctor", true);
+            if (USER != null) {
+                INTENT.putExtra("userName", USER.getDisplayName());
+                INTENT.putExtra("userEmail", USER.getEmail());
+                INTENT.putExtra("isLogInByFacebook", isLogInByFacebook);
+                INTENT.putExtra("isDoctor", true);
             }
         } else {
-            intent.putExtra("userEmail", user.getEmail());
-            intent.putExtra("isLogInByFacebook", isLogInByFacebook);
-            intent.putExtra("isDoctor", true);
+            INTENT.putExtra("userEmail", USER.getEmail());
+            INTENT.putExtra("isLogInByFacebook", isLogInByFacebook);
+            INTENT.putExtra("isDoctor", true);
         }
-        startActivity(intent);
+        startActivity(INTENT);
         finish();
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }

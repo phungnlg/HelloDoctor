@@ -13,18 +13,22 @@ import butterknife.ButterKnife;
 public class SignUpTypeActivity extends AppCompatActivity {
     private static final String TAG = "SignUpTypeActivity";
     private static final int REQUEST_SIGNUP = 0;
-    @Bind(R.id.activity_sign_up_type_btn_bacsy)
-    Button btnBacSy;
-    @Bind(R.id.activity_sign_up_type_btn_nguoidung)
-    Button btnNguoiDung;
-    @Bind(R.id.activity_sign_up_type_link_signin)
-    TextView linkSignIn;
+
+    private Button btnBacSy;
+
+    private Button btnNguoiDung;
+
+    private TextView linkSignIn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_type);
         ButterKnife.bind(this);
+
+        btnBacSy = (Button) findViewById(R.id.activity_sign_up_type_btn_bacsy);
+        btnNguoiDung = (Button) findViewById(R.id.activity_sign_up_type_btn_nguoidung);
+        linkSignIn = (TextView) findViewById(R.id.activity_sign_up_type_link_signin);
 
         btnBacSy.setOnClickListener(new View.OnClickListener() {
             @Override

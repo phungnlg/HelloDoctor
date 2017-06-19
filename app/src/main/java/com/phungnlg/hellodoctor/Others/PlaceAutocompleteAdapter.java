@@ -183,9 +183,9 @@ public class PlaceAutocompleteAdapter
                     .await(60, TimeUnit.SECONDS);
 
             // Confirm that the query completed successfully, otherwise return null
-            final Status status = autocompletePredictions.getStatus();
-            if (!status.isSuccess()) {
-                Toast.makeText(getContext(), "Error contacting API: " + status.toString(),
+            final Status STATUS = autocompletePredictions.getStatus();
+            if (!STATUS.isSuccess()) {
+                Toast.makeText(getContext(), "Error contacting API: " + STATUS.toString(),
                                Toast.LENGTH_SHORT).show();
                 //Log.e(TAG, "Error getting autocomplete prediction API call: " + status.toString());
                 autocompletePredictions.release();

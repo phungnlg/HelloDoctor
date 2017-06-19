@@ -31,25 +31,18 @@ import com.phungnlg.hellodoctor.Others.PlaceAutocompleteAdapter;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUpForNormalUserActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class SignUpForNormalUserActivity extends AppCompatActivity
+        implements GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "SignupActivity";
 
-    @Bind(R.id.activity_sign_up_et_name)
-    EditText etName;
-    @Bind(R.id.activity_sign_up_et_address)
-    AutoCompleteTextView etAddress;
-    @Bind(R.id.activity_sign_up_et_email)
-    EditText etEmail;
-    @Bind(R.id.activity_sign_up_et_mobile)
-    EditText etMobileNumber;
-    @Bind(R.id.activity_sign_up_et_password)
-    EditText etPassword;
-    @Bind(R.id.activity_sign_up_et_reenter_password)
-    EditText etReenterPassword;
-    @Bind(R.id.activity_sign_up_btn_signup)
-    Button btnSignUp;
-    @Bind(R.id.activity_sign_up_link)
-    TextView linkSignIn;
+    private EditText etName;
+    private AutoCompleteTextView etAddress;
+    private EditText etEmail;
+    private EditText etMobileNumber;
+    private EditText etPassword;
+    private EditText etReenterPassword;
+    private Button btnSignUp;
+    private TextView linkSignIn;
 
     private boolean isSignUpSuccessfully;
 
@@ -73,6 +66,15 @@ public class SignUpForNormalUserActivity extends AppCompatActivity implements Go
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_for_normal_user);
         ButterKnife.bind(this);
+
+        etName = (EditText) findViewById(R.id.activity_sign_up_et_name);
+        etAddress = (AutoCompleteTextView) findViewById(R.id.activity_sign_up_et_address);
+        etEmail = (EditText) findViewById(R.id.activity_sign_up_et_email);
+        etMobileNumber = (EditText) findViewById(R.id.activity_sign_up_et_mobile);
+        etPassword = (EditText) findViewById(R.id.activity_sign_up_et_password);
+        etReenterPassword = (EditText) findViewById(R.id.activity_sign_up_et_reenter_password);
+        btnSignUp = (Button) findViewById(R.id.activity_sign_up_btn_signup);
+        linkSignIn = (TextView) findViewById(R.id.activity_sign_up_link);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
@@ -127,16 +129,16 @@ public class SignUpForNormalUserActivity extends AppCompatActivity implements Go
         }
         btnSignUp.setEnabled(false);
         //Hiển  thị dialog tạo tài khoản
-        final ProgressDialog progressDialog = new ProgressDialog(SignUpForNormalUserActivity.this,
+        final ProgressDialog PROGRESSDIALOG = new ProgressDialog(SignUpForNormalUserActivity.this,
                                                                  R.style.AppTheme_Dark_Dialog);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getText(R.string.creating_account));
-        progressDialog.show();
+        PROGRESSDIALOG.setIndeterminate(true);
+        PROGRESSDIALOG.setMessage(getText(R.string.creating_account));
+        PROGRESSDIALOG.show();
 
-        final String name = etName.getText().toString();
-        final String address = etAddress.getText().toString();
+        final String NAME = etName.getText().toString();
+        final String ADDRESS = etAddress.getText().toString();
         String email = etEmail.getText().toString();
-        final String mobile = etMobileNumber.getText().toString();
+        final String MOBILE = etMobileNumber.getText().toString();
         String password = etPassword.getText().toString();
         String reEnterPassword = etReenterPassword.getText().toString();
 
@@ -163,15 +165,15 @@ public class SignUpForNormalUserActivity extends AppCompatActivity implements Go
                      //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                      mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
                      String uid = mFirebaseUser.getUid();
-                     myRef.child("user-normal").child(uid).child("name").setValue(name);
-                     myRef.child("user-normal").child(uid).child("address").setValue(address);
-                     myRef.child("user-normal").child(uid).child("mobile").setValue(mobile);
+                     myRef.child("user-normal").child(uid).child("name").setValue(NAME);
+                     myRef.child("user-normal").child(uid).child("address").setValue(ADDRESS);
+                     myRef.child("user-normal").child(uid).child("mobile").setValue(MOBILE);
 
-                     myUser.child(uid).child("bio").setValue(address);
+                     myUser.child(uid).child("bio").setValue(ADDRESS);
                      myUser.child(uid).child("following").setValue(0);
                      myUser.child(uid).child("follower").setValue(0);
                      myUser.child(uid).child("isDoctor").setValue(false);
-                     myUser.child(uid).child("name").setValue(name);
+                     myUser.child(uid).child("name").setValue(NAME);
 
                      myNotification.child(uid).child("welcome").child("isReaded").setValue(false);
                      myNotification.child(uid).child("welcome").child("notification")
@@ -180,7 +182,7 @@ public class SignUpForNormalUserActivity extends AppCompatActivity implements Go
 
 
                      UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                             .setDisplayName(name).build();
+                             .setDisplayName(NAME).build();
 
                      mFirebaseUser.updateProfile(profileChangeRequest)
                                   .addOnCompleteListener(new OnCompleteListener<Void>() {

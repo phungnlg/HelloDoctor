@@ -51,7 +51,6 @@ public class WritePostFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_write_post, container, false);
-
         spnMajor = (Spinner) view.findViewById(R.id.fragment_write_post_spn_major);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter
                 .createFromResource(getContext(), R.array.major, android.R.layout.simple_spinner_item);
@@ -65,15 +64,12 @@ public class WritePostFragment extends Fragment {
 
         String outputPattern = "h:mm a dd-MM-yyyy";
         String inputPattern = "yyyy-MM-dd HH:mm:ss";
-        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        final SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        final SimpleDateFormat OUTPUTFORMAT = new SimpleDateFormat(outputPattern);
 
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
-        final Date currentLocalTime = cal.getTime();
-
+        final Date CURENTLOCALTIME = cal.getTime();
         mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        final DatabaseReference p = mDatabase.push();
-
+        final DatabaseReference POST = mDatabase.push();
         DatabaseReference userInfo = database.getReference("User").child(mCurrentUser.getUid());
         userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -86,7 +82,6 @@ public class WritePostFragment extends Fragment {
 
             }
         });
-
         ibSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,21 +90,20 @@ public class WritePostFragment extends Fragment {
                                    R.string.post_too_short,
                                    Toast.LENGTH_SHORT).show();
                 } else {
-                    p.child("answer").setValue(0);
-                    p.child("body").setValue(etBody.getText().toString());
-                    p.child("tag").setValue(spnMajor.getSelectedItem().toString());
-                    p.child("time").setValue(outputFormat.format(currentLocalTime));
-                    p.child("title").setValue(etTitle.getText().toString());
-                    p.child("uid").setValue(mCurrentUser.getUid().toString());
-                    p.child("username").setValue(tvUserName.getText().toString());
-                    p.child("vote").setValue(0);
+                    POST.child("answer").setValue(0);
+                    POST.child("body").setValue(etBody.getText().toString());
+                    POST.child("tag").setValue(spnMajor.getSelectedItem().toString());
+                    POST.child("time").setValue(OUTPUTFORMAT.format(CURENTLOCALTIME));
+                    POST.child("title").setValue(etTitle.getText().toString());
+                    POST.child("uid").setValue(mCurrentUser.getUid().toString());
+                    POST.child("username").setValue(tvUserName.getText().toString());
+                    POST.child("vote").setValue(0);
 
                     Toast.makeText(getContext(), "Bài viêt '" + etTitle.getText() + "' đã được đăng thành công!",
                                    Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
         return view;
     }
 }

@@ -5,11 +5,11 @@ package com.phungnlg.hellodoctor;
  */
 
 public class Doctor {
-    public String name;
-    public String mobile;
-    public String address;
-    public String major;
-    public String workplace;
+    private String name;
+    private String mobile;
+    private String address;
+    private String major;
+    private String workplace;
 
     public Doctor() {
     }
@@ -20,5 +20,45 @@ public class Doctor {
         this.mobile = m;
         this.major = ma;
         this.workplace = w;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public String getWorkplace() {
+        return workplace;
+    }
+
+    public void setWorkplace(String workplace) {
+        this.workplace = workplace;
     }
 }

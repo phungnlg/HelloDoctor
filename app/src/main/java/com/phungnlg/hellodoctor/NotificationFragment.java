@@ -33,11 +33,11 @@ public class NotificationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         mPageNo = getArguments().getInt(ARG_PAGE);
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
 
         mUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        mDatabase = database.getReference("Notifications")
+        mDatabase = DATABASE.getReference("Notifications")
                             .child(mUser.getUid());
         mDatabase.keepSynced(true);
 
@@ -47,14 +47,14 @@ public class NotificationFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_notification, container, false);
+        final View VIEW = inflater.inflate(R.layout.fragment_notification, container, false);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
 
-        notificationList = (RecyclerView) view.findViewById(R.id.fragment_notification_list_notification);
+        notificationList = (RecyclerView) VIEW.findViewById(R.id.fragment_notification_list_notification);
         notificationList.setHasFixedSize(true);
         notificationList.setNestedScrollingEnabled(false);
         notificationList.setLayoutManager(layoutManager);
@@ -70,20 +70,20 @@ public class NotificationFragment extends Fragment {
             protected void populateViewHolder(final NotiHolder viewHolder,
                                               final Notification model,
                                               final int position) {
-                final String notificationKey = getRef(position).getKey();
-                final Boolean isReaded;
+                final String NOTIFICATIONKEY = getRef(position).getKey();
+                final Boolean ISREADED;
                 viewHolder.setTime(model.getTime());
                 viewHolder.setBody(model.getNotification());
                 viewHolder.btnCheck.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        mDatabase.child(notificationKey).removeValue();
+                        mDatabase.child(NOTIFICATIONKEY).removeValue();
                     }
                 });
             }
         };
         notificationList.setAdapter(firebaseRecyclerAdapter);
-        return view;
+        return VIEW;
     }
 
     public static class NotiHolder extends RecyclerView.ViewHolder {

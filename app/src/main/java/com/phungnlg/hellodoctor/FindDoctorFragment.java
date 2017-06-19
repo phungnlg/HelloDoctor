@@ -65,9 +65,9 @@ public class FindDoctorFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_find_doctor, container, false);
-        tvLocation = (TextView) view.findViewById(R.id.fragment_find_doctor_tv_location);
-        etLocation = (EditText) view.findViewById(R.id.fragment_find_doctor_et_location);
+        final View VIEW = inflater.inflate(R.layout.fragment_find_doctor, container, false);
+        tvLocation = (TextView) VIEW.findViewById(R.id.fragment_find_doctor_tv_location);
+        etLocation = (EditText) VIEW.findViewById(R.id.fragment_find_doctor_et_location);
 
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED &&
@@ -85,15 +85,16 @@ public class FindDoctorFragment extends Fragment {
                 .getSystemService(getContext().LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         //Vị trí hiện tại
-        final Location lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
+        final Location LASTLOCATION = locationManager.getLastKnownLocation(
+                locationManager.getBestProvider(criteria, false));
         List<android.location.Address> addresses = null;
 
         geocoder = new Geocoder(this.getContext(), Locale.getDefault());
 
         try {
             addresses = geocoder.getFromLocation(
-                    lastLocation.getLatitude(),
-                    lastLocation.getLongitude(),
+                    LASTLOCATION.getLatitude(),
+                    LASTLOCATION.getLongitude(),
                     1);
         } catch (IOException ioException) {
             // Catch network or other I/O problems.
@@ -103,18 +104,18 @@ public class FindDoctorFragment extends Fragment {
 
         etLocation.setHint(addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
 
-        doctorList = (RecyclerView) view.findViewById(R.id.fragment_find_doctor_list);
+        doctorList = (RecyclerView) VIEW.findViewById(R.id.fragment_find_doctor_list);
         doctorList.setHasFixedSize(true);
         doctorList.setNestedScrollingEnabled(false);
         doctorList.setLayoutManager(new LinearLayoutManager(this.getContext()));
 
-        spnMajor = (Spinner) view.findViewById(R.id.fragment_find_doctor_spn_major);
+        spnMajor = (Spinner) VIEW.findViewById(R.id.fragment_find_doctor_spn_major);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter
                 .createFromResource(getContext(), R.array.major, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnMajor.setAdapter(adapter);
 
-        btnSearch = (ImageButton) view.findViewById(R.id.fragment_find_doctor_btn_search);
+        btnSearch = (ImageButton) VIEW.findViewById(R.id.fragment_find_doctor_btn_search);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,32 +132,37 @@ public class FindDoctorFragment extends Fragment {
                 ) {
                     @Override
                     protected void populateViewHolder(dHolder viewHolder, final Doctor model, int position) {
-                        viewHolder.setName(model.name);
-                        viewHolder.setAddress(model.address);
-                        viewHolder.setBio("Bác sỹ " + model.major + " tại " + model.workplace);
+                        viewHolder.setName(model.getName());
+                        viewHolder.setAddress(model.getAddress());
+                        viewHolder.setBio("Bác sỹ " + model.getMajor() + " tại " + model.getWorkplace());
                         //viewHolder.setRating("  " + model.mobile);
 
                         try {
-                            List<Address> doctorLocation = geocoder.getFromLocationName(String.valueOf(model.address), 1);
+                            List<Address> doctorLocation = geocoder.getFromLocationName(
+                                    String.valueOf(model.getAddress()), 1);
                             Address location = doctorLocation.get(0);
-                            Double distance = distance(lastLocation.getLatitude(), lastLocation.getLongitude(), location.getLatitude(), location.getLongitude());
+                            Double distance = distance(
+                                    LASTLOCATION.getLatitude(),
+                                    LASTLOCATION.getLongitude(),
+                                    location.getLatitude(),
+                                    location.getLongitude());
                             viewHolder.setRating("  " + Math.round(distance) + " km");
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
 
-                        final String DOCTOR_KEY = getRef(position).getKey();
-                        final String DOCTOR_NAME = model.name;
+                        final String DOCTORKEY = getRef(position).getKey();
+                        final String DOCTORNAME = model.getName();
 
-                        final Bundle bundle = new Bundle();
-                        bundle.putString("doctor_key", DOCTOR_KEY);
-                        bundle.putString("doctor_name", DOCTOR_NAME);
+                        final Bundle BUNDLE = new Bundle();
+                        BUNDLE.putString("doctor_key", DOCTORKEY);
+                        BUNDLE.putString("doctor_name", DOCTORNAME);
 
                         viewHolder.view.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
                                 BookAppointmentFragment f = new BookAppointmentFragment();
-                                f.setArguments(bundle);
+                                f.setArguments(BUNDLE);
                                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                                 ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                                 ft.replace(R.id.find_doctor, f);
@@ -170,8 +176,8 @@ public class FindDoctorFragment extends Fragment {
                             public void onClick(View v) {
                                 FancyAlertDialog.Builder alert = new FancyAlertDialog.Builder(getContext())
                                         .setImageRecourse(R.drawable.ic_test)
-                                        .setTextSubTitle(model.mobile)
-                                        .setBody("Gọi cho bác sĩ " + model.name)
+                                        .setTextSubTitle(model.getMobile())
+                                        .setBody("Gọi cho bác sĩ " + model.getName())
                                         .setNegativeColor(R.color.jet)
                                         .setNegativeButtonText("Để sau")
                                         .setOnNegativeClicked(new FancyAlertDialog.OnNegativeClicked() {
@@ -186,7 +192,7 @@ public class FindDoctorFragment extends Fragment {
                                             @Override
                                             public void OnClick(View view, Dialog dialog) {
                                                 Intent intent = new Intent(Intent.ACTION_CALL);
-                                                intent.setData(Uri.parse("tel:" + model.mobile));
+                                                intent.setData(Uri.parse("tel:" + model.getMobile()));
 
                                                 if (ActivityCompat.checkSelfPermission(getContext(),
                                                                                        android.Manifest.permission.CALL_PHONE) !=
@@ -206,8 +212,8 @@ public class FindDoctorFragment extends Fragment {
                             public void onClick(View v) {
                                 Bundle bundle = new Bundle();
                                 bundle.putBoolean("isEditMode", false);
-                                bundle.putString("key", DOCTOR_KEY);
-                                bundle.putString("doctorName", DOCTOR_NAME);
+                                bundle.putString("key", DOCTORKEY);
+                                bundle.putString("doctorName", DOCTORNAME);
 
                                 ScheduleFragment f = new ScheduleFragment();
                                 f.setArguments(bundle);
@@ -224,8 +230,8 @@ public class FindDoctorFragment extends Fragment {
                             public void onClick(View v) {
                                 Bundle bundle = new Bundle();
                                 bundle.putBoolean("isEditMode", false);
-                                bundle.putString("key", DOCTOR_KEY);
-                                bundle.putString("doctorName", DOCTOR_NAME);
+                                bundle.putString("key", DOCTORKEY);
+                                bundle.putString("doctorName", DOCTORNAME);
 
                                 CVFragment f = new CVFragment();
                                 f.setArguments(bundle);
@@ -242,7 +248,7 @@ public class FindDoctorFragment extends Fragment {
             }
         });
 
-        return view;
+        return VIEW;
     }
 
     public static class dHolder extends RecyclerView.ViewHolder {
@@ -281,6 +287,7 @@ public class FindDoctorFragment extends Fragment {
             mobile.setText(_mobile);
         }
     }
+
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1))

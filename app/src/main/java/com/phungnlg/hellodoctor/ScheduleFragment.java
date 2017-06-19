@@ -66,24 +66,24 @@ public class ScheduleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_doctor_schedule, container, false);
+        final View VIEW = inflater.inflate(R.layout.fragment_doctor_schedule, container, false);
 
-        tvName = (TextView) view.findViewById(R.id.fragment_schedule_tv_username);
-        btnSave = (ImageButton) view.findViewById(R.id.fragment_schedule_btn_Save);
-        edMonday = (EditText) view.findViewById(R.id.fragment_schedule_et_mon);
-        edTuesday = (EditText) view.findViewById(R.id.fragment_schedule_et_tue);
-        edWednesday = (EditText) view.findViewById(R.id.fragment_schedule_et_wed);
-        edThursday = (EditText) view.findViewById(R.id.fragment_schedule_et_thu);
-        edFriday = (EditText) view.findViewById(R.id.fragment_schedule_et_fri);
-        edSaturday = (EditText) view.findViewById(R.id.fragment_schedule_et_sat);
-        edSunday = (EditText) view.findViewById(R.id.fragment_schedule_et_sun);
-        edMonday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_mon2);
-        edTuesday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_tue2);
-        edWednesday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_wed2);
-        edThursday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_thu2);
-        edFriday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_fri2);
-        edSaturday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_sat2);
-        edSunday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_sun2);
+        tvName = (TextView) VIEW.findViewById(R.id.fragment_schedule_tv_username);
+        btnSave = (ImageButton) VIEW.findViewById(R.id.fragment_schedule_btn_Save);
+        edMonday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_mon);
+        edTuesday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_tue);
+        edWednesday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_wed);
+        edThursday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_thu);
+        edFriday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_fri);
+        edSaturday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_sat);
+        edSunday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_sun);
+        edMonday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_mon2);
+        edTuesday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_tue2);
+        edWednesday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_wed2);
+        edThursday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_thu2);
+        edFriday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_fri2);
+        edSaturday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_sat2);
+        edSunday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_sun2);
 
         if (!isEditMode) {
             tvName.setText(getText(R.string.sche_1) + " - BS " + doctorName);
@@ -168,6 +168,6 @@ public class ScheduleFragment extends Fragment {
         });
 
 
-        return view;
+        return VIEW;
     }
 }

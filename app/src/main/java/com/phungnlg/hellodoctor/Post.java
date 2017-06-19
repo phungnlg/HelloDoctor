@@ -5,8 +5,15 @@ package com.phungnlg.hellodoctor;
  */
 
 public class Post {
-    public int vote, answer;
-    public String uid, body, title, username, tag, time, photoUrl;
+    private int vote;
+    private int answer;
+    private String uid;
+    private String body;
+    private String title;
+    private String username;
+    private String tag;
+    private String time;
+    private String photoUrl;
 
     public Post() {
     }
@@ -21,6 +28,46 @@ public class Post {
         this.username = _username;
         this.tag = _tag;
         this.time = _time;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public int getVote() {

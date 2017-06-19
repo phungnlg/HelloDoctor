@@ -57,16 +57,16 @@ public class CVFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_doctor_background, container, false);
+        final View VIEW = inflater.inflate(R.layout.fragment_doctor_background, container, false);
 
-        tvName = (TextView) view.findViewById(R.id.fragment_cv_tv_username);
-        etAcademicLevel = (EditText) view.findViewById(R.id.fragment_cv_et_academiclevel);
-        etBackground = (EditText) view.findViewById(R.id.fragment_cv_et_background);
-        etClinicName = (EditText) view.findViewById(R.id.fragment_cv_et_clinicname);
-        etClinicAddress = (EditText) view.findViewById(R.id.fragment_cv_et_clinicaddress);
-        etAward = (EditText) view.findViewById(R.id.fragment_cv_et_adward);
-        etAssociation = (EditText) view.findViewById(R.id.fragment_cv_et_association);
-        btnSave = (ImageButton) view.findViewById(R.id.fragment_cv_btn_Save);
+        tvName = (TextView) VIEW.findViewById(R.id.fragment_cv_tv_username);
+        etAcademicLevel = (EditText) VIEW.findViewById(R.id.fragment_cv_et_academiclevel);
+        etBackground = (EditText) VIEW.findViewById(R.id.fragment_cv_et_background);
+        etClinicName = (EditText) VIEW.findViewById(R.id.fragment_cv_et_clinicname);
+        etClinicAddress = (EditText) VIEW.findViewById(R.id.fragment_cv_et_clinicaddress);
+        etAward = (EditText) VIEW.findViewById(R.id.fragment_cv_et_adward);
+        etAssociation = (EditText) VIEW.findViewById(R.id.fragment_cv_et_association);
+        btnSave = (ImageButton) VIEW.findViewById(R.id.fragment_cv_btn_Save);
 
         if (!isEditMode) {
             btnSave.setVisibility(View.GONE);
@@ -144,6 +144,6 @@ public class CVFragment extends Fragment {
             }
         });
 
-        return view;
+        return VIEW;
     }
 }

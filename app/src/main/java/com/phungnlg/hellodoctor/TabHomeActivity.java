@@ -59,11 +59,11 @@ public class TabHomeActivity extends AppCompatActivity {
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
-        public final int PAGE_COUNT = 4;
+        private final int pageCount = 4;
 
         private final String[] mTabsTitle = {"Home", "Add User", "Notifications", "More"};
 
-        public MyPagerAdapter(FragmentManager fm) {
+        MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -93,7 +93,7 @@ public class TabHomeActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return PAGE_COUNT;
+            return pageCount;
         }
 
         @Override

@@ -67,12 +67,12 @@ public class ProfileFragment extends Fragment {
         tvTest = (TextView) view.findViewById(R.id.fragment_profile_tv_Test);
         listPost = (RecyclerView) view.findViewById(R.id.fragment_profile_list_user_post);
 
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-        layoutManager.setReverseLayout(true);
-        layoutManager.setStackFromEnd(true);
+        final LinearLayoutManager LAYOUTMANAGER = new LinearLayoutManager(this.getContext());
+        LAYOUTMANAGER.setReverseLayout(true);
+        LAYOUTMANAGER.setStackFromEnd(true);
         listPost.setNestedScrollingEnabled(false);
         listPost.setHasFixedSize(true);
-        listPost.setLayoutManager(layoutManager);
+        listPost.setLayoutManager(LAYOUTMANAGER);
         listPost.setFocusable(false);
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -106,7 +106,7 @@ public class ProfileFragment extends Fragment {
         });
         Query sortByTime = postDatabase.orderByChild("uid").equalTo(user.getUid());
 
-        final FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> firebaseRecyclerAdapter
+        final FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> ADAPTER
                 = new FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder>(
                 Post.class,
                 R.layout.item_news_feed,
@@ -116,24 +116,24 @@ public class ProfileFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(final NewsFeedFragment.Holder viewHolder, Post model, int position) {
-                final String post_key = getRef(position).getKey();
+                final String POSTKEY = getRef(position).getKey();
 
-                viewHolder.setBody(model.body);
-                viewHolder.setHashTag(model.tag);
-                viewHolder.setName(model.username);
-                viewHolder.setTime(model.time);
-                viewHolder.setTitle(model.title);
+                viewHolder.setBody(model.getBody());
+                viewHolder.setHashTag(model.getTag());
+                viewHolder.setName(model.getUsername());
+                viewHolder.setTime(model.getTime());
+                viewHolder.setTitle(model.getTitle());
                 viewHolder
-                        .setLikeCount("   " + model.vote + " người có câu hỏi tương tự, " + model.answer + " trả lời.");
-                viewHolder.setPhoto(model.photoUrl);
+                        .setLikeCount("   " + model.getVote() + " người có câu hỏi tương tự, " + model.getAnswer() + " trả lời.");
+                viewHolder.setPhoto(model.getPhotoUrl());
 
-                final long postPreviousVote = model.vote;
+                final long PREVIOUSVOTE = model.getVote();
 
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                viewHolder.getmView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Bundle bundle = new Bundle();
-                        bundle.putString("post_key", post_key);
+                        bundle.putString("post_key", POSTKEY);
 
                         SinglePostFragment f = new SinglePostFragment();
                         f.setArguments(bundle);
@@ -147,7 +147,7 @@ public class ProfileFragment extends Fragment {
 
             }
         };
-        listPost.setAdapter(firebaseRecyclerAdapter);
+        listPost.setAdapter(ADAPTER);
 
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,13 +182,13 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        ADAPTER.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = firebaseRecyclerAdapter.getItemCount();
+                int friendlyMessageCount = ADAPTER.getItemCount();
                 int lastVisiblePosition =
-                        layoutManager.findLastCompletelyVisibleItemPosition();
+                        LAYOUTMANAGER.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition == -1 ||
                     (positionStart >= (friendlyMessageCount - 1) &&
                      lastVisiblePosition == (positionStart - 1))) {

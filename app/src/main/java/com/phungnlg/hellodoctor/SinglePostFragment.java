@@ -111,9 +111,9 @@ public class SinglePostFragment extends Fragment {
         String outputPattern = "h:mm a dd-MM-yyyy";
         String inputPattern = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        final SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        final SimpleDateFormat OUTPUTFORMAT = new SimpleDateFormat(outputPattern);
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
-        final Date currentLocalTime = cal.getTime();
+        final Date LOCALTIME = cal.getTime();
 
         mCommentList = (RecyclerView) view.findViewById(R.id.fragment_single_post_list_comment);
         mCommentList.setNestedScrollingEnabled(false);
@@ -150,14 +150,14 @@ public class SinglePostFragment extends Fragment {
 
             }
         });
-        final DatabaseReference mDatabaseCommentList = FirebaseDatabase.getInstance().getReference().child("Comments")
+        final DatabaseReference DATABASECOMMENTLIST = FirebaseDatabase.getInstance().getReference().child("Comments")
                                                                        .child(postKey);
         FirebaseRecyclerAdapter<Comment, CommentHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Comment, CommentHolder>(
                 Comment.class,
                 R.layout.item_comment,
                 CommentHolder.class,
-                mDatabaseCommentList
+                DATABASECOMMENTLIST
         ) {
             @Override
             protected void populateViewHolder(CommentHolder viewHolder, Comment model, int position) {
@@ -168,7 +168,7 @@ public class SinglePostFragment extends Fragment {
         };
         mCommentList.setAdapter(firebaseRecyclerAdapter);
 
-        final DatabaseReference mDatabaseComment = FirebaseDatabase.getInstance().getReference().child("Comments")
+        final DatabaseReference DATABASECOMMENT = FirebaseDatabase.getInstance().getReference().child("Comments")
                                                                    .child(postKey).push();
 
         btnAnswer.setOnClickListener(new View.OnClickListener() {
@@ -185,13 +185,13 @@ public class SinglePostFragment extends Fragment {
 
                     }
                 });
-                mDatabaseComment.addValueEventListener(new ValueEventListener() {
+                DATABASECOMMENT.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        mDatabaseComment.child("uid").setValue(user.getUid());
-                        mDatabaseComment.child("comment").setValue(txtAnswer.getText().toString().trim());
-                        mDatabaseComment.child("name").setValue(user.getDisplayName());
-                        mDatabaseComment.child("time").setValue(outputFormat.format(currentLocalTime));
+                        DATABASECOMMENT.child("uid").setValue(user.getUid());
+                        DATABASECOMMENT.child("comment").setValue(txtAnswer.getText().toString().trim());
+                        DATABASECOMMENT.child("name").setValue(user.getDisplayName());
+                        DATABASECOMMENT.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
                     }
 
                     @Override
@@ -209,7 +209,7 @@ public class SinglePostFragment extends Fragment {
                         n.child("notification").setValue(
                                 user.getDisplayName() + " đã bình luận bài viết \"" + postTitle1.substring(0, 15) +
                                 "...\" của bạn");
-                        n.child("time").setValue(outputFormat.format(currentLocalTime));
+                        n.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
                     }
 
                     @Override

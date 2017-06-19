@@ -93,19 +93,17 @@ public class BookAppointmentFragment extends Fragment {
         btnProfile = (AppCompatButton) view.findViewById(R.id.fragment_book_btnProfile);
         coverPhoto = (ImageView) view.findViewById(R.id.fragment_book_iv_cover);
 
-
-
         database.getReference("message").child("user-doctor").child(doctorKey).addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        final String doctorAddress = dataSnapshot.child("address").getValue().toString();
-                        setCoverPhoto(getMapUrl(doctorAddress));
+                        final String DOCTORADDRESS = dataSnapshot.child("address").getValue().toString();
+                        setCoverPhoto(getMapUrl(DOCTORADDRESS));
 
                         coverPhoto.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + doctorAddress);
+                                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + DOCTORADDRESS);
                                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                                 mapIntent.setPackage("com.google.android.apps.maps");
                                 startActivity(mapIntent);
@@ -125,7 +123,7 @@ public class BookAppointmentFragment extends Fragment {
         String outputPattern = "h:mm a dd-MM-yyyy";
         String inputPattern = "yyyy-MM-dd HH:mm:ss";
         SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        final SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+        final SimpleDateFormat OUTPUTFORMAT = new SimpleDateFormat(outputPattern);
 
         tvBookTime = (TextView) view.findViewById(R.id.fragment_book_time);
         tvBookTime.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +135,7 @@ public class BookAppointmentFragment extends Fragment {
                         .listener(new SingleDateAndTimePickerDialog.Listener() {
                             @Override
                             public void onDateSelected(Date date) {
-                                tvBookTime.setText(outputFormat.format(date));
+                                tvBookTime.setText(OUTPUTFORMAT.format(date));
                                 mDate = date;
                             }
                         })
@@ -154,7 +152,7 @@ public class BookAppointmentFragment extends Fragment {
         doctorNotificationDatabase = database.getReference("Notifications").child(doctorKey).push();
 
         Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
-        final Date CURRENT_LOCAL_TIME = cal.getTime();
+        final Date LOCALTIME = cal.getTime();
 
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,13 +203,13 @@ public class BookAppointmentFragment extends Fragment {
                         clientNotificationDatabase.child("notification").setValue(
                                 "Đặt lịch khám gói BRONZE với bác sỹ " + doctorName + " lúc " + tvBookTime.getText() +
                                 " thành công!");
-                        clientNotificationDatabase.child("time").setValue(outputFormat.format(CURRENT_LOCAL_TIME));
+                        clientNotificationDatabase.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
 
                         doctorNotificationDatabase.child("isReaded").setValue(false);
                         doctorNotificationDatabase.child("notification")
                                                   .setValue(username + " đã đặt lịch khám gói BRONZE lúc " +
                                                             tvBookTime.getText());
-                        doctorNotificationDatabase.child("time").setValue(outputFormat.format(CURRENT_LOCAL_TIME));
+                        doctorNotificationDatabase.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
 
                         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
                     }
@@ -232,13 +230,13 @@ public class BookAppointmentFragment extends Fragment {
                         clientNotificationDatabase.child("notification").setValue(
                                 "Đặt lịch khám gói SILVER với bác sỹ " + doctorName + " lúc " + tvBookTime.getText() +
                                 " thành công!");
-                        clientNotificationDatabase.child("time").setValue(outputFormat.format(CURRENT_LOCAL_TIME));
+                        clientNotificationDatabase.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
 
                         doctorNotificationDatabase.child("isReaded").setValue(false);
                         doctorNotificationDatabase.child("notification")
                                                   .setValue(username + " đã đặt lịch khám gói SILVER lúc " +
                                                             tvBookTime.getText());
-                        doctorNotificationDatabase.child("time").setValue(outputFormat.format(CURRENT_LOCAL_TIME));
+                        doctorNotificationDatabase.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
 
                         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
                     }
@@ -259,13 +257,13 @@ public class BookAppointmentFragment extends Fragment {
                         clientNotificationDatabase.child("notification").setValue(
                                 "Đặt lịch khám gói GOLD với bác sỹ " + doctorName + " lúc " + tvBookTime.getText() +
                                 " thành công!");
-                        clientNotificationDatabase.child("time").setValue(outputFormat.format(CURRENT_LOCAL_TIME));
+                        clientNotificationDatabase.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
 
                         doctorNotificationDatabase.child("isReaded").setValue(false);
                         doctorNotificationDatabase.child("notification")
                                                   .setValue(username + " đã đặt lịch khám gói GOLD lúc " +
                                                             tvBookTime.getText());
-                        doctorNotificationDatabase.child("time").setValue(outputFormat.format(CURRENT_LOCAL_TIME));
+                        doctorNotificationDatabase.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
 
                         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
                     }
@@ -286,13 +284,13 @@ public class BookAppointmentFragment extends Fragment {
                         clientNotificationDatabase.child("notification").setValue(
                                 "Đặt lịch khám gói DIAMOND với bác sỹ " + doctorName + " lúc " + tvBookTime.getText() +
                                 " thành công!");
-                        clientNotificationDatabase.child("time").setValue(outputFormat.format(CURRENT_LOCAL_TIME));
+                        clientNotificationDatabase.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
 
                         doctorNotificationDatabase.child("isReaded").setValue(false);
                         doctorNotificationDatabase.child("notification").setValue(
                                 username + " " + getText(R.string.diamond_da_dat_lich_kham_luc) + " " +
                                 tvBookTime.getText());
-                        doctorNotificationDatabase.child("time").setValue(outputFormat.format(CURRENT_LOCAL_TIME));
+                        doctorNotificationDatabase.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
 
                         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
                     }
