@@ -10,13 +10,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
         android:scrollbars="none"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
         >
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:weightSum="1"
@@ -33,7 +33,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/calendar"
                     />
 
                 <android.support.v7.widget.CardView
@@ -69,14 +68,14 @@
                             />
 
                         <Spinner
-                            android:id="@+id/find_major"
+                            android:id="@+id/fragment_find_doctor_spn_major"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             ></Spinner>
 
                         <ImageButton
-                            android:id="@+id/find_search"
+                            android:id="@+id/fragment_find_doctor_btn_search"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="right"
@@ -87,7 +86,50 @@
                             />
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="84dp"
+                    android:orientation="vertical"
+                    android:layout_marginTop="30dp"
+                    >
+                <TextView
+                    android:id="@+id/fragment_find_doctor_tv_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:text="Vị trí hiện tại"
+                    android:gravity="center"
+                    android:textColor="@color/jet"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="3.40"
+                    />
+
+                    <com.phungnlg.hellodoctor.Others.MyEditText
+                        android:id="@+id/fragment_find_doctor_et_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:background="@drawable/rect"
+                        android:drawableRight="@drawable/ic_create_black_18dp"
+                        android:gravity="bottom"
+                        android:hint="Bạn đang ở..."
+                        android:maxLines="1"
+                        android:padding="12dp"
+                        android:textColor="@color/colorTex"
+                        android:textColorHint="@color/colorSub"
+                        android:textSize="14dp"
+                        android:elevation="8dp"
+                        />
+                </LinearLayout>
             </FrameLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_find_doctor_list"
+                android:layout_width="match_parent"
+                android:layout_height="358dp"
+                android:layout_weight="32.70"
+                >
+            </android.support.v7.widget.RecyclerView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -97,14 +139,6 @@
                 android:orientation="vertical"
                 >
             </LinearLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/find_list"
-                android:layout_width="match_parent"
-                android:layout_height="358dp"
-                android:layout_weight="32.70"
-                >
-            </android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

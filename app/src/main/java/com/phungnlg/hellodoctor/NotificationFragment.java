@@ -25,8 +25,8 @@ public class NotificationFragment extends Fragment {
     private int mPageNo;
     private DatabaseReference mDatabase;
     private FirebaseUser mUser;
-    private RecyclerView noti_list;
-    int themeColor;
+    private RecyclerView notificationList;
+    private int themeColor;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -47,29 +47,29 @@ public class NotificationFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              final Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.tab_notification, container, false);
+        final View view = inflater.inflate(R.layout.fragment_notification, container, false);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
 
-        noti_list = (RecyclerView) view.findViewById(R.id.noti_list);
-        noti_list.setHasFixedSize(true);
-        noti_list.setNestedScrollingEnabled(false);
-        //noti_list.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        noti_list.setLayoutManager(layoutManager);
+        notificationList = (RecyclerView) view.findViewById(R.id.fragment_notification_list_notification);
+        notificationList.setHasFixedSize(true);
+        notificationList.setNestedScrollingEnabled(false);
+        notificationList.setLayoutManager(layoutManager);
 
         FirebaseRecyclerAdapter<Notification, NotiHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Notification, NotiHolder>(
                 Notification.class,
-                R.layout.notification_item,
+                R.layout.item_notification,
                 NotiHolder.class,
                 mDatabase
         ) {
             @Override
-            protected void populateViewHolder(final NotiHolder viewHolder, final Notification model, final int position) {
-
+            protected void populateViewHolder(final NotiHolder viewHolder,
+                                              final Notification model,
+                                              final int position) {
                 final String notificationKey = getRef(position).getKey();
                 final Boolean isReaded;
                 viewHolder.setTime(model.getTime());
@@ -82,7 +82,7 @@ public class NotificationFragment extends Fragment {
                 });
             }
         };
-        noti_list.setAdapter(firebaseRecyclerAdapter);
+        notificationList.setAdapter(firebaseRecyclerAdapter);
         return view;
     }
 
@@ -94,23 +94,21 @@ public class NotificationFragment extends Fragment {
         public NotiHolder(final View itemView) {
             super(itemView);
             mView = itemView;
-            btnCheck = (ImageButton) mView.findViewById(R.id.noti_btnCheck);
-            noti = (TextView) mView.findViewById(R.id.noti_body);
+            btnCheck = (ImageButton) mView.findViewById(R.id.item_notification_ib_Check);
+            noti = (TextView) mView.findViewById(R.id.item_notification_tv_body);
         }
 
         public void setTime(final String notificationTime) {
-            TextView time = (TextView) mView.findViewById(R.id.noti_time);
+            TextView time = (TextView) mView.findViewById(R.id.item_notification_tv_time);
             time.setText(notificationTime);
         }
 
         public void setBody(final String notificationBody) {
-            TextView body = (TextView) mView.findViewById(R.id.noti_body);
+            TextView body = (TextView) mView.findViewById(R.id.item_notification_tv_body);
             body.setText(notificationBody);
         }
     }
-    /**
-     *
-     */
+
     public static NotificationFragment newInstance(final int pageNo) {
 
         Bundle args = new Bundle();

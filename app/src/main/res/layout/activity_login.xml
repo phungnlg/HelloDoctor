@@ -21,7 +21,7 @@
             android:layout_height="72dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="24dp"
-            android:src="@drawable/nurse2"
+            android:src="@drawable/ic_nurse_2"
             />
         <!--  Email Label -->
         <android.support.design.widget.TextInputLayout
@@ -32,7 +32,7 @@
             >
 
             <EditText
-                android:id="@+id/login_email"
+                android:id="@+id/activity_login_tv_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Email"
@@ -48,7 +48,7 @@
             >
 
             <EditText
-                android:id="@+id/login_password"
+                android:id="@+id/activity_login_tv_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/password"
@@ -57,7 +57,7 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_log_in"
+            android:id="@+id/activity_login_btn_log_in"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -67,7 +67,7 @@
             />
 
         <TextView
-            android:id="@+id/login_link_signup"
+            android:id="@+id/activity_login_link"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"

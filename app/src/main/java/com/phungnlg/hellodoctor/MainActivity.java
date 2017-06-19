@@ -3,15 +3,12 @@ package com.phungnlg.hellodoctor;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView t;
     private boolean isLoggedIn;
 
     private FirebaseAuth mAuth;
@@ -28,10 +25,10 @@ public class MainActivity extends AppCompatActivity {
         } else isLoggedIn = false;
 
         if (isLoggedIn) {
-            Intent intent = new Intent(this, TabHome.class);
+            Intent intent = new Intent(this, TabHomeActivity.class);
             startActivity(intent);
         } else {
-            Intent intent = new Intent(this, LogIn.class);
+            Intent intent = new Intent(this, LogInActivity.class);
             startActivity(intent);
         }
     }

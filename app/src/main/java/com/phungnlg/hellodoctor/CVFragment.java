@@ -27,11 +27,17 @@ public class CVFragment extends Fragment {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Profile").child(user.getUid());
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    TextView name;
-    EditText AL, BG, CN, CA, AW, AS;
-    ImageButton btnSave;
-    Boolean isEditMode;
-    String key;
+    private TextView tvName;
+    private EditText etAcademicLevel;
+    private EditText etBackground;
+    private EditText etClinicName;
+    private EditText etClinicAddress;
+    private EditText etAward;
+    private EditText etAssociation;
+    private ImageButton btnSave;
+    private Boolean isEditMode;
+    private String key;
+    private String doctorName;
 
     public CVFragment() {
     }
@@ -44,39 +50,40 @@ public class CVFragment extends Fragment {
         if (bundle != null) {
             isEditMode = bundle.getBoolean("isEditMode");
             key = bundle.getString("key");
+            doctorName = bundle.getString("doctorName");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.tab_cv, container, false);
+        final View view = inflater.inflate(R.layout.fragment_doctor_background, container, false);
 
-        name = (TextView) view.findViewById(R.id.cv_username);
-        AL = (EditText) view.findViewById(R.id.cv_academiclevel);
-        BG = (EditText) view.findViewById(R.id.cv_background);
-        CN = (EditText) view.findViewById(R.id.cv_clinicname);
-        CA = (EditText) view.findViewById(R.id.cv_clinicaddress);
-        AW = (EditText) view.findViewById(R.id.cv_adward);
-        AS = (EditText) view.findViewById(R.id.cv_association);
-        btnSave = (ImageButton) view.findViewById(R.id.cv_btnSave);
+        tvName = (TextView) view.findViewById(R.id.fragment_cv_tv_username);
+        etAcademicLevel = (EditText) view.findViewById(R.id.fragment_cv_et_academiclevel);
+        etBackground = (EditText) view.findViewById(R.id.fragment_cv_et_background);
+        etClinicName = (EditText) view.findViewById(R.id.fragment_cv_et_clinicname);
+        etClinicAddress = (EditText) view.findViewById(R.id.fragment_cv_et_clinicaddress);
+        etAward = (EditText) view.findViewById(R.id.fragment_cv_et_adward);
+        etAssociation = (EditText) view.findViewById(R.id.fragment_cv_et_association);
+        btnSave = (ImageButton) view.findViewById(R.id.fragment_cv_btn_Save);
 
         if (!isEditMode) {
             btnSave.setVisibility(View.GONE);
-            name.setText(R.string.cv_doctor);
-            name.setGravity(Gravity.CENTER);
-            AL.setEnabled(false);
-            BG.setEnabled(false);
-            CA.setEnabled(false);
-            CN.setEnabled(false);
-            AW.setEnabled(false);
-            AS.setEnabled(false);
+            tvName.setText(getText(R.string.cv_doctor) + " - BS " + doctorName);
+            tvName.setGravity(Gravity.CENTER);
+            etAcademicLevel.setEnabled(false);
+            etBackground.setEnabled(false);
+            etClinicAddress.setEnabled(false);
+            etClinicName.setEnabled(false);
+            etAward.setEnabled(false);
+            etAssociation.setEnabled(false);
         } else {
             DatabaseReference userInfo = database.getReference("User").child(key);
             userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    name.setText("Hồ sơ bác sỹ " + dataSnapshot.child("name").getValue().toString());
+                    tvName.setText("Hồ sơ bác sỹ " + dataSnapshot.child("name").getValue().toString());
                 }
 
                 @Override
@@ -90,12 +97,12 @@ public class CVFragment extends Fragment {
         m.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                AL.setHint(dataSnapshot.child("al").getValue().toString());
-                BG.setHint(dataSnapshot.child("bg").getValue().toString());
-                CN.setHint(dataSnapshot.child("cn").getValue().toString());
-                CA.setHint(dataSnapshot.child("ca").getValue().toString());
-                AW.setHint(dataSnapshot.child("aw").getValue().toString());
-                AS.setHint(dataSnapshot.child("as").getValue().toString());
+                etAcademicLevel.setHint(dataSnapshot.child("al").getValue().toString());
+                etBackground.setHint(dataSnapshot.child("bg").getValue().toString());
+                etClinicName.setHint(dataSnapshot.child("cn").getValue().toString());
+                etClinicAddress.setHint(dataSnapshot.child("ca").getValue().toString());
+                etAward.setHint(dataSnapshot.child("aw").getValue().toString());
+                etAssociation.setHint(dataSnapshot.child("as").getValue().toString());
 
 
             }
@@ -109,29 +116,29 @@ public class CVFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (AL.getText().toString() != null)
-                    mDatabase.child("al").setValue(AL.getText().toString());
-                else mDatabase.child("al").setValue(getText(R.string.cv_no_info));
+                if (etAcademicLevel.getText().toString() != null) {
+                    mDatabase.child("al").setValue(etAcademicLevel.getText().toString());
+                } else mDatabase.child("al").setValue(getText(R.string.cv_no_info));
 
-                if (BG.getText().toString() != null)
-                    mDatabase.child("bg").setValue(BG.getText().toString());
-                else mDatabase.child("bg").setValue(getText(R.string.cv_no_info));
+                if (etBackground.getText().toString() != null) {
+                    mDatabase.child("bg").setValue(etBackground.getText().toString());
+                } else mDatabase.child("bg").setValue(getText(R.string.cv_no_info));
 
-                if (CN.getText().toString() != null)
-                    mDatabase.child("cn").setValue(CN.getText().toString());
-                else mDatabase.child("cn").setValue(getText(R.string.cv_no_info));
+                if (etClinicName.getText().toString() != null) {
+                    mDatabase.child("cn").setValue(etClinicName.getText().toString());
+                } else mDatabase.child("cn").setValue(getText(R.string.cv_no_info));
 
-                if (CA.getText().toString() != null)
-                    mDatabase.child("ca").setValue(CA.getText().toString());
-                else mDatabase.child("ca").setValue(getText(R.string.cv_no_info));
+                if (etClinicAddress.getText().toString() != null) {
+                    mDatabase.child("ca").setValue(etClinicAddress.getText().toString());
+                } else mDatabase.child("ca").setValue(getText(R.string.cv_no_info));
 
-                if (AW.getText().toString() != null)
-                    mDatabase.child("aw").setValue(AW.getText().toString());
-                else mDatabase.child("aw").setValue(getText(R.string.cv_no_info));
+                if (etAward.getText().toString() != null) {
+                    mDatabase.child("aw").setValue(etAward.getText().toString());
+                } else mDatabase.child("aw").setValue(getText(R.string.cv_no_info));
 
-                if (AS.getText().toString() != null)
-                    mDatabase.child("as").setValue(AS.getText().toString());
-                else mDatabase.child("as").setValue(getText(R.string.cv_no_info));
+                if (etAssociation.getText().toString() != null) {
+                    mDatabase.child("as").setValue(etAssociation.getText().toString());
+                } else mDatabase.child("as").setValue(getText(R.string.cv_no_info));
 
                 Toast.makeText(getContext(), R.string.ho_so_cap_nhat_thanh_cong, Toast.LENGTH_SHORT).show();
             }

@@ -7,13 +7,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -22,29 +26,30 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.phungnlg.hellodoctor.Others.PlaceAutocompleteAdapter;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class SignUpForNormalUser extends AppCompatActivity {
+public class SignUpForNormalUserActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "SignupActivity";
 
-    @Bind(R.id.input_name)
-    EditText _nameText;
-    @Bind(R.id.input_address)
-    AutoCompleteTextView _addressText;
-    @Bind(R.id.input_email)
-    EditText _emailText;
-    @Bind(R.id.input_mobile)
-    EditText _mobileText;
-    @Bind(R.id.input_password)
-    EditText _passwordText;
-    @Bind(R.id.input_reEnterPassword)
-    EditText _reEnterPasswordText;
-    @Bind(R.id.btn_signup)
-    Button _signupButton;
-    @Bind(R.id.link_login)
-    TextView _loginLink;
+    @Bind(R.id.activity_sign_up_et_name)
+    EditText etName;
+    @Bind(R.id.activity_sign_up_et_address)
+    AutoCompleteTextView etAddress;
+    @Bind(R.id.activity_sign_up_et_email)
+    EditText etEmail;
+    @Bind(R.id.activity_sign_up_et_mobile)
+    EditText etMobileNumber;
+    @Bind(R.id.activity_sign_up_et_password)
+    EditText etPassword;
+    @Bind(R.id.activity_sign_up_et_reenter_password)
+    EditText etReenterPassword;
+    @Bind(R.id.activity_sign_up_btn_signup)
+    Button btnSignUp;
+    @Bind(R.id.activity_sign_up_link)
+    TextView linkSignIn;
 
     private boolean isSignUpSuccessfully;
 
@@ -52,12 +57,16 @@ public class SignUpForNormalUser extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mFirebaseUser;
 
+    private PlaceAutocompleteAdapter mAdapter;
+    protected GoogleApiClient mGoogleApiClient;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRef = database.getReference("message");
-    DatabaseReference myUser = database.getReference("User");
-    DatabaseReference myNotification = database.getReference("Notifications");
+    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
+            new LatLng(10.562400, 106.580979), new LatLng(10.998982, 106.699151));
 
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private DatabaseReference myRef = database.getReference("message");
+    private DatabaseReference myUser = database.getReference("User");
+    private DatabaseReference myNotification = database.getReference("Notifications");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,24 +74,28 @@ public class SignUpForNormalUser extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_for_normal_user);
         ButterKnife.bind(this);
 
-        String[] province = getResources().getStringArray(R.array.province);
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, province);
-        _addressText.setAdapter(adapter1);
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, 0 /* clientId */, this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+        mAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, BOUNDS_GREATER_SYDNEY,
+                                                null);
+        etAddress.setAdapter(mAdapter);
 
         mAuth = FirebaseAuth.getInstance();
 
-        _signupButton.setOnClickListener(new View.OnClickListener() {
+        btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 signup();
             }
         });
 
-        _loginLink.setOnClickListener(new View.OnClickListener() {
+        linkSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(), LogIn.class);
+                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
@@ -112,20 +125,20 @@ public class SignUpForNormalUser extends AppCompatActivity {
             onSignupFailed();
             return;
         }
-        _signupButton.setEnabled(false);
+        btnSignUp.setEnabled(false);
         //Hiển  thị dialog tạo tài khoản
-        final ProgressDialog progressDialog = new ProgressDialog(SignUpForNormalUser.this,
+        final ProgressDialog progressDialog = new ProgressDialog(SignUpForNormalUserActivity.this,
                                                                  R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
 
-        final String name = _nameText.getText().toString();
-        final String address = _addressText.getText().toString();
-        String email = _emailText.getText().toString();
-        final String mobile = _mobileText.getText().toString();
-        String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
+        final String name = etName.getText().toString();
+        final String address = etAddress.getText().toString();
+        String email = etEmail.getText().toString();
+        final String mobile = etMobileNumber.getText().toString();
+        String password = etPassword.getText().toString();
+        String reEnterPassword = etReenterPassword.getText().toString();
 
         mAuth.createUserWithEmailAndPassword(email, password)
              .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -135,7 +148,7 @@ public class SignUpForNormalUser extends AppCompatActivity {
                                  Task<AuthResult> task) {
                      isSignUpSuccessfully = true;
                      if (!task.isSuccessful()) {
-                         Toast.makeText(SignUpForNormalUser.this, R.string.create_account_successfully,
+                         Toast.makeText(SignUpForNormalUserActivity.this, R.string.create_account_successfully,
                                         Toast.LENGTH_SHORT).show();
                          isSignUpSuccessfully = false;
                      }
@@ -149,21 +162,21 @@ public class SignUpForNormalUser extends AppCompatActivity {
                                  Task<AuthResult> task) {
                      //Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                      mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-                     String uID = mFirebaseUser.getUid();
-                     myRef.child("user-normal").child(uID).child("name").setValue(name);
-                     myRef.child("user-normal").child(uID).child("address").setValue(address);
-                     myRef.child("user-normal").child(uID).child("mobile").setValue(mobile);
+                     String uid = mFirebaseUser.getUid();
+                     myRef.child("user-normal").child(uid).child("name").setValue(name);
+                     myRef.child("user-normal").child(uid).child("address").setValue(address);
+                     myRef.child("user-normal").child(uid).child("mobile").setValue(mobile);
 
-                     myUser.child(uID).child("bio").setValue(address);
-                     myUser.child(uID).child("following").setValue(0);
-                     myUser.child(uID).child("follower").setValue(0);
-                     myUser.child(uID).child("isDoctor").setValue(false);
-                     myUser.child(uID).child("name").setValue(name);
+                     myUser.child(uid).child("bio").setValue(address);
+                     myUser.child(uid).child("following").setValue(0);
+                     myUser.child(uid).child("follower").setValue(0);
+                     myUser.child(uid).child("isDoctor").setValue(false);
+                     myUser.child(uid).child("name").setValue(name);
 
-                     myNotification.child(uID).child("welcome").child("isReaded").setValue(false);
-                     myNotification.child(uID).child("welcome").child("notification")
+                     myNotification.child(uid).child("welcome").child("isReaded").setValue(false);
+                     myNotification.child(uid).child("welcome").child("notification")
                                    .setValue("Chào mừng bạn đến với HelloDoctor!");
-                     myNotification.child(uID).child("welcome").child("time").setValue("Xin chào!");
+                     myNotification.child(uid).child("welcome").child("time").setValue("Xin chào!");
 
 
                      UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
@@ -194,18 +207,18 @@ public class SignUpForNormalUser extends AppCompatActivity {
     public void onBackPressed() {
         // Disable going back to the MainActivity
         // moveTaskToBack(true);
-        Intent intent = new Intent(getApplicationContext(), SignUpType.class);
+        Intent intent = new Intent(getApplicationContext(), SignUpTypeActivity.class);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
     public void onSignupSuccess() {
-        _signupButton.setEnabled(true);
+        btnSignUp.setEnabled(true);
         setResult(RESULT_OK, null);
         Toast.makeText(getBaseContext(), R.string.create_account_successfully, Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(getApplicationContext(), TabHome.class);
+        Intent intent = new Intent(getApplicationContext(), TabHomeActivity.class);
         intent.putExtra("isDoctor", false);
         startActivity(intent);
         finish();
@@ -214,63 +227,75 @@ public class SignUpForNormalUser extends AppCompatActivity {
 
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), R.string.create_account_unsuccessfully, Toast.LENGTH_LONG).show();
-        _signupButton.setEnabled(true);
+        btnSignUp.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        String name = _nameText.getText().toString();
-        String address = _addressText.getText().toString();
-        String email = _emailText.getText().toString();
-        String mobile = _mobileText.getText().toString();
-        String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
+        String name = etName.getText().toString();
+        String address = etAddress.getText().toString();
+        String email = etEmail.getText().toString();
+        String mobile = etMobileNumber.getText().toString();
+        String password = etPassword.getText().toString();
+        String reEnterPassword = etReenterPassword.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
-            _nameText.setError(getText(R.string.enter_valid_name));
+            etName.setError(getText(R.string.enter_valid_name));
             valid = false;
         } else {
-            _nameText.setError(null);
+            etName.setError(null);
         }
 
         if (address.isEmpty()) {
-            _addressText.setError(getText(R.string.enter_valid_address));
+            etAddress.setError(getText(R.string.enter_valid_address));
             valid = false;
         } else {
-            _addressText.setError(null);
+            etAddress.setError(null);
         }
 
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError(getText(R.string.enter_valid_email));
+            etEmail.setError(getText(R.string.enter_valid_email));
             valid = false;
         } else {
-            _emailText.setError(null);
+            etEmail.setError(null);
         }
 
         if (mobile.isEmpty() || mobile.length() < 10) {
-            _mobileText.setError(getText(R.string.enter_valid_phone_number));
+            etMobileNumber.setError(getText(R.string.enter_valid_phone_number));
             valid = false;
         } else {
-            _mobileText.setError(null);
+            etMobileNumber.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError(getText(R.string.enter_valid_password));
+            etPassword.setError(getText(R.string.enter_valid_password));
             valid = false;
         } else {
-            _passwordText.setError(null);
+            etPassword.setError(null);
         }
 
         if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 ||
             !(reEnterPassword.equals(password))) {
-            _reEnterPasswordText.setError(getText(R.string.enter_matched_password));
+            etReenterPassword.setError(getText(R.string.enter_matched_password));
             valid = false;
         } else {
-            _reEnterPasswordText.setError(null);
+            etReenterPassword.setError(null);
         }
 
         return valid;
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+        Log.e(TAG, "onConnectionFailed: ConnectionResult.getErrorCode() = "
+                   + connectionResult.getErrorCode());
+
+        // TODO(Developer): Check error code and notify the user of error state and resolution.
+        Toast.makeText(this,
+                       "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
+                       Toast.LENGTH_SHORT).show();
     }
 }

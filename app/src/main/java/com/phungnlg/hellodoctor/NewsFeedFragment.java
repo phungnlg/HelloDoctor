@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -25,9 +24,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by Phil on 07/05/2017.
  */
@@ -35,30 +31,18 @@ import java.util.List;
 public class NewsFeedFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     private static final String TAG = "NewsFeedFragment";
-    String userName;
-    String userEmail;
-    TextView _userName;
-    TextView _userEmail;
 
-    public String tempName;
-
-    EditText write_post;
-
-    DatabaseReference ref;
-    DatabaseReference userRef;
+    private EditText etQuestion;
 
     private DatabaseReference mDatabase;
-
-    ArrayList<Post> listPost;
 
     private RecyclerView mBlogList;
 
     private Boolean isLiked = false;
+    private int mPageNo;
 
     public NewsFeedFragment() {
     }
-
-    private int mPageNo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,25 +53,23 @@ public class NewsFeedFragment extends Fragment {
 
         mDatabase = database.getReference("Posts");
         mDatabase.keepSynced(true);
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_newsfeed, container, false);
+        View view = inflater.inflate(R.layout.fragment_news_feed, container, false);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        mBlogList = (RecyclerView) view.findViewById(R.id.blog_list);
+        mBlogList = (RecyclerView) view.findViewById(R.id.fragment_newsfeed_list);
         mBlogList.setNestedScrollingEnabled(false);
         mBlogList.setHasFixedSize(true);
 
-        write_post = (EditText) view.findViewById(R.id.autotext);
-        write_post.setOnClickListener(new View.OnClickListener() {
+        etQuestion = (EditText) view.findViewById(R.id.fragment_newsfeed_et_question);
+        etQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 WritePostFragment f = new WritePostFragment();
@@ -104,13 +86,15 @@ public class NewsFeedFragment extends Fragment {
 
         final FirebaseRecyclerAdapter<Post, Holder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<Post, Holder>(
                 Post.class,
-                R.layout.feed_item,
+                R.layout.item_news_feed,
                 Holder.class,
-                //mDatabase
-                sortByTime
+                mDatabase
+                //sortByTime
         ) {
             @Override
-            protected void populateViewHolder(final Holder viewHolder, Post model, int position) {
+            protected void populateViewHolder(final Holder viewHolder,
+                                              Post model,
+                                              int position) {
                 final String post_key = getRef(position).getKey();
 
                 Log.d(TAG, "Data added");
@@ -164,7 +148,6 @@ public class NewsFeedFragment extends Fragment {
                 });
             }
         };
-        //firebaseRecyclerAdapter.notifyDataSetChanged();
 
         firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
@@ -173,9 +156,6 @@ public class NewsFeedFragment extends Fragment {
                 int friendlyMessageCount = firebaseRecyclerAdapter.getItemCount();
                 int lastVisiblePosition =
                         layoutManager.findLastCompletelyVisibleItemPosition();
-                // If the recycler view is initially being loaded or the
-                // user is at the bottom of the list, scroll to the bottom
-                // of the list to show the newly added message.
                 if (lastVisiblePosition == -1
                     || (positionStart >= (friendlyMessageCount - 1)
                         && lastVisiblePosition == (positionStart - 1))) {
@@ -183,6 +163,7 @@ public class NewsFeedFragment extends Fragment {
                 }
             }
         });
+
         mBlogList.setLayoutManager(layoutManager);
         mBlogList.setAdapter(firebaseRecyclerAdapter);
 
@@ -206,47 +187,47 @@ public class NewsFeedFragment extends Fragment {
     }
 
     public static class Holder extends RecyclerView.ViewHolder {
-        View mView;
-        ImageButton btnLike;
+        public View mView;
+        public ImageButton btnLike;
 
         public Holder(View itemView) {
             super(itemView);
             mView = itemView;
-            btnLike = (ImageButton) mView.findViewById(R.id.newsfeed_btnLike);
+            btnLike = (ImageButton) mView.findViewById(R.id.item_newsfeed_ib_like);
         }
 
         public void setName(String _name) {
-            TextView name = (TextView) mView.findViewById(R.id.newsname);
+            TextView name = (TextView) mView.findViewById(R.id.item_newsfeed_tv_user_name);
             name.setText(_name);
         }
 
         public void setTime(String _time) {
-            TextView time = (TextView) mView.findViewById(R.id.newstime);
+            TextView time = (TextView) mView.findViewById(R.id.item_newsfeed_tv_post_time);
             time.setText(_time);
         }
 
         public void setTitle(String _title) {
-            TextView body = (TextView) mView.findViewById(R.id.news);
+            TextView body = (TextView) mView.findViewById(R.id.item_newsfeed_tv_post_title);
             body.setText(_title);
         }
 
         public void setBody(String _body) {
-            TextView body = (TextView) mView.findViewById(R.id.newssub);
+            TextView body = (TextView) mView.findViewById(R.id.item_newsfeed_tv_post_body);
             body.setText(_body);
         }
 
         public void setHashTag(String _hashTag) {
-            TextView hashTag = (TextView) mView.findViewById(R.id.intrest);
+            TextView hashTag = (TextView) mView.findViewById(R.id.item_newsfeed_tv_post_category);
             hashTag.setText(_hashTag);
         }
 
         public void setLikeCount(String _like) {
-            TextView t = (TextView) mView.findViewById(R.id.newsfeed_txtLikeCount);
+            TextView t = (TextView) mView.findViewById(R.id.item_newsfeed_tv_like_count);
             t.setText(_like);
         }
 
-        public void setPhoto(String photoUrl){
-            ImageView iv = (ImageView) mView.findViewById(R.id.feed_iv_photo);
+        public void setPhoto(String photoUrl) {
+            ImageView iv = (ImageView) mView.findViewById(R.id.item_newsfeed_iv_cover_photo);
             Picasso.with(mView.getContext())
                    .load(photoUrl)
                    .resize(300, 150)

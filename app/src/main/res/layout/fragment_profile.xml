@@ -26,15 +26,15 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:background="@drawable/bg"
+                android:background="@drawable/bg_profile"
                 >
                 <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/profile_image"
+                    android:id="@+id/fragment_profile_iv_image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/nurse4"
+                    android:src="@drawable/ic_nurse_4"
                     app:riv_border_color="#fff"
                     app:riv_border_width="5dip"
                     app:riv_corner_radius="30dip"
@@ -50,7 +50,7 @@
                 android:orientation="vertical"
                 >
                 <com.phungnlg.hellodoctor.Others.MyTextView
-                    android:id="@+id/profile_name"
+                    android:id="@+id/fragment_profile_tv_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -63,7 +63,7 @@
                     />
 
                 <com.phungnlg.hellodoctor.Others.MyTextView
-                    android:id="@+id/profile_bio"
+                    android:id="@+id/fragment_profile_tv_user_bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -90,7 +90,6 @@
                     >
 
                     <ImageView
-                        android:id="@+id/imageView"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
@@ -107,7 +106,7 @@
                         >
 
                         <com.phungnlg.hellodoctor.Others.MyTextView
-                            android:id="@+id/profile_following"
+                            android:id="@+id/fragment_profile_tv_user_following"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="852"
@@ -132,7 +131,7 @@
                         >
 
                         <com.phungnlg.hellodoctor.Others.MyTextView
-                            android:id="@+id/profile_follower"
+                            android:id="@+id/fragment_profile_tv_user_follower"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="5562"
@@ -157,7 +156,7 @@
                     >
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/profile_btnProfile"
+                        android:id="@+id/fragment_profile_btn_profile"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -166,7 +165,7 @@
                         />
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/profile_btnSchedule"
+                        android:id="@+id/fragment_profile_btn_Schedule"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -182,7 +181,7 @@
                     >
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/profile_forTest"
+                        android:id="@+id/fragment_profile_tv_Test"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
@@ -198,7 +197,7 @@
                 </LinearLayout>
             </LinearLayout>
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/profile_post"
+                android:id="@+id/fragment_profile_list_user_post"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="7dp"

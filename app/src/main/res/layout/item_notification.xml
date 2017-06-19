@@ -32,37 +32,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:weightSum="1"
                 >
 
-                <ImageView
-                    android:id="@+id/comment_image"
-                    android:layout_width="45px"
-                    android:layout_height="45px"
-                    android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_launcher"
-                    />
-
                 <com.phungnlg.hellodoctor.Others.MyTextView
-                    android:id="@+id/comment_name"
-                    android:layout_width="160dp"
+                    android:id="@+id/item_notification_tv_time"
+                    android:layout_width="98dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="16dp"
-                    android:text="Fox News ."
-                    android:textColor="@color/listsub1"
-                    android:textSize="14dp"
-                    android:textStyle="bold"
-                    />
-
-                <com.phungnlg.hellodoctor.Others.MyTextView
-                    android:id="@+id/comment_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="right"
+                    android:layout_weight="0.99"
+                    android:gravity="left"
                     android:text="2 day ago"
                     android:textColor="@color/listsub1"
-                    android:textSize="12sp"
+                    android:textSize="14dp"
+                    />
+
+                <ImageButton
+                    android:id="@+id/item_notification_ib_Check"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:src="@drawable/ic_check_black_18dp"
                     />
             </LinearLayout>
 
@@ -81,12 +71,10 @@
                     >
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/comment_content"
+                        android:id="@+id/item_notification_tv_body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:autoLink="all"
-                        android:clickable="true"
                         android:lineSpacingExtra="3dp"
                         android:text="Why even a President Trump couldn’t make Apple manufacture iPhone in the state."
                         android:textColor="@color/listsub1"

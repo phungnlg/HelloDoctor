@@ -34,7 +34,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="250dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/calendar"
+                    android:src="@drawable/bg_calendar"
                     />
 
                 <android.support.v7.widget.CardView
@@ -50,7 +50,7 @@
                     >
 
                     <com.phungnlg.hellodoctor.Others.MyEditText
-                        android:id="@+id/book_time"
+                        android:id="@+id/fragment_book_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rect"
@@ -76,7 +76,7 @@
                     >
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/book_doctorname"
+                        android:id="@+id/fragment_book_doctorname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="110dp"
@@ -97,7 +97,7 @@
                     >
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/book_btnProfile"
+                        android:id="@+id/fragment_book_btnProfile"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -106,7 +106,7 @@
                         />
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/book_btnSchedule"
+                        android:id="@+id/fragment_book_btnSchedule"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -136,7 +136,7 @@
                     />
 
                 <com.phungnlg.hellodoctor.Others.MyEditText
-                    android:id="@+id/book_bronze"
+                    android:id="@+id/fragment_book_btn_bronze"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -156,7 +156,7 @@
                     />
 
                 <com.phungnlg.hellodoctor.Others.MyEditText
-                    android:id="@+id/book_silver"
+                    android:id="@+id/fragment_book_btn_silver"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -176,7 +176,7 @@
                     />
 
                 <com.phungnlg.hellodoctor.Others.MyEditText
-                    android:id="@+id/book_gold"
+                    android:id="@+id/fragment_book_btn_gold"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -196,7 +196,7 @@
                     />
 
                 <com.phungnlg.hellodoctor.Others.MyEditText
-                    android:id="@+id/book_diamond"
+                    android:id="@+id/fragment_book_btn_diamond"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"

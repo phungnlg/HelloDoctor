@@ -43,15 +43,15 @@
                     >
 
                     <ImageView
-                        android:id="@+id/newsimage1"
+                        android:id="@+id/fragment_single_post_iv_user_pic"
                         android:layout_width="45px"
                         android:layout_height="45px"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_launcher"
+                        android:src="@drawable/img_profile_picture_small"
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/tab_name"
+                        android:id="@+id/fragment_single_post_tv_user_name"
                         android:layout_width="162dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -63,7 +63,7 @@
                         />
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/tab_time"
+                        android:id="@+id/fragment_single_post_tv_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -90,7 +90,7 @@
                         >
 
                         <com.phungnlg.hellodoctor.Others.MyTextView
-                            android:id="@+id/tab_title"
+                            android:id="@+id/fragment_single_post_tv_title"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:lineSpacingExtra="3dp"
@@ -101,7 +101,7 @@
                             />
 
                         <com.phungnlg.hellodoctor.Others.MyTextView
-                            android:id="@+id/tab_body"
+                            android:id="@+id/fragment_single_post_tv_body"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
@@ -113,7 +113,7 @@
                             />
 
                         <com.phungnlg.hellodoctor.Others.MyTextView
-                            android:id="@+id/tab_tag"
+                            android:id="@+id/fragment_single_post_tv_category"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
@@ -137,7 +137,7 @@
                                 />
 
                             <TextView
-                                android:id="@+id/tab_txtLikeCount"
+                                android:id="@+id/fragment_single_post_tv_like_count"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Có 3 người có cùng câu hỏi, 2 trả lời."
@@ -157,7 +157,7 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/comment_list"
+            android:id="@+id/fragment_single_post_list_comment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/linearLayout"
@@ -201,7 +201,7 @@
                 >
 
                 <EditText
-                    android:id="@+id/tab_txtComment"
+                    android:id="@+id/fragment_single_post_et_comment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -212,7 +212,7 @@
             </android.support.design.widget.TextInputLayout>
 
             <ImageButton
-                android:id="@+id/tab_btnSendComment"
+                android:id="@+id/fragment_single_post_ib_send"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="23dp"

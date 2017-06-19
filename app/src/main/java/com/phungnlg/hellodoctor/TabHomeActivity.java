@@ -1,6 +1,5 @@
 package com.phungnlg.hellodoctor;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -17,10 +16,10 @@ import android.widget.ImageView;
  * Created by Phil on 07/05/2017.
  */
 
-public class TabHome extends AppCompatActivity {
+public class TabHomeActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
 
-    FloatingActionButton fab;
+    private FloatingActionButton fab;
 
     private int[] mTabsIcons = {
             R.drawable.ic_home_white_24dp,
@@ -31,7 +30,7 @@ public class TabHome extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.tab_home);
+        setContentView(R.layout.activity_home);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         hideFloatingActionButton();
@@ -39,8 +38,9 @@ public class TabHome extends AppCompatActivity {
         // Setup the viewPager
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        if (viewPager != null)
+        if (viewPager != null) {
             viewPager.setAdapter(pagerAdapter);
+        }
 
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         if (mTabLayout != null) {
@@ -48,14 +48,14 @@ public class TabHome extends AppCompatActivity {
 
             for (int i = 0; i < mTabLayout.getTabCount(); i++) {
                 TabLayout.Tab tab = mTabLayout.getTabAt(i);
-                if (tab != null)
+                if (tab != null) {
                     tab.setCustomView(pagerAdapter.getTabView(i));
+                }
             }
 
             mTabLayout.getTabAt(0).getCustomView().setSelected(true);
         }
     }
-
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
@@ -68,7 +68,7 @@ public class TabHome extends AppCompatActivity {
         }
 
         public View getTabView(int position) {
-            View view = LayoutInflater.from(TabHome.this).inflate(R.layout.tab_custom, null);
+            View view = LayoutInflater.from(TabHomeActivity.this).inflate(R.layout.activity_custom, null);
             ImageView icon = (ImageView) view.findViewById(R.id.icon);
             icon.setImageResource(mTabsIcons[position]);
             return view;

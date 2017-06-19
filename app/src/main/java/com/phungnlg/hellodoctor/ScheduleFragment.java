@@ -28,12 +28,25 @@ public class ScheduleFragment extends Fragment {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Schedule").child(user.getUid());
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    TextView name;
-    EditText mon, tue, wed, thu, fri, sat, sun;
-    EditText mon2, tue2, wed2, thu2, fri2, sat2, sun2;
-    ImageButton btnSave;
-    Boolean isEditMode;
-    String key;
+    private TextView tvName;
+    private EditText edMonday;
+    private EditText edTuesday;
+    private EditText edWednesday;
+    private EditText edThursday;
+    private EditText edFriday;
+    private EditText edSaturday;
+    private EditText edSunday;
+    private EditText edMonday2;
+    private EditText edTuesday2;
+    private EditText edWednesday2;
+    private EditText edThursday2;
+    private EditText edFriday2;
+    private EditText edSaturday2;
+    private EditText edSunday2;
+    private ImageButton btnSave;
+    private Boolean isEditMode;
+    private String key;
+    private String doctorName;
 
     public ScheduleFragment() {
     }
@@ -46,56 +59,56 @@ public class ScheduleFragment extends Fragment {
         if (bundle != null) {
             isEditMode = bundle.getBoolean("isEditMode");
             key = bundle.getString("key");
+            doctorName = bundle.getString("doctorName");
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.tab_schedule, container, false);
+        final View view = inflater.inflate(R.layout.fragment_doctor_schedule, container, false);
 
-        name = (TextView) view.findViewById(R.id.sche_username);
-        btnSave = (ImageButton) view.findViewById(R.id.sche_btnSave);
-        mon = (EditText) view.findViewById(R.id.sche_mon);
-        tue = (EditText) view.findViewById(R.id.sche_tue);
-        wed = (EditText) view.findViewById(R.id.sche_wed);
-        thu = (EditText) view.findViewById(R.id.sche_thu);
-        fri = (EditText) view.findViewById(R.id.sche_fri);
-        sat = (EditText) view.findViewById(R.id.sche_sat);
-        sun = (EditText) view.findViewById(R.id.sche_sun);
-        mon2 = (EditText) view.findViewById(R.id.sche_mon2);
-        tue2 = (EditText) view.findViewById(R.id.sche_tue2);
-        wed2 = (EditText) view.findViewById(R.id.sche_wed2);
-        thu2 = (EditText) view.findViewById(R.id.sche_thu2);
-        fri2 = (EditText) view.findViewById(R.id.sche_fri2);
-        sat2 = (EditText) view.findViewById(R.id.sche_sat2);
-        sun2 = (EditText) view.findViewById(R.id.sche_sun2);
+        tvName = (TextView) view.findViewById(R.id.fragment_schedule_tv_username);
+        btnSave = (ImageButton) view.findViewById(R.id.fragment_schedule_btn_Save);
+        edMonday = (EditText) view.findViewById(R.id.fragment_schedule_et_mon);
+        edTuesday = (EditText) view.findViewById(R.id.fragment_schedule_et_tue);
+        edWednesday = (EditText) view.findViewById(R.id.fragment_schedule_et_wed);
+        edThursday = (EditText) view.findViewById(R.id.fragment_schedule_et_thu);
+        edFriday = (EditText) view.findViewById(R.id.fragment_schedule_et_fri);
+        edSaturday = (EditText) view.findViewById(R.id.fragment_schedule_et_sat);
+        edSunday = (EditText) view.findViewById(R.id.fragment_schedule_et_sun);
+        edMonday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_mon2);
+        edTuesday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_tue2);
+        edWednesday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_wed2);
+        edThursday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_thu2);
+        edFriday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_fri2);
+        edSaturday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_sat2);
+        edSunday2 = (EditText) view.findViewById(R.id.fragment_schedule_et_sun2);
 
         if (!isEditMode) {
-            name.setText(R.string.sche_1);
-            name.setGravity(Gravity.CENTER);
+            tvName.setText(getText(R.string.sche_1) + " - BS " + doctorName);
+            tvName.setGravity(Gravity.CENTER);
             btnSave.setVisibility(View.GONE);
-            mon.setEnabled(false);
-            mon2.setEnabled(false);
-            tue.setEnabled(false);
-            tue2.setEnabled(false);
-            wed.setEnabled(false);
-            wed2.setEnabled(false);
-            thu.setEnabled(false);
-            thu2.setEnabled(false);
-            fri.setEnabled(false);
-            fri2.setEnabled(false);
-            sat.setEnabled(false);
-            sat2.setEnabled(false);
-            sun.setEnabled(false);
-            sun2.setEnabled(false);
+            edMonday.setEnabled(false);
+            edMonday2.setEnabled(false);
+            edTuesday.setEnabled(false);
+            edTuesday2.setEnabled(false);
+            edWednesday.setEnabled(false);
+            edWednesday2.setEnabled(false);
+            edThursday.setEnabled(false);
+            edThursday2.setEnabled(false);
+            edFriday.setEnabled(false);
+            edFriday2.setEnabled(false);
+            edSaturday.setEnabled(false);
+            edSaturday2.setEnabled(false);
+            edSunday.setEnabled(false);
+            edSunday2.setEnabled(false);
         } else {
             DatabaseReference userInfo = database.getReference("User").child(key);
             userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    name.setText(
+                    tvName.setText(
                             "Chào " + dataSnapshot.child("name").getValue().toString() + ", hãy sắp xếp lịch của bạn");
                 }
 
@@ -110,20 +123,20 @@ public class ScheduleFragment extends Fragment {
         schedule.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mon.setText(dataSnapshot.child("Mon").child("from").getValue().toString());
-                mon2.setText(dataSnapshot.child("Mon").child("to").getValue().toString());
-                tue.setText(dataSnapshot.child("Tue").child("from").getValue().toString());
-                tue2.setText(dataSnapshot.child("Tue").child("to").getValue().toString());
-                wed.setText(dataSnapshot.child("Wed").child("from").getValue().toString());
-                wed2.setText(dataSnapshot.child("Wed").child("to").getValue().toString());
-                thu.setText(dataSnapshot.child("Thu").child("from").getValue().toString());
-                thu2.setText(dataSnapshot.child("Thu").child("to").getValue().toString());
-                fri.setText(dataSnapshot.child("Fri").child("from").getValue().toString());
-                fri2.setText(dataSnapshot.child("Fri").child("to").getValue().toString());
-                sat.setText(dataSnapshot.child("Sat").child("from").getValue().toString());
-                sat2.setText(dataSnapshot.child("Sat").child("to").getValue().toString());
-                sun.setText(dataSnapshot.child("Sun").child("from").getValue().toString());
-                sun2.setText(dataSnapshot.child("Sun").child("to").getValue().toString());
+                edMonday.setText(dataSnapshot.child("Mon").child("from").getValue().toString());
+                edMonday2.setText(dataSnapshot.child("Mon").child("to").getValue().toString());
+                edTuesday.setText(dataSnapshot.child("Tue").child("from").getValue().toString());
+                edTuesday2.setText(dataSnapshot.child("Tue").child("to").getValue().toString());
+                edWednesday.setText(dataSnapshot.child("Wed").child("from").getValue().toString());
+                edWednesday2.setText(dataSnapshot.child("Wed").child("to").getValue().toString());
+                edThursday.setText(dataSnapshot.child("Thu").child("from").getValue().toString());
+                edThursday2.setText(dataSnapshot.child("Thu").child("to").getValue().toString());
+                edFriday.setText(dataSnapshot.child("Fri").child("from").getValue().toString());
+                edFriday2.setText(dataSnapshot.child("Fri").child("to").getValue().toString());
+                edSaturday.setText(dataSnapshot.child("Sat").child("from").getValue().toString());
+                edSaturday2.setText(dataSnapshot.child("Sat").child("to").getValue().toString());
+                edSunday.setText(dataSnapshot.child("Sun").child("from").getValue().toString());
+                edSunday2.setText(dataSnapshot.child("Sun").child("to").getValue().toString());
             }
 
             @Override
@@ -135,20 +148,20 @@ public class ScheduleFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDatabase.child("Mon").child("from").setValue(mon.getText().toString());
-                mDatabase.child("Mon").child("to").setValue(mon2.getText().toString());
-                mDatabase.child("Tue").child("from").setValue(tue.getText().toString());
-                mDatabase.child("Tue").child("to").setValue(tue2.getText().toString());
-                mDatabase.child("Wed").child("from").setValue(wed.getText().toString());
-                mDatabase.child("Wed").child("to").setValue(wed2.getText().toString());
-                mDatabase.child("Thu").child("from").setValue(thu.getText().toString());
-                mDatabase.child("Thu").child("to").setValue(thu2.getText().toString());
-                mDatabase.child("Fri").child("from").setValue(fri.getText().toString());
-                mDatabase.child("Fri").child("to").setValue(fri2.getText().toString());
-                mDatabase.child("Sat").child("from").setValue(sat.getText().toString());
-                mDatabase.child("Sat").child("to").setValue(sat2.getText().toString());
-                mDatabase.child("Sun").child("from").setValue(sun.getText().toString());
-                mDatabase.child("Sun").child("to").setValue(sun2.getText().toString());
+                mDatabase.child("Mon").child("from").setValue(edMonday.getText().toString());
+                mDatabase.child("Mon").child("to").setValue(edMonday2.getText().toString());
+                mDatabase.child("Tue").child("from").setValue(edTuesday.getText().toString());
+                mDatabase.child("Tue").child("to").setValue(edTuesday2.getText().toString());
+                mDatabase.child("Wed").child("from").setValue(edWednesday.getText().toString());
+                mDatabase.child("Wed").child("to").setValue(edWednesday2.getText().toString());
+                mDatabase.child("Thu").child("from").setValue(edThursday.getText().toString());
+                mDatabase.child("Thu").child("to").setValue(edThursday2.getText().toString());
+                mDatabase.child("Fri").child("from").setValue(edFriday.getText().toString());
+                mDatabase.child("Fri").child("to").setValue(edFriday2.getText().toString());
+                mDatabase.child("Sat").child("from").setValue(edSaturday.getText().toString());
+                mDatabase.child("Sat").child("to").setValue(edSaturday2.getText().toString());
+                mDatabase.child("Sun").child("from").setValue(edSunday.getText().toString());
+                mDatabase.child("Sun").child("to").setValue(edSunday2.getText().toString());
 
                 Toast.makeText(getContext(), R.string.sche_update_successfully, Toast.LENGTH_SHORT).show();
             }

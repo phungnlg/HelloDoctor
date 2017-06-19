@@ -28,7 +28,7 @@
             >
 
             <com.phungnlg.hellodoctor.Others.MyTextView
-                android:id="@+id/cv_username"
+                android:id="@+id/fragment_cv_tv_username"
                 android:layout_width="236dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.98"
@@ -39,7 +39,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/cv_btnSave"
+                android:id="@+id/fragment_cv_btn_Save"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
@@ -62,7 +62,7 @@
             />
 
         <com.phungnlg.hellodoctor.Others.MyEditText
-            android:id="@+id/cv_academiclevel"
+            android:id="@+id/fragment_cv_et_academiclevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -92,7 +92,7 @@
             />
 
         <com.phungnlg.hellodoctor.Others.MyEditText
-            android:id="@+id/cv_background"
+            android:id="@+id/fragment_cv_et_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -122,7 +122,7 @@
             />
 
         <com.phungnlg.hellodoctor.Others.MyEditText
-            android:id="@+id/cv_clinicname"
+            android:id="@+id/fragment_cv_et_clinicname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -152,7 +152,7 @@
             />
 
         <com.phungnlg.hellodoctor.Others.MyEditText
-            android:id="@+id/cv_clinicaddress"
+            android:id="@+id/fragment_cv_et_clinicaddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -182,7 +182,7 @@
             />
 
         <com.phungnlg.hellodoctor.Others.MyEditText
-            android:id="@+id/cv_adward"
+            android:id="@+id/fragment_cv_et_adward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -212,7 +212,7 @@
             />
 
         <com.phungnlg.hellodoctor.Others.MyEditText
-            android:id="@+id/cv_association"
+            android:id="@+id/fragment_cv_et_association"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"

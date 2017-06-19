@@ -20,29 +20,28 @@ public class MoreFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     private static final String TAG = "More";
 
-    EditText signOut;
-    EditText book;
+    private EditText btnSignOut;
+    private EditText book;
 
     public MoreFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.tab_more, container, false);
+        View view = inflater.inflate(R.layout.fragment_more_utilities, container, false);
 
-        signOut = (EditText) view.findViewById(R.id.more_4);
-        book = (EditText) view.findViewById(R.id.more_2);
+        btnSignOut = (EditText) view.findViewById(R.id.fragment_more_btn_sign_out);
+        book = (EditText) view.findViewById(R.id.fragment_more_btn_find_doctor);
 
-        signOut.setOnClickListener(new View.OnClickListener() {
+        btnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Clicked Sign Out");
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getContext(), LogIn.class);
+                Intent intent = new Intent(getContext(), LogInActivity.class);
                 startActivity(intent);
             }
         });

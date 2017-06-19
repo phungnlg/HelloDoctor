@@ -5,7 +5,8 @@ package com.phungnlg.hellodoctor;
  */
 
 public class Notification {
-    private String time, notification;
+    private String time;
+    private String notification;
     private Boolean isReaded;
 
     public Notification() {
@@ -32,14 +33,6 @@ public class Notification {
     public void setNotification(String notification) {
         this.notification = notification;
     }
-
-//    public String getIsReaded() {
-//        return isReaded;
-//    }
-//
-//    public void setIsReaded(String isReaded) {
-//        this.isReaded = isReaded;
-//    }
 
     public Boolean getReaded() {
         return isReaded;

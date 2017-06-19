@@ -13,10 +13,10 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="3dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="3dp"
         android:background="#fff"
         android:orientation="vertical"
         >
@@ -35,16 +35,16 @@
                 >
 
                 <ImageView
-                    android:id="@+id/newsimage1"
+                    android:id="@+id/item_comment_iv_photo"
                     android:layout_width="45px"
                     android:layout_height="45px"
                     android:scaleType="centerCrop"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/img_profile_picture_small"
                     />
 
                 <com.phungnlg.hellodoctor.Others.MyTextView
-                    android:id="@+id/find_name"
-                    android:layout_width="191dp"
+                    android:id="@+id/item_comment_tv_name"
+                    android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="16dp"
@@ -55,21 +55,21 @@
                     />
 
                 <com.phungnlg.hellodoctor.Others.MyTextView
-                    android:id="@+id/find_address"
+                    android:id="@+id/item_comment_tv_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="right"
                     android:text="2 day ago"
                     android:textColor="@color/listsub1"
-                    android:textSize="14dp"
+                    android:textSize="12sp"
                     />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal"
                 >
 
@@ -81,34 +81,17 @@
                     >
 
                     <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/find_bio"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:lineSpacingExtra="3dp"
-                        android:text="Why even a President Trump couldn’t make Apple manufacture iPhone in the state."
-                        android:textColor="@color/listsub1"
-                        android:textSize="15dp"
-                        />
-
-                    <com.phungnlg.hellodoctor.Others.MyTextView
-                        android:id="@+id/find_mobile"
+                        android:id="@+id/item_comment_tv_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:maxLines="1"
-                        android:text="You've shown interest in iPhone"
-                        android:textColor="@color/listsub2"
-                        android:textSize="15dp"
+                        android:autoLink="all"
+                        android:clickable="true"
+                        android:lineSpacingExtra="3dp"
+                        android:text="Why even a President Trump couldn’t make Apple manufacture iPhone in the state."
+                        android:textColor="@color/listsub1"
+                        android:textSize="14dp"
                         />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingTop="0dp"
-                        >
-                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout

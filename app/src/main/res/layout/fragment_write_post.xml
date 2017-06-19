@@ -20,7 +20,7 @@
         >
 
         <com.phungnlg.hellodoctor.Others.MyTextView
-            android:id="@+id/post_username"
+            android:id="@+id/fragment_write_post_tv_username"
             android:layout_width="236dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.98"
@@ -31,7 +31,7 @@
             />
 
         <ImageButton
-            android:id="@+id/post_send"
+            android:id="@+id/fragment_write_post_ib_send"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
@@ -41,7 +41,7 @@
     </LinearLayout>
 
     <com.phungnlg.hellodoctor.Others.MyEditText
-        android:id="@+id/post_title"
+        android:id="@+id/fragment_write_post_et_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -61,7 +61,7 @@
         />
 
     <com.phungnlg.hellodoctor.Others.MyEditText
-        android:id="@+id/post_body"
+        android:id="@+id/fragment_write_post_et_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
@@ -89,7 +89,6 @@
         >
 
         <TextView
-            android:id="@+id/textView3"
             android:layout_width="114dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -99,7 +98,7 @@
             />
 
         <Spinner
-            android:id="@+id/post_major"
+            android:id="@+id/fragment_write_post_spn_major"
             android:layout_width="219dp"
             android:layout_height="wrap_content"
             android:layout_weight="2.29"
