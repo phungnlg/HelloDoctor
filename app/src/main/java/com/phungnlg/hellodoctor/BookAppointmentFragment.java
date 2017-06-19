@@ -1,6 +1,10 @@
 package com.phungnlg.hellodoctor;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -9,6 +13,8 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,10 +26,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -45,6 +55,7 @@ public class BookAppointmentFragment extends Fragment {
     private FirebaseUser user;
     private String doctorKey;
     private String doctorName;
+    private ImageView coverPhoto;
 
     public BookAppointmentFragment() {
     }
@@ -80,6 +91,33 @@ public class BookAppointmentFragment extends Fragment {
         AppCompatButton btnProfile, btnSchedule;
         btnSchedule = (AppCompatButton) view.findViewById(R.id.fragment_book_btnSchedule);
         btnProfile = (AppCompatButton) view.findViewById(R.id.fragment_book_btnProfile);
+        coverPhoto = (ImageView) view.findViewById(R.id.fragment_book_iv_cover);
+
+
+
+        database.getReference("message").child("user-doctor").child(doctorKey).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String doctorAddress = dataSnapshot.child("address").getValue().toString();
+                        setCoverPhoto(getMapUrl(doctorAddress));
+
+                        coverPhoto.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + doctorAddress);
+                                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                                mapIntent.setPackage("com.google.android.apps.maps");
+                                startActivity(mapIntent);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
         tvWelcome = (TextView) view.findViewById(R.id.fragment_book_doctorname);
         tvWelcome.setText(getText(R.string.welcome_to_doctor) + " " + doctorName);
@@ -263,5 +301,27 @@ public class BookAppointmentFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    public void setCoverPhoto (String url) {
+        Picasso.with(getContext())
+               .load(url)
+               .centerCrop()
+               .resize(400, 400)
+               .into(coverPhoto);
+    }
+
+    public String getMapUrl(String addressName) {
+        String url = null;
+        try {
+            Geocoder geocoder = new Geocoder(this.getContext(), Locale.getDefault());
+            List<Address> doctorLocation = geocoder.getFromLocationName(addressName, 1);
+            Address location = doctorLocation.get(0);
+            url = "http://maps.google.com/maps/api/staticmap?center=" + location.getLatitude() + "," +
+                  location.getLongitude() + "&zoom=15&size=400x400&maptype=roadmap&key";
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return url;
     }
 }

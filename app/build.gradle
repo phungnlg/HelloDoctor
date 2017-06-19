@@ -5,13 +5,13 @@ android {
         debug {
             keyAlias 'debug_key'
             keyPassword 'jafung01677'
-            storeFile file('C:/Users/Phil/Desktop/HelloDoctor/Key/key_debug.jks')
+            storeFile file('Key/key_debug.jks')
             storePassword 'jafung01677'
         }
         release {
             keyAlias 'release_key'
             keyPassword 'jafung01677'
-            storeFile file('C:/Users/Phil/Desktop/HelloDoctor/Key/key_release.jks')
+            storeFile file('Key/key_release.jks')
             storePassword 'jafung01677'
         }
     }
