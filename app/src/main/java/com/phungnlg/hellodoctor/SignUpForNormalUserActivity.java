@@ -29,24 +29,28 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.phungnlg.hellodoctor.Others.PlaceAutocompleteAdapter;
 
 //import butterknife.Bind;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
 import butterknife.ButterKnife;
 
+@EActivity(R.layout.activity_sign_up_for_normal_user)
 public class SignUpForNormalUserActivity extends AppCompatActivity
         implements GoogleApiClient.OnConnectionFailedListener {
     private static final String TAG = "SignupActivity";
 
-    private EditText etName;
-    private AutoCompleteTextView etAddress;
-    private EditText etEmail;
-    private EditText etMobileNumber;
-    private EditText etPassword;
-    private EditText etReenterPassword;
-    private Button btnSignUp;
-    private TextView linkSignIn;
+//    private EditText etName;
+//    private AutoCompleteTextView etAddress;
+//    private EditText etEmail;
+//    private EditText etMobileNumber;
+//    private EditText etPassword;
+//    private EditText etReenterPassword;
+//    private Button btnSignUp;
+//    private TextView linkSignIn;
 
     private boolean isSignUpSuccessfully;
 
-    private FirebaseAuth mAuth;
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser mFirebaseUser;
 
@@ -61,20 +65,28 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
     private DatabaseReference myUser = database.getReference("User");
     private DatabaseReference myNotification = database.getReference("Notifications");
 
+    @ViewById(R.id.activity_sign_up_et_name)
+    protected EditText etName;
+    @ViewById(R.id.activity_sign_up_et_address)
+    protected AutoCompleteTextView etAddress;
+    @ViewById(R.id.activity_sign_up_et_email)
+    protected EditText etEmail;
+    @ViewById(R.id.activity_sign_up_et_mobile)
+    protected EditText etMobileNumber;
+    @ViewById(R.id.activity_sign_up_et_password)
+    protected EditText etPassword;
+    @ViewById(R.id.activity_sign_up_et_reenter_password)
+    protected EditText etReenterPassword;
+    @ViewById(R.id.activity_sign_up_btn_signup)
+    protected Button btnSignUp;
+    @ViewById(R.id.activity_sign_up_link)
+    protected TextView linkSignIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_for_normal_user);
         ButterKnife.bind(this);
-
-        etName = (EditText) findViewById(R.id.activity_sign_up_et_name);
-        etAddress = (AutoCompleteTextView) findViewById(R.id.activity_sign_up_et_address);
-        etEmail = (EditText) findViewById(R.id.activity_sign_up_et_email);
-        etMobileNumber = (EditText) findViewById(R.id.activity_sign_up_et_mobile);
-        etPassword = (EditText) findViewById(R.id.activity_sign_up_et_password);
-        etReenterPassword = (EditText) findViewById(R.id.activity_sign_up_et_reenter_password);
-        btnSignUp = (Button) findViewById(R.id.activity_sign_up_btn_signup);
-        linkSignIn = (TextView) findViewById(R.id.activity_sign_up_link);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, 0 /* clientId */, this)
@@ -84,7 +96,7 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
                                                 null);
         etAddress.setAdapter(mAdapter);
 
-        mAuth = FirebaseAuth.getInstance();
+        //mAuth = FirebaseAuth.getInstance();
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override

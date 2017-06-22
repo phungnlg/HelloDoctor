@@ -176,12 +176,13 @@ public class SliderLayout extends RelativeLayout {
     public SliderLayout(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         mContext = context;
-        LayoutInflater.from(context).inflate(com.daimajia.slider.library.R.layout.slider_layout, this, true);
+        LayoutInflater.from(context).
+                inflate(com.daimajia.slider.library.R.layout.slider_layout, this, true);
 
-        final TypedArray ATTRIBUTES = context.
-                                                     getTheme().
+        final TypedArray ATTRIBUTES = context.getTheme().
                                                      obtainStyledAttributes(attrs,
-                                                                                com.daimajia.slider.library.R.styleable.SliderLayout,
+                                                                                com.daimajia.slider.library.
+                                                                                        R.styleable.SliderLayout,
                                                                                 defStyle, 0);
 
         mTransformerSpan = ATTRIBUTES
@@ -263,10 +264,18 @@ public class SliderLayout extends RelativeLayout {
      * @param autoRecover if recover after user touches the slider.
      */
     public void startAutoCycle(long delay, long duration, boolean autoRecover) {
-        if (mCycleTimer != null) mCycleTimer.cancel();
-        if (mCycleTask != null) mCycleTask.cancel();
-        if (mResumingTask != null) mResumingTask.cancel();
-        if (mResumingTimer != null) mResumingTimer.cancel();
+        if (mCycleTimer != null) {
+            mCycleTimer.cancel();
+        }
+        if (mCycleTask != null) {
+            mCycleTask.cancel();
+        }
+        if (mResumingTask != null) {
+            mResumingTask.cancel();
+        }
+        if (mResumingTimer != null) {
+            mResumingTimer.cancel();
+        }
         mSliderDuration = duration;
         mCycleTimer = new Timer();
         mAutoRecover = autoRecover;
@@ -410,7 +419,7 @@ public class SliderLayout extends RelativeLayout {
      */
     public void setPresetTransformer(String transformerName) {
         for (Transformer t : Transformer.values()) {
-            if (t.equals(transformerName)) {
+            if (t.isEquals(transformerName)) {
                 setPresetTransformer(t);
                 return;
             }
@@ -433,9 +442,6 @@ public class SliderLayout extends RelativeLayout {
      * pretty much right? enjoy it. :-D
      */
     public void setPresetTransformer(Transformer ts) {
-        //
-        // special thanks to https://github.com/ToxicBakery/ViewPagerTransforms
-        //
         BaseTransformer t = null;
         switch (ts) {
             case Default:
@@ -495,12 +501,8 @@ public class SliderLayout extends RelativeLayout {
             return mIndicator.getIndicatorVisibility();
         }
         return PagerIndicator.IndicatorVisibility.Invisible;
-
     }
 
-    /**
-     * Set the visibility of the indicators.
-     */
     public void setIndicatorVisibility(PagerIndicator.IndicatorVisibility visibility) {
         if (mIndicator == null) {
             return;
@@ -671,7 +673,7 @@ public class SliderLayout extends RelativeLayout {
             return name;
         }
 
-        public boolean equals(String other) {
+        public boolean isEquals(String other) {
             return (other == null) ? false : name.equals(other);
         }
     }

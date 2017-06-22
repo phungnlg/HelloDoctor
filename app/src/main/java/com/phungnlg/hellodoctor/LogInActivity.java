@@ -2,11 +2,9 @@ package com.phungnlg.hellodoctor;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,11 +19,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-
-import butterknife.ButterKnife;
 
 @EActivity(R.layout.activity_login)
 public class LogInActivity extends AppCompatActivity {
@@ -34,13 +31,15 @@ public class LogInActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 0;
 
     @ViewById(R.id.activity_login_tv_email)
-    EditText etEmail;
+    protected EditText etEmail;
     @ViewById(R.id.activity_login_tv_password)
-    EditText etPassword;
+    protected EditText etPassword;
     @ViewById(R.id.activity_login_btn_log_in)
-    Button btnLogIn;
+    protected Button btnLogIn;
     @ViewById(R.id.activity_login_link)
-    TextView linkSignUp;
+    protected TextView linkSignUp;
+
+    private ProgressDialog progressDialog;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -58,6 +57,20 @@ public class LogInActivity extends AppCompatActivity {
         };
     private boolean isLogInSuccessfully;
     private boolean isLogInByFacebook = false;
+
+    @AfterViews
+    void init() {
+        progressDialog = new ProgressDialog(LogInActivity.this,
+                                            R.style.AppTheme_Dark_Dialog);
+    }
+
+    @Click(R.id.activity_login_link)
+    void setLink() {
+        Intent intent = new Intent(getApplicationContext(), SignUpTypeActivity.class);
+        startActivityForResult(intent, REQUEST_SIGNUP);
+        finish();
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
 
     @Click(R.id.activity_login_btn_log_in)
     void setBtnLogIn() {
@@ -79,8 +92,6 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     public void login() {
-        Log.d(TAG, "Login");
-
         if (!validate()) {
             onLoginFailed();
             return;
@@ -88,32 +99,9 @@ public class LogInActivity extends AppCompatActivity {
 
         btnLogIn.setEnabled(false);
 
-        final ProgressDialog PROGRESSDIALOG = new ProgressDialog(LogInActivity.this,
-                                                                 R.style.AppTheme_Dark_Dialog);
-        PROGRESSDIALOG.setIndeterminate(true);
-        PROGRESSDIALOG.setMessage(getText(R.string.logging_in));
-        PROGRESSDIALOG.show();
+        showDialog();
 
-        String email = etEmail.getText().toString();
-        String password = etPassword.getText().toString();
-
-        mAuth.signInWithEmailAndPassword(email, password)
-             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                 @Override
-                 public void onComplete(
-                         @NonNull
-                                 Task<AuthResult> task) {
-                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                     isLogInSuccessfully = true;
-                     isLogInByFacebook = false;
-                     if (!task.isSuccessful()) {
-                         Log.w(TAG, "signInWithEmail:failed", task.getException());
-                         isLogInSuccessfully = false;
-                         Toast.makeText(LogInActivity.this, R.string.auth_failed,
-                                        Toast.LENGTH_SHORT).show();
-                     }
-                 }
-             });
+        auth();
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -124,9 +112,36 @@ public class LogInActivity extends AppCompatActivity {
                         else {
                             onLoginFailed();
                         }
-                        PROGRESSDIALOG.dismiss();
+                        progressDialog.dismiss();
                     }
                 }, 3000);
+    }
+
+    private void auth() {
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
+
+        mAuth.signInWithEmailAndPassword(email, password)
+             .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                 @Override
+                 public void onComplete(
+                         @NonNull
+                                 Task<AuthResult> task) {
+                     isLogInSuccessfully = true;
+                     isLogInByFacebook = false;
+                     if (!task.isSuccessful()) {
+                         isLogInSuccessfully = false;
+                         Toast.makeText(LogInActivity.this, R.string.auth_failed,
+                                        Toast.LENGTH_SHORT).show();
+                     }
+                 }
+             });
+    }
+
+    private void showDialog() {
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getText(R.string.logging_in));
+        progressDialog.show();
     }
 
     @Override

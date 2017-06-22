@@ -33,7 +33,7 @@ public class SignUpTypeActivity extends AppCompatActivity {
         btnBacSy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity_.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -42,7 +42,8 @@ public class SignUpTypeActivity extends AppCompatActivity {
         btnNguoiDung.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpForNormalUserActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SignUpForNormalUserActivity_
+                        .class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -64,7 +65,7 @@ public class SignUpTypeActivity extends AppCompatActivity {
     public void onBackPressed() {
         // Disable going back to the MainActivity
         // moveTaskToBack(true);
-        Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+        Intent intent = new Intent(getApplicationContext(), LogInActivity_.class);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);

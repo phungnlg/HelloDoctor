@@ -194,8 +194,9 @@ public class FindDoctorFragment extends Fragment {
                                                 Intent intent = new Intent(Intent.ACTION_CALL);
                                                 intent.setData(Uri.parse("tel:" + model.getMobile()));
 
-                                                if (ActivityCompat.checkSelfPermission(getContext(),
-                                                                                       android.Manifest.permission.CALL_PHONE) !=
+                                                if (ActivityCompat.
+                                                                          checkSelfPermission(getContext(),
+                                                                                              android.Manifest.permission.CALL_PHONE) !=
                                                     PackageManager.PERMISSION_GRANTED) {
                                                     return;
                                                 } else {
