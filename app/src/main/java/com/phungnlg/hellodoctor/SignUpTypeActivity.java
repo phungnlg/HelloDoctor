@@ -8,63 +8,56 @@ import android.widget.Button;
 import android.widget.TextView;
 
 //import butterknife.Bind;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
 import butterknife.ButterKnife;
 
+@EActivity(R.layout.activity_sign_up_type)
 public class SignUpTypeActivity extends AppCompatActivity {
     private static final String TAG = "SignUpTypeActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    private Button btnBacSy;
+    @ViewById(R.id.activity_sign_up_type_btn_bacsy)
+    protected Button btnBacSy;
+    @ViewById(R.id.activity_sign_up_type_btn_nguoidung)
+    protected Button btnNguoiDung;
+    @ViewById(R.id.activity_sign_up_type_link_signin)
+    protected TextView linkSignIn;
 
-    private Button btnNguoiDung;
+    @AfterViews
+    public void init() {
 
-    private TextView linkSignIn;
+    }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up_type);
-        ButterKnife.bind(this);
-
-        btnBacSy = (Button) findViewById(R.id.activity_sign_up_type_btn_bacsy);
-        btnNguoiDung = (Button) findViewById(R.id.activity_sign_up_type_btn_nguoidung);
-        linkSignIn = (TextView) findViewById(R.id.activity_sign_up_type_link_signin);
-
-        btnBacSy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpActivity_.class);
+    @Click(R.id.activity_sign_up_type_btn_bacsy)
+    public void setBtnBacSy() {
+        Intent intent = new Intent(getApplicationContext(), SignUpActivity_.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
-        btnNguoiDung.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SignUpForNormalUserActivity_
+    }
+
+    @Click(R.id.activity_sign_up_type_btn_nguoidung)
+    public void setBtnNguoiDung() {
+        Intent intent = new Intent(getApplicationContext(), SignUpForNormalUserActivity_
                         .class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
+    }
 
-        linkSignIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Finish the registration screen and return to the Login activity
-                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
+    @Click(R.id.activity_sign_up_type_link_signin)
+    public void setLinkSignIn() {
+        Intent intent = new Intent(getApplicationContext(), LogInActivity_.class);
                 startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-            }
-        });
     }
 
     public void onBackPressed() {
-        // Disable going back to the MainActivity
-        // moveTaskToBack(true);
         Intent intent = new Intent(getApplicationContext(), LogInActivity_.class);
         startActivity(intent);
         finish();

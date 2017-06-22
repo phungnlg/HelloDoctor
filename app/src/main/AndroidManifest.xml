@@ -33,7 +33,7 @@
             android:theme="@style/AppTheme.Dark"
             />
         <activity
-            android:name=".SignUpTypeActivity"
+            android:name=".SignUpTypeActivity_"
             android:theme="@style/AppTheme.Dark"
             />
         <activity

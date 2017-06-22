@@ -541,13 +541,15 @@ public class SliderLayout extends RelativeLayout {
         return null;
     }
 
+    public static final String WARNING = "You did not set a slider adapter";
     /**
      * get the current item position
      */
+
     public int getCurrentPosition() {
 
         if (getRealAdapter() == null) {
-            throw new IllegalStateException("You did not set a slider adapter");
+            throw new IllegalStateException(WARNING);
         }
 
         return mViewPager.getCurrentItem() % getRealAdapter().getCount();
@@ -564,7 +566,7 @@ public class SliderLayout extends RelativeLayout {
     public BaseSliderView getCurrentSlider() {
 
         if (getRealAdapter() == null) {
-            throw new IllegalStateException("You did not set a slider adapter");
+            throw new IllegalStateException(WARNING);
         }
 
         int count = getRealAdapter().getCount();
@@ -600,7 +602,7 @@ public class SliderLayout extends RelativeLayout {
      */
     public void setCurrentPosition(int position, boolean smooth) {
         if (getRealAdapter() == null) {
-            throw new IllegalStateException("You did not set a slider adapter");
+            throw new IllegalStateException(WARNING);
         }
         if (position >= getRealAdapter().getCount()) {
             throw new IllegalStateException("Item position is not exist");
@@ -616,7 +618,7 @@ public class SliderLayout extends RelativeLayout {
     public void movePrevPosition(boolean smooth) {
 
         if (getRealAdapter() == null) {
-            throw new IllegalStateException("You did not set a slider adapter");
+            throw new IllegalStateException(WARNING);
         }
 
         mViewPager.setCurrentItem(mViewPager.getCurrentItem() - 1, smooth);
@@ -632,7 +634,7 @@ public class SliderLayout extends RelativeLayout {
     public void moveNextPosition(boolean smooth) {
 
         if (getRealAdapter() == null) {
-            throw new IllegalStateException("You did not set a slider adapter");
+            throw new IllegalStateException(WARNING);
         }
 
         mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1, smooth);

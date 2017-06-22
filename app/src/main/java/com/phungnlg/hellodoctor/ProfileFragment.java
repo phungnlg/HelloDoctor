@@ -3,7 +3,7 @@ package com.phungnlg.hellodoctor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.AppCompatButton;
+//import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -125,7 +125,8 @@ public class ProfileFragment extends Fragment {
                 viewHolder.setTime(model.getTime());
                 viewHolder.setTitle(model.getTitle());
                 viewHolder
-                        .setLikeCount("   " + model.getVote() + " người có câu hỏi tương tự, " + model.getAnswer() + " trả lời.");
+                        .setLikeCount("   " + model.getVote() + " người có câu hỏi tương tự, " +
+                                      model.getAnswer() + " trả lời.");
                 viewHolder.setPhoto(model.getPhotoUrl());
 
                 final long PREVIOUSVOTE = model.getVote();

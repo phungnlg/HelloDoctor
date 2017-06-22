@@ -4,9 +4,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+//import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+//import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -47,16 +47,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
             new LatLng(10.562400, 106.580979), new LatLng(10.998982, 106.699151));
     protected GoogleApiClient mGoogleApiClient;
-//    private EditText etName;
-//    private AutoCompleteTextView etAddress;
-//    private EditText etEmail;
-//    private EditText etMobileNumber;
-//    private EditText etPassword;
-//    private EditText etReenterPassword;
-//    private Button btnSignUp;
-//    private TextView linkLogIn;
-//    private TextView etWorkplace;
-//    private Spinner spnMajor;
+
     private boolean isSignUpSuccessfully;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -317,7 +308,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     public void onBackPressed() {
         // Disable going back to the MainActivity
         // moveTaskToBack(true);
-        Intent intent = new Intent(getApplicationContext(), SignUpTypeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SignUpTypeActivity_.class);
         startActivity(intent);
         finish();
         overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);

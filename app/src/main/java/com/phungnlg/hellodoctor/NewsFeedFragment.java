@@ -10,7 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.OvershootInterpolator;
+//import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -32,9 +32,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
-import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import ss.com.bannerslider.banners.DrawableBanner;
-import ss.com.bannerslider.views.BannerSlider;
+//import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+//import ss.com.bannerslider.banners.DrawableBanner;
+//import ss.com.bannerslider.views.BannerSlider;
 
 /**
  * Created by Phil on 07/05/2017.
