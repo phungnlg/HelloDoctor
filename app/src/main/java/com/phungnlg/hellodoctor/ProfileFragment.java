@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -38,8 +39,8 @@ public class ProfileFragment extends Fragment {
 
     private Boolean isDoctor;
     private com.makeramen.roundedimageview.RoundedImageView ivProfilePic;
-    private AppCompatButton btnProfile;
-    private AppCompatButton btnSchedule;
+    private ImageButton btnProfile;
+    private ImageButton btnSchedule;
 
     private DatabaseReference mDatabase;
     private DatabaseReference postDatabase = FirebaseDatabase.getInstance().getReference("Posts");
@@ -55,8 +56,8 @@ public class ProfileFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("User");
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        btnProfile = (AppCompatButton) view.findViewById(R.id.fragment_profile_btn_profile);
-        btnSchedule = (AppCompatButton) view.findViewById(R.id.fragment_profile_btn_Schedule);
+        btnProfile = (ImageButton) view.findViewById(R.id.fragment_profile_btn_profile1);
+        btnSchedule = (ImageButton) view.findViewById(R.id.fragment_profile_btn_Schedule1);
 
         name = (TextView) view.findViewById(R.id.fragment_profile_tv_user_name);
         bio = (TextView) view.findViewById(R.id.fragment_profile_tv_user_bio);

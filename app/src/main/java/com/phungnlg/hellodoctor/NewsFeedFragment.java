@@ -10,11 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,7 +26,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.phungnlg.hellodoctor.Others.ChildAnimation;
+import com.phungnlg.hellodoctor.Others.SliderLayout;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+
+import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import ss.com.bannerslider.banners.DrawableBanner;
+import ss.com.bannerslider.views.BannerSlider;
 
 /**
  * Created by Phil on 07/05/2017.
@@ -35,8 +47,11 @@ public class NewsFeedFragment extends Fragment {
     private EditText etQuestion;
 
     private DatabaseReference mDatabase;
+    private DatabaseReference newsDatabaseReference;
 
     private RecyclerView mBlogList;
+
+    private SliderLayout sliderLayout;
 
     private Boolean isLiked = false;
     private int mPageNo;
@@ -53,22 +68,67 @@ public class NewsFeedFragment extends Fragment {
 
         mDatabase = DATABASE.getReference("Posts");
         mDatabase.keepSynced(true);
+
+        newsDatabaseReference = DATABASE.getReference("News");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_news_feed, container, false);
+        final View VIEW = inflater.inflate(R.layout.fragment_news_feed, container, false); 
 
         final LinearLayoutManager LAYOUTMANAGER = new LinearLayoutManager(this.getContext());
         LAYOUTMANAGER.setReverseLayout(true);
         LAYOUTMANAGER.setStackFromEnd(true);
 
-        mBlogList = (RecyclerView) view.findViewById(R.id.fragment_newsfeed_list);
+        final LinearLayoutManager NEWSLAYOUTMANAGER = new LinearLayoutManager(this.getContext(),
+                                                                              LinearLayoutManager.HORIZONTAL, false);
+
+
+        sliderLayout = (SliderLayout) VIEW.findViewById(R.id.fragment_newsfeed_slider);
+        HashMap<String, Integer> fileMaps = new HashMap<String, Integer>();
+        fileMaps.put("1", R.drawable.bg_slide3);
+        fileMaps.put("2", R.drawable.bg_slide4);
+        fileMaps.put("3", R.drawable.bg_slide6);
+        fileMaps.put("4", R.drawable.bg_slide7);
+        fileMaps.put("5", R.drawable.bg_slide5);
+        fileMaps.put("6", R.drawable.bg_slide1); 
+        for (final String name : fileMaps.keySet()) {
+            TextSliderView textSliderView = new TextSliderView(getContext());
+            textSliderView
+                    .image(fileMaps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                    .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
+                        @Override
+                        public void onSliderClick(BaseSliderView slider) {
+                            Toast.makeText(getContext(), "You have just clicked the banner number " + name,
+                                           Toast.LENGTH_SHORT).show();
+                        }
+                    });
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle().putString("extra", name);
+
+            sliderLayout.addSlider(textSliderView);
+        }
+        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
+        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        sliderLayout.setCustomAnimation(new ChildAnimation());
+        sliderLayout.setDuration(3000);
+        sliderLayout.startAutoCycle();
+        //sliderLayout.addOnPageChangeListener(getContext());
+
+
+        mBlogList = (RecyclerView) VIEW.findViewById(R.id.fragment_newsfeed_list);
         mBlogList.setNestedScrollingEnabled(false);
         mBlogList.setHasFixedSize(true);
 
-        etQuestion = (EditText) view.findViewById(R.id.fragment_newsfeed_et_question);
+        RecyclerView newsList = (RecyclerView) VIEW.findViewById(R.id.fragment_newsfeed_news);
+        newsList.setNestedScrollingEnabled(false);
+        newsList.setHasFixedSize(true);
+
+        //mBlogList.setItemAnimator(new FadeInAnimator());
+
+        etQuestion = (EditText) VIEW.findViewById(R.id.fragment_newsfeed_et_question);
         etQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,7 +231,21 @@ public class NewsFeedFragment extends Fragment {
 
         getActivity().setTitle("Bảng tin");
 
-        return view;
+        final FirebaseRecyclerAdapter<News, NewsHolder> NEWSADAPTER = new FirebaseRecyclerAdapter<News, NewsHolder>(
+                News.class,
+                R.layout.item_news,
+                NewsHolder.class,
+                newsDatabaseReference
+        ) {
+            @Override
+            protected void populateViewHolder(NewsHolder viewHolder, News model, int position) {
+                viewHolder.setPhoto(model.getPhotoUrl());
+                viewHolder.setTitle(model.getTitle());
+            }
+        };
+        newsList.setLayoutManager(NEWSLAYOUTMANAGER);
+        newsList.setAdapter(NEWSADAPTER);
+        return VIEW;
     }
 
     public static NewsFeedFragment newInstance(int pageNo) {
@@ -181,6 +255,12 @@ public class NewsFeedFragment extends Fragment {
         NewsFeedFragment fragment = new NewsFeedFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onStop() {
+        sliderLayout.stopAutoCycle();
+        super.onStop();
     }
 
     @Override
@@ -252,6 +332,28 @@ public class NewsFeedFragment extends Fragment {
                    .centerCrop()
                    .into(iv);
         }
+    }
 
+    public static class NewsHolder extends RecyclerView.ViewHolder {
+        private View mView;
+
+        public NewsHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+        }
+
+        public void setPhoto(String photoUrl) {
+            ImageView iv = (ImageView) mView.findViewById(R.id.item_news_photo);
+            Picasso.with(mView.getContext())
+                   .load(photoUrl)
+                   .resize(200, 305)
+                   .centerCrop()
+                   .into(iv);
+        }
+
+        public void setTitle(String _title) {
+            TextView body = (TextView) mView.findViewById(R.id.item_news_tv_title);
+            body.setText(_title);
+        }
     }
 }

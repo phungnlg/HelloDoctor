@@ -62,7 +62,7 @@ public class NotificationFragment extends Fragment {
         FirebaseRecyclerAdapter<Notification, NotiHolder> firebaseRecyclerAdapter
                 = new FirebaseRecyclerAdapter<Notification, NotiHolder>(
                 Notification.class,
-                R.layout.item_notification,
+                R.layout.item_notification2,
                 NotiHolder.class,
                 mDatabase
         ) {

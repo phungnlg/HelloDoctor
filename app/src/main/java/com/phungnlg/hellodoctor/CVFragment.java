@@ -118,27 +118,39 @@ public class CVFragment extends Fragment {
             public void onClick(View view) {
                 if (etAcademicLevel.getText().toString() != null) {
                     mDatabase.child("al").setValue(etAcademicLevel.getText().toString());
-                } else mDatabase.child("al").setValue(getText(R.string.cv_no_info));
+                } else {
+                    mDatabase.child("al").setValue(getText(R.string.cv_no_info));
+                }
 
                 if (etBackground.getText().toString() != null) {
                     mDatabase.child("bg").setValue(etBackground.getText().toString());
-                } else mDatabase.child("bg").setValue(getText(R.string.cv_no_info));
+                } else {
+                    mDatabase.child("bg").setValue(getText(R.string.cv_no_info));
+                }
 
                 if (etClinicName.getText().toString() != null) {
                     mDatabase.child("cn").setValue(etClinicName.getText().toString());
-                } else mDatabase.child("cn").setValue(getText(R.string.cv_no_info));
+                } else {
+                    mDatabase.child("cn").setValue(getText(R.string.cv_no_info));
+                }
 
                 if (etClinicAddress.getText().toString() != null) {
                     mDatabase.child("ca").setValue(etClinicAddress.getText().toString());
-                } else mDatabase.child("ca").setValue(getText(R.string.cv_no_info));
+                } else {
+                    mDatabase.child("ca").setValue(getText(R.string.cv_no_info));
+                }
 
                 if (etAward.getText().toString() != null) {
                     mDatabase.child("aw").setValue(etAward.getText().toString());
-                } else mDatabase.child("aw").setValue(getText(R.string.cv_no_info));
+                } else {
+                    mDatabase.child("aw").setValue(getText(R.string.cv_no_info));
+                }
 
                 if (etAssociation.getText().toString() != null) {
                     mDatabase.child("as").setValue(etAssociation.getText().toString());
-                } else mDatabase.child("as").setValue(getText(R.string.cv_no_info));
+                } else {
+                    mDatabase.child("as").setValue(getText(R.string.cv_no_info));
+                }
 
                 Toast.makeText(getContext(), R.string.ho_so_cap_nhat_thanh_cong, Toast.LENGTH_SHORT).show();
             }

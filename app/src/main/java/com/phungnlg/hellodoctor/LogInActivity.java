@@ -21,55 +21,29 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
 import butterknife.ButterKnife;
 
+@EActivity(R.layout.activity_login)
 public class LogInActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static final int RC_SIGN_IN = 0;
 
-    private EditText etEmail;
-    private EditText etPassword;
-    private Button btnLogIn;
-    private TextView linkSignUp;
+    @ViewById(R.id.activity_login_tv_email)
+    EditText etEmail;
+    @ViewById(R.id.activity_login_tv_password)
+    EditText etPassword;
+    @ViewById(R.id.activity_login_btn_log_in)
+    Button btnLogIn;
+    @ViewById(R.id.activity_login_link)
+    TextView linkSignUp;
 
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private boolean isLogInSuccessfully;
-    private boolean isLogInByFacebook = false;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
-        etEmail = (EditText) findViewById(R.id.activity_login_tv_email);
-        etPassword = (EditText) findViewById(R.id.activity_login_tv_password);
-        btnLogIn = (Button) findViewById(R.id.activity_login_btn_log_in);
-        linkSignUp = (TextView) findViewById(R.id.activity_login_link);
-
-        linkSignUp.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getApplicationContext(), SignUpTypeActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
-                finish();
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
-        });
-
-        btnLogIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                login();
-            }
-        });
-
-        // Gọi dịch vụ xác thực tài khoản của Firebase
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(
                     @NonNull
@@ -82,6 +56,12 @@ public class LogInActivity extends AppCompatActivity {
                 }
             }
         };
+    private boolean isLogInSuccessfully;
+    private boolean isLogInByFacebook = false;
+
+    @Click(R.id.activity_login_btn_log_in)
+    void setBtnLogIn() {
+        login();
     }
 
     @Override
@@ -98,7 +78,6 @@ public class LogInActivity extends AppCompatActivity {
         }
     }
 
-    //Hàm đăng nhập, sử dụng xác thực email+pasword
     public void login() {
         Log.d(TAG, "Login");
 
@@ -127,9 +106,6 @@ public class LogInActivity extends AppCompatActivity {
                      Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                      isLogInSuccessfully = true;
                      isLogInByFacebook = false;
-                     // If sign in fails, display a message to the user. If sign in succeeds
-                     // the auth state listener will be notified and logic to handle the
-                     // signed in user can be handled in the listener.
                      if (!task.isSuccessful()) {
                          Log.w(TAG, "signInWithEmail:failed", task.getException());
                          isLogInSuccessfully = false;
@@ -142,7 +118,6 @@ public class LogInActivity extends AppCompatActivity {
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
                         if (isLogInSuccessfully) {
                             onLoginSuccess();
                         }

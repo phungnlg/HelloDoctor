@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/newsfeed"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -26,33 +27,28 @@
             <FrameLayout
                 android:id="@+id/cover"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
+                android:layout_height="220dp"
                 >
 
-                <ImageView
+                <com.phungnlg.hellodoctor.Others.SliderLayout
+                    android:id="@+id/fragment_newsfeed_slider"
                     android:layout_width="match_parent"
-                    android:layout_height="230dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/bg_newsfeed_gradient"
+                    android:layout_height="165dp"
                     />
-
-                <LinearLayout
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="top"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    >
-                </LinearLayout>
+                    android:layout_height="165dp"
+                    android:background="@drawable/bg_gradient_2"
+                    />
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
                     android:elevation="8dp"
                     android:orientation="vertical"
                     >
@@ -72,15 +68,35 @@
                         android:textSize="14dp"
                         />
                 </android.support.v7.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    >
+                </LinearLayout>
             </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_below="@+id/cover"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="0dp"
                 android:orientation="vertical"
                 >
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/fragment_newsfeed_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="0.38"
+                    android:background="@color/themecolor"
+                    android:paddingBottom="4dp"
+                    />
             </LinearLayout>
 
             <android.support.v7.widget.RecyclerView

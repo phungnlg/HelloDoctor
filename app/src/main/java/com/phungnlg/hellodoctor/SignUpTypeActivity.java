@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import butterknife.Bind;
+//import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SignUpTypeActivity extends AppCompatActivity {

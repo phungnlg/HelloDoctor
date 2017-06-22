@@ -48,6 +48,16 @@ public class ScheduleFragment extends Fragment {
     private String key;
     private String doctorName;
 
+    public static final String MON = "Mon";
+    public static final String TUE = "Tue";
+    public static final String WED = "Wed";
+    public static final String THU = "Thu";
+    public static final String FRI = "Fri";
+    public static final String SAT = "Sat";
+    public static final String SUN = "Sun";
+    public static final String FROM = "from";
+    public static final String TO = "to";
+
     public ScheduleFragment() {
     }
 
@@ -123,20 +133,20 @@ public class ScheduleFragment extends Fragment {
         schedule.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                edMonday.setText(dataSnapshot.child("Mon").child("from").getValue().toString());
-                edMonday2.setText(dataSnapshot.child("Mon").child("to").getValue().toString());
-                edTuesday.setText(dataSnapshot.child("Tue").child("from").getValue().toString());
-                edTuesday2.setText(dataSnapshot.child("Tue").child("to").getValue().toString());
-                edWednesday.setText(dataSnapshot.child("Wed").child("from").getValue().toString());
-                edWednesday2.setText(dataSnapshot.child("Wed").child("to").getValue().toString());
-                edThursday.setText(dataSnapshot.child("Thu").child("from").getValue().toString());
-                edThursday2.setText(dataSnapshot.child("Thu").child("to").getValue().toString());
-                edFriday.setText(dataSnapshot.child("Fri").child("from").getValue().toString());
-                edFriday2.setText(dataSnapshot.child("Fri").child("to").getValue().toString());
-                edSaturday.setText(dataSnapshot.child("Sat").child("from").getValue().toString());
-                edSaturday2.setText(dataSnapshot.child("Sat").child("to").getValue().toString());
-                edSunday.setText(dataSnapshot.child("Sun").child("from").getValue().toString());
-                edSunday2.setText(dataSnapshot.child("Sun").child("to").getValue().toString());
+                edMonday.setText(dataSnapshot.child(MON).child(FROM).getValue().toString());
+                edMonday2.setText(dataSnapshot.child(MON).child(TO).getValue().toString());
+                edTuesday.setText(dataSnapshot.child(TUE).child(FROM).getValue().toString());
+                edTuesday2.setText(dataSnapshot.child(TUE).child(TO).getValue().toString());
+                edWednesday.setText(dataSnapshot.child(WED).child(FROM).getValue().toString());
+                edWednesday2.setText(dataSnapshot.child(WED).child(TO).getValue().toString());
+                edThursday.setText(dataSnapshot.child(THU).child(FROM).getValue().toString());
+                edThursday2.setText(dataSnapshot.child(THU).child(TO).getValue().toString());
+                edFriday.setText(dataSnapshot.child(FRI).child(FROM).getValue().toString());
+                edFriday2.setText(dataSnapshot.child(FRI).child(TO).getValue().toString());
+                edSaturday.setText(dataSnapshot.child(SAT).child(FROM).getValue().toString());
+                edSaturday2.setText(dataSnapshot.child(SAT).child(TO).getValue().toString());
+                edSunday.setText(dataSnapshot.child(SUN).child(FROM).getValue().toString());
+                edSunday2.setText(dataSnapshot.child(SUN).child(TO).getValue().toString());
             }
 
             @Override
@@ -148,20 +158,20 @@ public class ScheduleFragment extends Fragment {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mDatabase.child("Mon").child("from").setValue(edMonday.getText().toString());
-                mDatabase.child("Mon").child("to").setValue(edMonday2.getText().toString());
-                mDatabase.child("Tue").child("from").setValue(edTuesday.getText().toString());
-                mDatabase.child("Tue").child("to").setValue(edTuesday2.getText().toString());
-                mDatabase.child("Wed").child("from").setValue(edWednesday.getText().toString());
-                mDatabase.child("Wed").child("to").setValue(edWednesday2.getText().toString());
-                mDatabase.child("Thu").child("from").setValue(edThursday.getText().toString());
-                mDatabase.child("Thu").child("to").setValue(edThursday2.getText().toString());
-                mDatabase.child("Fri").child("from").setValue(edFriday.getText().toString());
-                mDatabase.child("Fri").child("to").setValue(edFriday2.getText().toString());
-                mDatabase.child("Sat").child("from").setValue(edSaturday.getText().toString());
-                mDatabase.child("Sat").child("to").setValue(edSaturday2.getText().toString());
-                mDatabase.child("Sun").child("from").setValue(edSunday.getText().toString());
-                mDatabase.child("Sun").child("to").setValue(edSunday2.getText().toString());
+                mDatabase.child(MON).child(FROM).setValue(edMonday.getText().toString());
+                mDatabase.child(MON).child(TO).setValue(edMonday2.getText().toString());
+                mDatabase.child(TUE).child(FROM).setValue(edTuesday.getText().toString());
+                mDatabase.child(TUE).child(TO).setValue(edTuesday2.getText().toString());
+                mDatabase.child(WED).child(FROM).setValue(edWednesday.getText().toString());
+                mDatabase.child(WED).child(TO).setValue(edWednesday2.getText().toString());
+                mDatabase.child(THU).child(FROM).setValue(edThursday.getText().toString());
+                mDatabase.child(THU).child(TO).setValue(edThursday2.getText().toString());
+                mDatabase.child(FRI).child(FROM).setValue(edFriday.getText().toString());
+                mDatabase.child(FRI).child(TO).setValue(edFriday2.getText().toString());
+                mDatabase.child(SAT).child(FROM).setValue(edSaturday.getText().toString());
+                mDatabase.child(SAT).child("to").setValue(edSaturday2.getText().toString());
+                mDatabase.child(SUN).child(FROM).setValue(edSunday.getText().toString());
+                mDatabase.child(SUN).child("to").setValue(edSunday2.getText().toString());
 
                 Toast.makeText(getContext(), R.string.sche_update_successfully, Toast.LENGTH_SHORT).show();
             }

@@ -28,7 +28,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.phungnlg.hellodoctor.Others.PlaceAutocompleteAdapter;
 
-import butterknife.Bind;
+//import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SignUpForNormalUserActivity extends AppCompatActivity

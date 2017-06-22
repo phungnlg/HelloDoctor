@@ -33,7 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.phungnlg.hellodoctor.Others.PlaceAutocompleteAdapter;
 
-import butterknife.Bind;
+//import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class SignUpActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -61,6 +61,11 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private DatabaseReference myUser = database.getReference("User");
     private DatabaseReference myNotification = database.getReference("Notifications");
     private DatabaseReference mySche = database.getReference("Schedule");
+
+    public static final String USERDOCTOR = "user-doctor";
+    public static final String NOINFO = "Chưa có thông tin";
+    public static final String FROM = "from";
+    public static final String TO = "to";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -207,12 +212,12 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
 
                      String uid = mFirebaseUser.getUid();
-                     myRef.child("user-doctor").child(uid).child("name").setValue(NAME);
-                     myRef.child("user-doctor").child(uid).child("address").setValue(ADDRESS);
-                     myRef.child("user-doctor").child(uid).child("mobile").setValue(MOBILE);
-                     myRef.child("user-doctor").child(mFirebaseUser.getUid()).child("major")
+                     myRef.child(USERDOCTOR).child(uid).child("name").setValue(NAME);
+                     myRef.child(USERDOCTOR).child(uid).child("address").setValue(ADDRESS);
+                     myRef.child(USERDOCTOR).child(uid).child("mobile").setValue(MOBILE);
+                     myRef.child(USERDOCTOR).child(mFirebaseUser.getUid()).child("major")
                           .setValue(spnMajor.getSelectedItem().toString());
-                     myRef.child("user-doctor").child(uid).child("workplace").setValue(WORKPLACE);
+                     myRef.child(USERDOCTOR).child(uid).child("workplace").setValue(WORKPLACE);
 
                      myUser.child(uid).child("bio")
                            .setValue("Bác sỹ " + spnMajor.getSelectedItem() + " tại " + WORKPLACE);
@@ -226,27 +231,27 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                                    .setValue("Chào mừng bạn đến với HelloDoctor!");
                      myNotification.child(uid).child("welcome").child("time").setValue("Xin chào!");
 
-                     mDatabase.child("al").setValue("Chưa có thông tin");
-                     mDatabase.child("bg").setValue("Chưa có thông tin");
-                     mDatabase.child("cn").setValue("Chưa có thông tin");
-                     mDatabase.child("ca").setValue("Chưa có thông tin");
-                     mDatabase.child("aw").setValue("Chưa có thông tin");
-                     mDatabase.child("as").setValue("Chưa có thông tin");
+                     mDatabase.child("al").setValue(NOINFO);
+                     mDatabase.child("bg").setValue(NOINFO);
+                     mDatabase.child("cn").setValue(NOINFO);
+                     mDatabase.child("ca").setValue(NOINFO);
+                     mDatabase.child("aw").setValue(NOINFO);
+                     mDatabase.child("as").setValue(NOINFO);
 
-                     mySche.child(uid).child("Mon").child("from").setValue("");
-                     mySche.child(uid).child("Mon").child("to").setValue("");
-                     mySche.child(uid).child("Tue").child("from").setValue("");
-                     mySche.child(uid).child("Tue").child("to").setValue("");
-                     mySche.child(uid).child("Wed").child("from").setValue("");
-                     mySche.child(uid).child("Wed").child("to").setValue("");
-                     mySche.child(uid).child("Thu").child("from").setValue("");
-                     mySche.child(uid).child("Thu").child("to").setValue("");
-                     mySche.child(uid).child("Fri").child("from").setValue("");
-                     mySche.child(uid).child("Fri").child("to").setValue("");
-                     mySche.child(uid).child("Sat").child("from").setValue("");
-                     mySche.child(uid).child("Sat").child("to").setValue("");
-                     mySche.child(uid).child("Sun").child("from").setValue("");
-                     mySche.child(uid).child("Sun").child("to").setValue("");
+                     mySche.child(uid).child("Mon").child(FROM).setValue("");
+                     mySche.child(uid).child("Mon").child(TO).setValue("");
+                     mySche.child(uid).child("Tue").child(FROM).setValue("");
+                     mySche.child(uid).child("Tue").child(TO).setValue("");
+                     mySche.child(uid).child("Wed").child(FROM).setValue("");
+                     mySche.child(uid).child("Wed").child(TO).setValue("");
+                     mySche.child(uid).child("Thu").child(FROM).setValue("");
+                     mySche.child(uid).child("Thu").child(TO).setValue("");
+                     mySche.child(uid).child("Fri").child(FROM).setValue("");
+                     mySche.child(uid).child("Fri").child(TO).setValue("");
+                     mySche.child(uid).child("Sat").child(FROM).setValue("");
+                     mySche.child(uid).child("Sat").child(TO).setValue("");
+                     mySche.child(uid).child("Sun").child(FROM).setValue("");
+                     mySche.child(uid).child("Sun").child(TO).setValue("");
 
 
                      UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()

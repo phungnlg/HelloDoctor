@@ -41,7 +41,7 @@ public class MoreFragment extends Fragment {
             public void onClick(View view) {
                 Log.d(TAG, "Clicked Sign Out");
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(getContext(), LogInActivity.class);
+                Intent intent = new Intent(getContext(), LogInActivity_.class);
                 startActivity(intent);
             }
         });

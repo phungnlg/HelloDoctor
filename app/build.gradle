@@ -44,6 +44,14 @@ android {
     }
 }
 
+apply plugin: 'com.android.application'
+
+def AAVersion = '4.3.1'
+dependencies {
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -63,6 +71,11 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.geniusforapp.fancydialog:FancyDialog:0.1.0'
     compile 'com.google.android.gms:play-services:10.0.1'
+    compile 'com.ss.bannerslider:bannerslider:1.6.1'
+    compile 'com.nineoldandroids:library:2.4.0'
+    compile 'com.daimajia.slider:library:1.1.5@aar'
+    compile 'jp.wasabeef:recyclerview-animators:2.2.6'
+    compile 'ru.rambler.android:swipe-layout:1.0.14'
     testCompile 'junit:junit:4.12'
 }
 

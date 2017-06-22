@@ -28,6 +28,7 @@
                 android:layout_height="200dp"
                 android:background="@drawable/bg_profile"
                 >
+
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/fragment_profile_iv_image"
                     android:layout_width="100dp"
@@ -41,6 +42,24 @@
                     app:riv_mutate_background="true"
                     app:riv_oval="true"
                     app:riv_tile_mode="repeat"
+                    />
+                <ImageButton
+                    android:id="@+id/fragment_profile_btn_Schedule1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="left|center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginLeft="70dp"
+                    android:background="@drawable/ic_schedule"
+                    />
+                <ImageButton
+                    android:id="@+id/fragment_profile_btn_profile1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="right|center"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="70dp"
+                    android:background="@drawable/ic_working_background"
                     />
             </FrameLayout>
 
@@ -154,24 +173,6 @@
                     android:layout_margin="10dp"
                     android:orientation="horizontal"
                     >
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/fragment_profile_btn_profile"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableLeft="@drawable/ic_account_circle_black_18dp"
-                        android:text="HỒ SƠ"
-                        />
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/fragment_profile_btn_Schedule"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:drawableLeft="@drawable/ic_schedule_black_18dp"
-                        android:text="LỊCH KHÁM"
-                        />
                 </LinearLayout>
 
                 <LinearLayout

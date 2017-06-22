@@ -34,7 +34,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.io.IOException;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -148,7 +148,7 @@ public class FindDoctorFragment extends Fragment {
                                     location.getLongitude());
                             viewHolder.setRating("  " + Math.round(distance) + " km");
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            //e.printStackTrace();
                         }
 
                         final String DOCTORKEY = getRef(position).getKey();
@@ -198,7 +198,9 @@ public class FindDoctorFragment extends Fragment {
                                                                                        android.Manifest.permission.CALL_PHONE) !=
                                                     PackageManager.PERMISSION_GRANTED) {
                                                     return;
-                                                } else startActivity(intent);
+                                                } else {
+                                                    startActivity(intent);
+                                                }
                                             }
                                         })
                                         .setButtonsGravity(FancyAlertDialog.PanelGravity.CENTER)

@@ -30,24 +30,24 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
+                android:layout_height="120dp"
                 >
 
                 <ImageView
                     android:id="@+id/item_newsfeed_iv_cover_photo"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:background="@drawable/bg_doctor"
+                    android:layout_height="120dp"
                     android:layout_alignParentRight="true"
+                    android:background="@drawable/bg_doctor"
                     android:scaleType="fitXY"
                     />
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="120dp"
                     android:background="@drawable/bg_gradient"
-
                     />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

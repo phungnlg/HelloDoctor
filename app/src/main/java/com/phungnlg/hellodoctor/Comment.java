@@ -1,6 +1,6 @@
 package com.phungnlg.hellodoctor;
 
-import android.support.v4.app.Fragment;
+//import android.support.v4.app.Fragment;
 
 /**
  * Created by Phil on 07/05/2017.
