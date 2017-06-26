@@ -86,6 +86,8 @@ import java.util.TimerTask;
  */
 public class SliderLayout extends RelativeLayout {
 
+    public static final String WARNING = "You did not set a slider adapter";
+
     private Context mContext;
     /**
      * InfiniteViewPager is extended from ViewPagerEx. As the name says, it can scroll without bounder.
@@ -541,7 +543,7 @@ public class SliderLayout extends RelativeLayout {
         return null;
     }
 
-    public static final String WARNING = "You did not set a slider adapter";
+    //public static final String WARNING = "You did not set a slider adapter";
     /**
      * get the current item position
      */

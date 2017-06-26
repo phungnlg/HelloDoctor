@@ -33,12 +33,12 @@
                 <com.phungnlg.hellodoctor.Others.SliderLayout
                     android:id="@+id/fragment_newsfeed_slider"
                     android:layout_width="match_parent"
-                    android:layout_height="165dp"
+                    android:layout_height="170dp"
                     />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="165dp"
-                    android:background="@drawable/bg_gradient_2"
+                    android:background="@drawable/bg_gradient"
                     />
 
                 <android.support.v7.widget.CardView

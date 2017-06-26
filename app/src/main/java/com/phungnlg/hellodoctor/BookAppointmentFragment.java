@@ -201,109 +201,165 @@ public class BookAppointmentFragment extends Fragment {
         bronze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-                b.setTitle(R.string.confirm_appointment);
-                b.setMessage("Bạn có muốn đặt gói khám BRONZE, vào lúc " + tvBookTime.getText() + K);
-                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        clientNotificationDatabase.child(IS_READED).setValue(false);
-                        clientNotificationDatabase.child(NOTIFICATION).setValue(
-                                "Đặt lịch khám gói BRONZE với bác sỹ " + doctorName + L + tvBookTime.getText() +
-                                TC);
-                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+//                b.setTitle(R.string.confirm_appointment);
+//                b.setMessage("Bạn có muốn đặt gói khám BRONZE, vào lúc " + tvBookTime.getText() + K);
+//                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        clientNotificationDatabase.child(IS_READED).setValue(false);
+//                        clientNotificationDatabase.child(NOTIFICATION).setValue(
+//                                "Đặt lịch khám gói BRONZE với bác sỹ " + doctorName + L + tvBookTime.getText() +
+//                                TC);
+//                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//
+//                        doctorNotificationDatabase.child(IS_READED).setValue(false);
+//                        doctorNotificationDatabase.child(NOTIFICATION)
+//                                                  .setValue(username + " đã đặt lịch khám gói BRONZE lúc " +
+//                                                            tvBookTime.getText());
+//                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//
+//                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                b.create().show();
 
-                        doctorNotificationDatabase.child(IS_READED).setValue(false);
-                        doctorNotificationDatabase.child(NOTIFICATION)
-                                                  .setValue(username + " đã đặt lịch khám gói BRONZE lúc " +
-                                                            tvBookTime.getText());
-                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+                clientNotificationDatabase.child(IS_READED).setValue(false);
+                clientNotificationDatabase.child(NOTIFICATION).setValue(
+                        "Đặt lịch khám gói BRONZE với bác sỹ " + doctorName + L + tvBookTime.getText() +
+                        TC);
+                clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
 
-                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                b.create().show();
+                doctorNotificationDatabase.child(IS_READED).setValue(false);
+                doctorNotificationDatabase.child(NOTIFICATION)
+                                          .setValue(username + " đã đặt lịch khám gói BRONZE lúc " +
+                                                    tvBookTime.getText());
+                doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+
+                Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
             }
         });
         silver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-                b.setTitle(R.string.confirm_appointment);
-                b.setMessage("Bạn có muốn đặt gói khám SILVER, vào lúc " + tvBookTime.getText() + K);
-                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        clientNotificationDatabase.child(IS_READED).setValue(false);
-                        clientNotificationDatabase.child(NOTIFICATION).setValue(
-                                "Đặt lịch khám gói SILVER với bác sỹ " + doctorName + L + tvBookTime.getText() +
-                                TC);
-                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+//                b.setTitle(R.string.confirm_appointment);
+//                b.setMessage("Bạn có muốn đặt gói khám SILVER, vào lúc " + tvBookTime.getText() + K);
+//                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        clientNotificationDatabase.child(IS_READED).setValue(false);
+//                        clientNotificationDatabase.child(NOTIFICATION).setValue(
+//                                "Đặt lịch khám gói SILVER với bác sỹ " + doctorName + L + tvBookTime.getText() +
+//                                TC);
+//                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//
+//                        doctorNotificationDatabase.child(IS_READED).setValue(false);
+//                        doctorNotificationDatabase.child(NOTIFICATION)
+//                                                  .setValue(username + " đã đặt lịch khám gói SILVER lúc " +
+//                                                            tvBookTime.getText());
+//                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//
+//                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                b.create().show();
 
-                        doctorNotificationDatabase.child(IS_READED).setValue(false);
-                        doctorNotificationDatabase.child(NOTIFICATION)
-                                                  .setValue(username + " đã đặt lịch khám gói SILVER lúc " +
-                                                            tvBookTime.getText());
-                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+                clientNotificationDatabase.child(IS_READED).setValue(false);
+                clientNotificationDatabase.child(NOTIFICATION).setValue(
+                        "Đặt lịch khám gói SILVER với bác sỹ " + doctorName + L + tvBookTime.getText() +
+                        TC);
+                clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
 
-                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                b.create().show();
+                doctorNotificationDatabase.child(IS_READED).setValue(false);
+                doctorNotificationDatabase.child(NOTIFICATION)
+                                          .setValue(username + " đã đặt lịch khám gói SILVER lúc " +
+                                                    tvBookTime.getText());
+                doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+
+                Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
             }
         });
         gold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-                b.setTitle(R.string.confirm_appointment);
-                b.setMessage("Bạn có muốn đặt gói khám GOLD, vào lúc " + tvBookTime.getText() + K);
-                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        clientNotificationDatabase.child(IS_READED).setValue(false);
-                        clientNotificationDatabase.child(NOTIFICATION).setValue(
-                                "Đặt lịch khám gói GOLD với bác sỹ " + doctorName + L + tvBookTime.getText() +
-                                TC);
-                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+//                b.setTitle(R.string.confirm_appointment);
+//                b.setMessage("Bạn có muốn đặt gói khám GOLD, vào lúc " + tvBookTime.getText() + K);
+//                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        clientNotificationDatabase.child(IS_READED).setValue(false);
+//                        clientNotificationDatabase.child(NOTIFICATION).setValue(
+//                                "Đặt lịch khám gói GOLD với bác sỹ " + doctorName + L + tvBookTime.getText() +
+//                                TC);
+//                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//
+//                        doctorNotificationDatabase.child(IS_READED).setValue(false);
+//                        doctorNotificationDatabase.child(NOTIFICATION)
+//                                                  .setValue(username + " đã đặt lịch khám gói GOLD lúc " +
+//                                                            tvBookTime.getText());
+//                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//
+//                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                b.create().show();
 
-                        doctorNotificationDatabase.child(IS_READED).setValue(false);
-                        doctorNotificationDatabase.child(NOTIFICATION)
-                                                  .setValue(username + " đã đặt lịch khám gói GOLD lúc " +
-                                                            tvBookTime.getText());
-                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+                clientNotificationDatabase.child(IS_READED).setValue(false);
+                clientNotificationDatabase.child(NOTIFICATION).setValue(
+                        "Đặt lịch khám gói GOLD với bác sỹ " + doctorName + L + tvBookTime.getText() +
+                        TC);
+                clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
 
-                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                b.create().show();
+                doctorNotificationDatabase.child(IS_READED).setValue(false);
+                doctorNotificationDatabase.child(NOTIFICATION)
+                                          .setValue(username + " đã đặt lịch khám gói GOLD lúc " +
+                                                    tvBookTime.getText());
+                doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+
+                Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
             }
         });
         diamond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-                b.setTitle(R.string.confirm_appointment);
-                b.setMessage("Bạn có muốn đặt gói khám DIAMOND, vào lúc " + tvBookTime.getText() + K);
-                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        clientNotificationDatabase.child(IS_READED).setValue(false);
-                        clientNotificationDatabase.child(NOTIFICATION).setValue(
-                                "Đặt lịch khám gói DIAMOND với bác sỹ " + doctorName + L + tvBookTime.getText() +
-                                TC);
-                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+//                b.setTitle(R.string.confirm_appointment);
+//                b.setMessage("Bạn có muốn đặt gói khám DIAMOND, vào lúc " + tvBookTime.getText() + K);
+//                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        clientNotificationDatabase.child(IS_READED).setValue(false);
+//                        clientNotificationDatabase.child(NOTIFICATION).setValue(
+//                                "Đặt lịch khám gói DIAMOND với bác sỹ " + doctorName + L + tvBookTime.getText() +
+//                                TC);
+//                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//
+//                        doctorNotificationDatabase.child(IS_READED).setValue(false);
+//                        doctorNotificationDatabase.child(NOTIFICATION).setValue(
+//                                username + " " + getText(R.string.diamond_da_dat_lich_kham_luc) + " " +
+//                                tvBookTime.getText());
+//                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+//
+//                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//                b.create().show();
 
-                        doctorNotificationDatabase.child(IS_READED).setValue(false);
-                        doctorNotificationDatabase.child(NOTIFICATION).setValue(
-                                username + " " + getText(R.string.diamond_da_dat_lich_kham_luc) + " " +
-                                tvBookTime.getText());
-                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+                clientNotificationDatabase.child(IS_READED).setValue(false);
+                clientNotificationDatabase.child(NOTIFICATION).setValue(
+                        "Đặt lịch khám gói DIAMOND với bác sỹ " + doctorName + L + tvBookTime.getText() +
+                        TC);
+                clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
 
-                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                b.create().show();
+                doctorNotificationDatabase.child(IS_READED).setValue(false);
+                doctorNotificationDatabase.child(NOTIFICATION).setValue(
+                        username + " " + getText(R.string.diamond_da_dat_lich_kham_luc) + " " +
+                        tvBookTime.getText());
+                doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+
+                Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
             }
         });
         return view;

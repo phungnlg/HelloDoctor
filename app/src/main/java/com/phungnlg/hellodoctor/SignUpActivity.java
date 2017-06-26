@@ -39,7 +39,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import butterknife.ButterKnife;
+//import butterknife.ButterKnife;
 
 @EActivity(R.layout.activity_sign_up)
 public class SignUpActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {

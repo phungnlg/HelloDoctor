@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+//import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -87,7 +88,7 @@ public class NewsFeedFragment extends Fragment {
 
         sliderLayout = (SliderLayout) VIEW.findViewById(R.id.fragment_newsfeed_slider);
         HashMap<String, Integer> fileMaps = new HashMap<String, Integer>();
-        fileMaps.put("1", R.drawable.bg_slide3);
+        fileMaps.put("Khám bệnh tại nhà", R.drawable.bg_slide3);
         fileMaps.put("2", R.drawable.bg_slide4);
         fileMaps.put("3", R.drawable.bg_slide6);
         fileMaps.put("4", R.drawable.bg_slide7);
@@ -96,6 +97,7 @@ public class NewsFeedFragment extends Fragment {
         for (final String name : fileMaps.keySet()) {
             TextSliderView textSliderView = new TextSliderView(getContext());
             textSliderView
+                    .description(name)
                     .image(fileMaps.get(name))
                     .setScaleType(BaseSliderView.ScaleType.CenterCrop)
                     .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
@@ -111,9 +113,10 @@ public class NewsFeedFragment extends Fragment {
             sliderLayout.addSlider(textSliderView);
         }
         sliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
-        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom);
         sliderLayout.setCustomAnimation(new ChildAnimation());
         sliderLayout.setDuration(3000);
+        //sliderLayout.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
         sliderLayout.startAutoCycle();
         //sliderLayout.addOnPageChangeListener(getContext());
 
@@ -153,7 +156,7 @@ public class NewsFeedFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(final Holder viewHolder,
-                                              Post model,
+                                              final Post model,
                                               int position) {
                 final String POSTKEY = getRef(position).getKey();
 
@@ -183,6 +186,23 @@ public class NewsFeedFragment extends Fragment {
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                         ft.replace(R.id.newsfeed, f);
+                        ft.addToBackStack(null);
+                        ft.commit();
+                    }
+                });
+
+                viewHolder.tvUserName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("uid", model.getUid());
+                        bundle.putString("userName", model.getUsername());
+
+                        ChatFragment chatFragment = new ChatFragment_();
+                        chatFragment.setArguments(bundle);
+                        FragmentTransaction ft = getFragmentManager().beginTransaction();
+                        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
+                        ft.replace(R.id.newsfeed, chatFragment);
                         ft.addToBackStack(null);
                         ft.commit();
                     }
@@ -271,11 +291,13 @@ public class NewsFeedFragment extends Fragment {
     public static class Holder extends RecyclerView.ViewHolder {
         private View mView;
         private ImageButton btnLike;
+        private TextView tvUserName;
 
         public Holder(View itemView) {
             super(itemView);
             mView = itemView;
             btnLike = (ImageButton) mView.findViewById(R.id.item_newsfeed_ib_like);
+            tvUserName = (TextView) mView.findViewById(R.id.item_newsfeed_tv_user_name);
         }
 
         public View getmView() {

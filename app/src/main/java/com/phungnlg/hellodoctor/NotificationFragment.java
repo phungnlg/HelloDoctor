@@ -74,9 +74,15 @@ public class NotificationFragment extends Fragment {
                 final Boolean ISREADED;
                 viewHolder.setTime(model.getTime());
                 viewHolder.setBody(model.getNotification());
-                viewHolder.btnCheck.setOnClickListener(new View.OnClickListener() {
+//                viewHolder.btnCheck.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        mDatabase.child(NOTIFICATIONKEY).removeValue();
+//                    }
+//                });
+                viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View v) {
                         mDatabase.child(NOTIFICATIONKEY).removeValue();
                     }
                 });
@@ -88,14 +94,16 @@ public class NotificationFragment extends Fragment {
 
     public static class NotiHolder extends RecyclerView.ViewHolder {
         private View mView;
-        private ImageButton btnCheck;
+        //private ImageButton btnCheck;
+        private ImageButton btnDelete;
         private TextView noti;
 
         public NotiHolder(final View itemView) {
             super(itemView);
             mView = itemView;
-            btnCheck = (ImageButton) mView.findViewById(R.id.item_notification_ib_Check);
+            //btnCheck = (ImageButton) mView.findViewById(R.id.item_notification_ib_Check);
             noti = (TextView) mView.findViewById(R.id.item_notification_tv_body);
+            btnDelete = (ImageButton) mView.findViewById(R.id.item_notification_btn_delete);
         }
 
         public void setTime(final String notificationTime) {
