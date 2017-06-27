@@ -84,7 +84,7 @@ public class TabHomeActivity extends AppCompatActivity {
                 case 1:
                     return ProfileFragment.newInstance(2);
                 case 2:
-                    return NotificationFragment.newInstance(3);
+                    return NotificationFragment_.newInstance(3);
                 case 3:
                     return MoreFragment.newInstance(4);
             }

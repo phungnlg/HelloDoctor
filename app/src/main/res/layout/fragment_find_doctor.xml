@@ -17,9 +17,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:weightSum="1"
             >
 
             <FrameLayout
@@ -98,7 +97,7 @@
                     android:layout_height="15dp"
                     android:text="Vị trí hiện tại"
                     android:gravity="center"
-                    android:textColor="@color/jet"
+                    android:textColor="@color/white"
                     android:layout_marginBottom="10dp"
                     android:layout_weight="3.40"
                     />
@@ -126,19 +125,19 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fragment_find_doctor_list"
                 android:layout_width="match_parent"
-                android:layout_height="358dp"
-                android:layout_weight="32.70"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 >
             </android.support.v7.widget.RecyclerView>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/cover"
                 android:layout_marginTop="5dp"
                 android:orientation="vertical"
                 >
-            </LinearLayout>
+            </LinearLayout>-->
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

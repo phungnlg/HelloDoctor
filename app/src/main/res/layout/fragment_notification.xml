@@ -26,16 +26,33 @@
             android:textColor="@color/white"
             android:textSize="18dp"
             />
-
-        <ImageButton
-            android:id="@+id/fragment_notification_ib_check_all"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:layout_marginRight="20dp"
-            android:layout_weight="0.07"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_done_all_black_18dp"
-            />
+            >
+            <ImageButton
+                android:id="@+id/fragment_notification_ib_check_all"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.07"
+                android:background="@android:color/transparent"
+                android:tint="@color/white"
+                android:src="@drawable/ic_done_all_black_18dp"
+                />
+            <TextView
+                android:id="@+id/fragment_notification_tv_check_all"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="Xóa hết?"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="10sp"/>
+        </LinearLayout>
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

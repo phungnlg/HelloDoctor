@@ -4,9 +4,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+//import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+//import android.view.ViewGroup;
+//import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -16,45 +17,40 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+
 /**
  * Created by Phil on 07/05/2017.
  */
-
+@EFragment(R.layout.fragment_notification)
 public class NotificationFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     private int mPageNo;
-    private DatabaseReference mDatabase;
-    private FirebaseUser mUser;
-    private RecyclerView notificationList;
-    private int themeColor;
 
-    @Override
-    public void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPageNo = getArguments().getInt(ARG_PAGE);
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Notifications");
+    private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        final FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
+    @ViewById(R.id.fragment_notification_list_notification)
+    protected RecyclerView notificationList;
+    @ViewById(R.id.fragment_notification_ib_check_all)
+    protected ImageButton btnCheckAll;
+    @ViewById(R.id.fragment_notification_tv_check_all)
+    protected TextView tvCheckAll;
 
-        mUser = FirebaseAuth.getInstance().getCurrentUser();
+    private Boolean isConfirmedCheckAll = false;
 
-        mDatabase = DATABASE.getReference("Notifications")
-                            .child(mUser.getUid());
-        mDatabase.keepSynced(true);
-
-        themeColor = getResources().getColor(R.color.themecolor);
-    }
-
-    @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-                             final Bundle savedInstanceState) {
-        final View VIEW = inflater.inflate(R.layout.fragment_notification, container, false);
+    @AfterViews
+    public void afterView() {
+        mDatabase = mDatabase.child(mUser.getUid());
+        tvCheckAll.setVisibility(View.GONE);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-
-        notificationList = (RecyclerView) VIEW.findViewById(R.id.fragment_notification_list_notification);
         notificationList.setHasFixedSize(true);
         notificationList.setNestedScrollingEnabled(false);
         notificationList.setLayoutManager(layoutManager);
@@ -74,12 +70,7 @@ public class NotificationFragment extends Fragment {
                 final Boolean ISREADED;
                 viewHolder.setTime(model.getTime());
                 viewHolder.setBody(model.getNotification());
-//                viewHolder.btnCheck.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        mDatabase.child(NOTIFICATIONKEY).removeValue();
-//                    }
-//                });
+
                 viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -89,8 +80,98 @@ public class NotificationFragment extends Fragment {
             }
         };
         notificationList.setAdapter(firebaseRecyclerAdapter);
-        return VIEW;
     }
+
+    @Click(R.id.fragment_notification_ib_check_all)
+    public void setBtnCheckAll() {
+        if (isConfirmedCheckAll) {
+            mDatabase.removeValue();
+            tvCheckAll.setVisibility(View.GONE);
+            isConfirmedCheckAll = false;
+        }
+        else {
+            isConfirmedCheckAll = true;
+            tvCheckAll.setVisibility(View.VISIBLE);
+        }
+    }
+
+//    @Override
+//    public void onCreate(final Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        mPageNo = getArguments().getInt(ARG_PAGE);
+//
+//        final FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
+//
+//        mUser = FirebaseAuth.getInstance().getCurrentUser();
+//
+//        mDatabase = DATABASE.getReference("Notifications")
+//                            .child(mUser.getUid());
+//        mDatabase.keepSynced(true);
+//
+//        //themeColor = getResources().getColor(R.color.themecolor);
+//    }
+
+//    @Override
+//    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+//                             final Bundle savedInstanceState) {
+//        final View VIEW = inflater.inflate(R.layout.fragment_notification, container, false);
+//
+//        btnCheckAll = (ImageButton) VIEW.findViewById(R.id.fragment_notification_ib_check_all);
+//        tvCheckAll = (TextView) VIEW.findViewById(R.id.fragment_notification_tv_check_all);
+//        tvCheckAll.setVisibility(View.GONE);
+//
+//        btnCheckAll.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isConfirmedCheckAll) {
+//                    mDatabase.removeValue();
+//                    tvCheckAll.setVisibility(View.GONE);
+//                    isConfirmedCheckAll = false;
+//                }
+//                else {
+//                    isConfirmedCheckAll = true;
+//                    tvCheckAll.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
+//
+//        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+//        layoutManager.setReverseLayout(true);
+//        layoutManager.setStackFromEnd(true);
+//
+//
+//        notificationList = (RecyclerView) VIEW.findViewById(R.id.fragment_notification_list_notification);
+//        notificationList.setHasFixedSize(true);
+//        notificationList.setNestedScrollingEnabled(false);
+//        notificationList.setLayoutManager(layoutManager);
+//
+//        FirebaseRecyclerAdapter<Notification, NotiHolder> firebaseRecyclerAdapter
+//                = new FirebaseRecyclerAdapter<Notification, NotiHolder>(
+//                Notification.class,
+//                R.layout.item_notification2,
+//                NotiHolder.class,
+//                mDatabase
+//        ) {
+//            @Override
+//            protected void populateViewHolder(final NotiHolder viewHolder,
+//                                              final Notification model,
+//                                              final int position) {
+//                final String NOTIFICATIONKEY = getRef(position).getKey();
+//                final Boolean ISREADED;
+//                viewHolder.setTime(model.getTime());
+//                viewHolder.setBody(model.getNotification());
+//
+//                viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        mDatabase.child(NOTIFICATIONKEY).removeValue();
+//                    }
+//                });
+//            }
+//        };
+//        notificationList.setAdapter(firebaseRecyclerAdapter);
+//        return VIEW;
+//    }
 
     public static class NotiHolder extends RecyclerView.ViewHolder {
         private View mView;
@@ -118,10 +199,9 @@ public class NotificationFragment extends Fragment {
     }
 
     public static NotificationFragment newInstance(final int pageNo) {
-
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNo);
-        NotificationFragment fragment = new NotificationFragment();
+        NotificationFragment fragment = new NotificationFragment_();
         fragment.setArguments(args);
         return fragment;
     }

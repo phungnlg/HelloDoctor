@@ -3,9 +3,9 @@ package com.phungnlg.hellodoctor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
-import android.view.LayoutInflater;
+//import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+//import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,33 +19,55 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ViewById;
+
 /**
  * Created by Phil on 07/05/2017.
  */
-
+@EFragment(R.layout.fragment_doctor_background)
 public class CVFragment extends Fragment {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Profile").child(user.getUid());
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private TextView tvName;
-    private EditText etAcademicLevel;
-    private EditText etBackground;
-    private EditText etClinicName;
-    private EditText etClinicAddress;
-    private EditText etAward;
-    private EditText etAssociation;
-    private ImageButton btnSave;
-    private Boolean isEditMode;
-    private String key;
-    private String doctorName;
+    @ViewById(R.id.fragment_cv_tv_username)
+    protected TextView tvName;
+    @ViewById(R.id.fragment_cv_et_academiclevel)
+    protected EditText etAcademicLevel;
+    @ViewById(R.id.fragment_cv_et_background)
+    protected EditText etBackground;
+    @ViewById(R.id.fragment_cv_et_clinicname)
+    protected EditText etClinicName;
+    @ViewById(R.id.fragment_cv_et_clinicaddress)
+    protected EditText etClinicAddress;
+    @ViewById(R.id.fragment_cv_et_adward)
+    protected EditText etAward;
+    @ViewById(R.id.fragment_cv_et_association)
+    protected EditText etAssociation;
+    @ViewById(R.id.fragment_cv_btn_Save)
+    protected ImageButton btnSave;
+
+    @FragmentArg
+    protected String key;
+    @FragmentArg
+    protected Boolean isEditMode;
+    @FragmentArg
+    protected String doctorName;
 
     public CVFragment() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @AfterViews
+    public void afterView() {
+        //getBundle();
+        initUI();
+        loadData();
+    }
 
+    public void getBundle() {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             isEditMode = bundle.getBoolean("isEditMode");
@@ -54,20 +76,7 @@ public class CVFragment extends Fragment {
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final View VIEW = inflater.inflate(R.layout.fragment_doctor_background, container, false);
-
-        tvName = (TextView) VIEW.findViewById(R.id.fragment_cv_tv_username);
-        etAcademicLevel = (EditText) VIEW.findViewById(R.id.fragment_cv_et_academiclevel);
-        etBackground = (EditText) VIEW.findViewById(R.id.fragment_cv_et_background);
-        etClinicName = (EditText) VIEW.findViewById(R.id.fragment_cv_et_clinicname);
-        etClinicAddress = (EditText) VIEW.findViewById(R.id.fragment_cv_et_clinicaddress);
-        etAward = (EditText) VIEW.findViewById(R.id.fragment_cv_et_adward);
-        etAssociation = (EditText) VIEW.findViewById(R.id.fragment_cv_et_association);
-        btnSave = (ImageButton) VIEW.findViewById(R.id.fragment_cv_btn_Save);
-
+    public void initUI() {
         if (!isEditMode) {
             btnSave.setVisibility(View.GONE);
             tvName.setText(getText(R.string.cv_doctor) + " - BS " + doctorName);
@@ -92,19 +101,60 @@ public class CVFragment extends Fragment {
                 }
             });
         }
+    }
 
+    @Click(R.id.fragment_cv_btn_Save)
+    public void setBtnSave() {
+        if (etAcademicLevel.getText().toString() != null) {
+            mDatabase.child("al").setValue(etAcademicLevel.getText().toString());
+        } else {
+            mDatabase.child("al").setValue(getText(R.string.cv_no_info));
+        }
+
+        if (etBackground.getText().toString() != null) {
+            mDatabase.child("bg").setValue(etBackground.getText().toString());
+        } else {
+            mDatabase.child("bg").setValue(getText(R.string.cv_no_info));
+        }
+
+        if (etClinicName.getText().toString() != null) {
+            mDatabase.child("cn").setValue(etClinicName.getText().toString());
+        } else {
+            mDatabase.child("cn").setValue(getText(R.string.cv_no_info));
+        }
+
+        if (etClinicAddress.getText().toString() != null) {
+            mDatabase.child("ca").setValue(etClinicAddress.getText().toString());
+        } else {
+            mDatabase.child("ca").setValue(getText(R.string.cv_no_info));
+        }
+
+        if (etAward.getText().toString() != null) {
+            mDatabase.child("aw").setValue(etAward.getText().toString());
+        } else {
+            mDatabase.child("aw").setValue(getText(R.string.cv_no_info));
+        }
+
+        if (etAssociation.getText().toString() != null) {
+            mDatabase.child("as").setValue(etAssociation.getText().toString());
+        } else {
+            mDatabase.child("as").setValue(getText(R.string.cv_no_info));
+        }
+
+        Toast.makeText(getContext(), R.string.ho_so_cap_nhat_thanh_cong, Toast.LENGTH_SHORT).show();
+    }
+
+    public void loadData() {
         DatabaseReference m = database.getReference("Profile").child(key);
         m.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                etAcademicLevel.setHint(dataSnapshot.child("al").getValue().toString());
-                etBackground.setHint(dataSnapshot.child("bg").getValue().toString());
-                etClinicName.setHint(dataSnapshot.child("cn").getValue().toString());
-                etClinicAddress.setHint(dataSnapshot.child("ca").getValue().toString());
-                etAward.setHint(dataSnapshot.child("aw").getValue().toString());
-                etAssociation.setHint(dataSnapshot.child("as").getValue().toString());
-
-
+                etAcademicLevel.setText(dataSnapshot.child("al").getValue().toString());
+                etBackground.setText(dataSnapshot.child("bg").getValue().toString());
+                etClinicName.setText(dataSnapshot.child("cn").getValue().toString());
+                etClinicAddress.setText(dataSnapshot.child("ca").getValue().toString());
+                etAward.setText(dataSnapshot.child("aw").getValue().toString());
+                etAssociation.setText(dataSnapshot.child("as").getValue().toString());
             }
 
             @Override
@@ -112,50 +162,5 @@ public class CVFragment extends Fragment {
 
             }
         });
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (etAcademicLevel.getText().toString() != null) {
-                    mDatabase.child("al").setValue(etAcademicLevel.getText().toString());
-                } else {
-                    mDatabase.child("al").setValue(getText(R.string.cv_no_info));
-                }
-
-                if (etBackground.getText().toString() != null) {
-                    mDatabase.child("bg").setValue(etBackground.getText().toString());
-                } else {
-                    mDatabase.child("bg").setValue(getText(R.string.cv_no_info));
-                }
-
-                if (etClinicName.getText().toString() != null) {
-                    mDatabase.child("cn").setValue(etClinicName.getText().toString());
-                } else {
-                    mDatabase.child("cn").setValue(getText(R.string.cv_no_info));
-                }
-
-                if (etClinicAddress.getText().toString() != null) {
-                    mDatabase.child("ca").setValue(etClinicAddress.getText().toString());
-                } else {
-                    mDatabase.child("ca").setValue(getText(R.string.cv_no_info));
-                }
-
-                if (etAward.getText().toString() != null) {
-                    mDatabase.child("aw").setValue(etAward.getText().toString());
-                } else {
-                    mDatabase.child("aw").setValue(getText(R.string.cv_no_info));
-                }
-
-                if (etAssociation.getText().toString() != null) {
-                    mDatabase.child("as").setValue(etAssociation.getText().toString());
-                } else {
-                    mDatabase.child("as").setValue(getText(R.string.cv_no_info));
-                }
-
-                Toast.makeText(getContext(), R.string.ho_so_cap_nhat_thanh_cong, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        return VIEW;
     }
 }

@@ -154,12 +154,13 @@ public class ProfileFragment extends Fragment {
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 bundle.putBoolean("isEditMode", true);
-                bundle.putString("key", user.getUid());
+                bundle.putString("key", user.getUid());*/
 
-                CVFragment f = new CVFragment();
-                f.setArguments(bundle);
+                //CVFragment f = new CVFragment_();
+                CVFragment f = CVFragment_.builder().isEditMode(true).key(user.getUid()).build();
+                //f.setArguments(bundle);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                 ft.replace(R.id.tab_profile, f);

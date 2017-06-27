@@ -1,15 +1,18 @@
 package com.phungnlg.hellodoctor;
 
-import android.content.DialogInterface;
+//import android.content.DialogInterface;
+import android.app.Dialog;
 import android.content.Intent;
+//import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 //import android.os.ParcelUuid;
+//import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
+//import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.geniusforapp.fancydialog.FancyAlertDialog;
 import com.github.florent37.singledateandtimepicker.dialog.SingleDateAndTimePickerDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -201,69 +205,51 @@ public class BookAppointmentFragment extends Fragment {
         bronze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-//                b.setTitle(R.string.confirm_appointment);
-//                b.setMessage("Bạn có muốn đặt gói khám BRONZE, vào lúc " + tvBookTime.getText() + K);
-//                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        clientNotificationDatabase.child(IS_READED).setValue(false);
-//                        clientNotificationDatabase.child(NOTIFICATION).setValue(
-//                                "Đặt lịch khám gói BRONZE với bác sỹ " + doctorName + L + tvBookTime.getText() +
-//                                TC);
-//                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
-//
-//                        doctorNotificationDatabase.child(IS_READED).setValue(false);
-//                        doctorNotificationDatabase.child(NOTIFICATION)
-//                                                  .setValue(username + " đã đặt lịch khám gói BRONZE lúc " +
-//                                                            tvBookTime.getText());
-//                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
-//
-//                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                b.create().show();
 
-                clientNotificationDatabase.child(IS_READED).setValue(false);
-                clientNotificationDatabase.child(NOTIFICATION).setValue(
-                        "Đặt lịch khám gói BRONZE với bác sỹ " + doctorName + L + tvBookTime.getText() +
-                        TC);
-                clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+                FancyAlertDialog.Builder alert = new FancyAlertDialog.Builder(getContext())
+                        .setImageRecourse(R.drawable.ic_vector_schedule)
+                        .setTextSubTitle("Gói BRONZE")
+                        .setBody("Bạn có muốn đặt gói khám SILVER, vào lúc " + tvBookTime.getText() + K)
+                        .setNegativeColor(R.color.jet)
+                        .setNegativeButtonText("Để sau")
+                        .setOnNegativeClicked(new FancyAlertDialog.OnNegativeClicked() {
+                            @Override
+                            public void OnClick(View view, Dialog dialog) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setPositiveButtonText("Đặt lịch")
+                        .setPositiveColor(R.color.themecolor)
+                        .setOnPositiveClicked(new FancyAlertDialog.OnPositiveClicked() {
+                            @Override
+                            public void OnClick(View view, Dialog dialog) {
+                                clientNotificationDatabase.child(IS_READED).setValue(false);
+                                clientNotificationDatabase.child(NOTIFICATION).setValue(
+                                        "Đặt lịch khám gói BRONZE với bác sỹ " + doctorName + L + tvBookTime.getText() +
+                                        TC);
+                                clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
 
-                doctorNotificationDatabase.child(IS_READED).setValue(false);
-                doctorNotificationDatabase.child(NOTIFICATION)
-                                          .setValue(username + " đã đặt lịch khám gói BRONZE lúc " +
-                                                    tvBookTime.getText());
-                doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
+                                doctorNotificationDatabase.child(IS_READED).setValue(false);
+                                doctorNotificationDatabase.child(NOTIFICATION)
+                                                          .setValue(username + " đã đặt lịch khám gói BRONZE lúc " +
+                                                                    tvBookTime.getText());
+                                doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
 
-                Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        })
+                        .setButtonsGravity(FancyAlertDialog.PanelGravity.CENTER)
+                        .build();
+                alert.show();
             }
         });
+
+
+
         silver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-//                b.setTitle(R.string.confirm_appointment);
-//                b.setMessage("Bạn có muốn đặt gói khám SILVER, vào lúc " + tvBookTime.getText() + K);
-//                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        clientNotificationDatabase.child(IS_READED).setValue(false);
-//                        clientNotificationDatabase.child(NOTIFICATION).setValue(
-//                                "Đặt lịch khám gói SILVER với bác sỹ " + doctorName + L + tvBookTime.getText() +
-//                                TC);
-//                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
-//
-//                        doctorNotificationDatabase.child(IS_READED).setValue(false);
-//                        doctorNotificationDatabase.child(NOTIFICATION)
-//                                                  .setValue(username + " đã đặt lịch khám gói SILVER lúc " +
-//                                                            tvBookTime.getText());
-//                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
-//
-//                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                b.create().show();
 
                 clientNotificationDatabase.child(IS_READED).setValue(false);
                 clientNotificationDatabase.child(NOTIFICATION).setValue(
@@ -283,28 +269,6 @@ public class BookAppointmentFragment extends Fragment {
         gold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-//                b.setTitle(R.string.confirm_appointment);
-//                b.setMessage("Bạn có muốn đặt gói khám GOLD, vào lúc " + tvBookTime.getText() + K);
-//                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        clientNotificationDatabase.child(IS_READED).setValue(false);
-//                        clientNotificationDatabase.child(NOTIFICATION).setValue(
-//                                "Đặt lịch khám gói GOLD với bác sỹ " + doctorName + L + tvBookTime.getText() +
-//                                TC);
-//                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
-//
-//                        doctorNotificationDatabase.child(IS_READED).setValue(false);
-//                        doctorNotificationDatabase.child(NOTIFICATION)
-//                                                  .setValue(username + " đã đặt lịch khám gói GOLD lúc " +
-//                                                            tvBookTime.getText());
-//                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
-//
-//                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                b.create().show();
 
                 clientNotificationDatabase.child(IS_READED).setValue(false);
                 clientNotificationDatabase.child(NOTIFICATION).setValue(
@@ -324,28 +288,6 @@ public class BookAppointmentFragment extends Fragment {
         diamond.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AlertDialog.Builder b = new AlertDialog.Builder(getContext());
-//                b.setTitle(R.string.confirm_appointment);
-//                b.setMessage("Bạn có muốn đặt gói khám DIAMOND, vào lúc " + tvBookTime.getText() + K);
-//                b.setPositiveButton("Có", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        clientNotificationDatabase.child(IS_READED).setValue(false);
-//                        clientNotificationDatabase.child(NOTIFICATION).setValue(
-//                                "Đặt lịch khám gói DIAMOND với bác sỹ " + doctorName + L + tvBookTime.getText() +
-//                                TC);
-//                        clientNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
-//
-//                        doctorNotificationDatabase.child(IS_READED).setValue(false);
-//                        doctorNotificationDatabase.child(NOTIFICATION).setValue(
-//                                username + " " + getText(R.string.diamond_da_dat_lich_kham_luc) + " " +
-//                                tvBookTime.getText());
-//                        doctorNotificationDatabase.child(TIME).setValue(OUTPUTFORMAT.format(LOCALTIME));
-//
-//                        Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//                b.create().show();
 
                 clientNotificationDatabase.child(IS_READED).setValue(false);
                 clientNotificationDatabase.child(NOTIFICATION).setValue(

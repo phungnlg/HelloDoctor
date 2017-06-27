@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.geniusforapp.fancydialog.FancyAlertDialog;
+import com.google.android.gms.maps.LocationSource;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +44,7 @@ import java.util.Locale;
  * Created by Phil on 07/05/2017.
  */
 
-public class FindDoctorFragment extends Fragment {
+public class FindDoctorFragment extends Fragment implements LocationSource.OnLocationChangedListener {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("message")
                                                           .child("user-doctor");
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -53,10 +55,11 @@ public class FindDoctorFragment extends Fragment {
 
     private Spinner spnMajor;
 
+    private Location lastLocation;
+
     private Query sortMajor;
     private ImageButton btnSearch;
 
-    private Location location;
     private Geocoder geocoder;
 
     public FindDoctorFragment() {
@@ -85,21 +88,23 @@ public class FindDoctorFragment extends Fragment {
                 .getSystemService(getContext().LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         //Vị trí hiện tại
-        final Location LASTLOCATION = locationManager.getLastKnownLocation(
+        lastLocation = locationManager.getLastKnownLocation(
                 locationManager.getBestProvider(criteria, false));
+
         List<android.location.Address> addresses = null;
 
         geocoder = new Geocoder(this.getContext(), Locale.getDefault());
-
-        try {
-            addresses = geocoder.getFromLocation(
-                    LASTLOCATION.getLatitude(),
-                    LASTLOCATION.getLongitude(),
-                    1);
-        } catch (IOException ioException) {
-            // Catch network or other I/O problems.
-        } catch (IllegalArgumentException illegalArgumentException) {
-            // Catch invalid latitude or longitude values.
+        if(lastLocation != null) {
+            try {
+                addresses = geocoder.getFromLocation(
+                        lastLocation.getLatitude(),
+                        lastLocation.getLongitude(),
+                        1);
+            } catch (IOException ioException) {
+                // Catch network or other I/O problems.
+            } catch (IllegalArgumentException illegalArgumentException) {
+                // Catch invalid latitude or longitude values.
+            }
         }
 
         etLocation.setHint(addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
@@ -107,7 +112,13 @@ public class FindDoctorFragment extends Fragment {
         doctorList = (RecyclerView) VIEW.findViewById(R.id.fragment_find_doctor_list);
         doctorList.setHasFixedSize(true);
         doctorList.setNestedScrollingEnabled(false);
-        doctorList.setLayoutManager(new LinearLayoutManager(this.getContext()));
+
+        final LinearLayoutManager LAYOUTMANAGER = new LinearLayoutManager(this.getContext());
+        LAYOUTMANAGER.setReverseLayout(true);
+        LAYOUTMANAGER.setStackFromEnd(true);
+
+        //doctorList.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        doctorList.setLayoutManager(LAYOUTMANAGER);
 
         spnMajor = (Spinner) VIEW.findViewById(R.id.fragment_find_doctor_spn_major);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter
@@ -122,12 +133,11 @@ public class FindDoctorFragment extends Fragment {
             public void onClick(final View view) {
                 sortMajor = mDatabase.orderByChild("major").equalTo(spnMajor.getSelectedItem().toString());
 
-                FirebaseRecyclerAdapter<Doctor, dHolder> firebaseRecyclerAdapter
+                final FirebaseRecyclerAdapter<Doctor, dHolder> ADAPTER
                         = new FirebaseRecyclerAdapter<Doctor, dHolder>(
                         Doctor.class,
                         R.layout.item_doctor,
                         dHolder.class,
-                        //mDatabase.orderByChild("major").equalTo("Nhi khoa")
                         sortMajor
                 ) {
                     @Override
@@ -135,15 +145,14 @@ public class FindDoctorFragment extends Fragment {
                         viewHolder.setName(model.getName());
                         viewHolder.setAddress(model.getAddress());
                         viewHolder.setBio("Bác sỹ " + model.getMajor() + " tại " + model.getWorkplace());
-                        //viewHolder.setRating("  " + model.mobile);
 
                         try {
                             List<Address> doctorLocation = geocoder.getFromLocationName(
                                     String.valueOf(model.getAddress()), 1);
                             Address location = doctorLocation.get(0);
                             Double distance = distance(
-                                    LASTLOCATION.getLatitude(),
-                                    LASTLOCATION.getLongitude(),
+                                    lastLocation.getLatitude(),
+                                    lastLocation.getLongitude(),
                                     location.getLatitude(),
                                     location.getLongitude());
                             viewHolder.setRating("  " + Math.round(distance) + " km");
@@ -231,13 +240,10 @@ public class FindDoctorFragment extends Fragment {
                         viewHolder.btnWorkingExperience.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Bundle bundle = new Bundle();
-                                bundle.putBoolean("isEditMode", false);
-                                bundle.putString("key", DOCTORKEY);
-                                bundle.putString("doctorName", DOCTORNAME);
 
-                                CVFragment f = new CVFragment();
-                                f.setArguments(bundle);
+                                CVFragment f = CVFragment_.builder().isEditMode(false).key(DOCTORKEY)
+                                                          .doctorName(DOCTORNAME).build();
+
                                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                                 ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                                 ft.replace(R.id.find_doctor, f);
@@ -247,11 +253,51 @@ public class FindDoctorFragment extends Fragment {
                         });
                     }
                 };
-                doctorList.setAdapter(firebaseRecyclerAdapter);
+                ADAPTER.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                    @Override
+                    public void onItemRangeInserted(final int positionStart, final int itemCount) {
+                        super.onItemRangeInserted(positionStart, itemCount);
+                        int friendlyMessageCount = ADAPTER.getItemCount();
+                        int lastVisiblePosition =
+                                LAYOUTMANAGER.findLastCompletelyVisibleItemPosition();
+                        if (lastVisiblePosition == -1
+                            || (positionStart >= (friendlyMessageCount - 1)
+                                && lastVisiblePosition == (positionStart - 1))) {
+                            doctorList.scrollToPosition(positionStart);
+                        }
+                    }
+                });
+                doctorList.setAdapter(ADAPTER);
             }
         });
 
         return VIEW;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (lastLocation == null) {
+            lastLocation = location;
+
+            List<android.location.Address> addresses = null;
+            Log.e("Location", location.toString());
+
+            if (lastLocation != null) {
+                try {
+                    addresses = geocoder.getFromLocation(
+                            lastLocation.getLatitude(),
+                            lastLocation.getLongitude(),
+                            1);
+                } catch (IOException ioException) {
+                    // Catch network or other I/O problems.
+                } catch (IllegalArgumentException illegalArgumentException) {
+                    // Catch invalid latitude or longitude values.
+                }
+            }
+
+            //etLocation.setHint(addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
+            etLocation.setText("" + location.toString());
+        }
     }
 
     public static class dHolder extends RecyclerView.ViewHolder {
