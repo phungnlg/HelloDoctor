@@ -1,4 +1,4 @@
-package com.phungnlg.hellodoctor.Others;
+package com.phungnlg.hellodoctor.others;
 
 import android.content.Context;
 import android.graphics.Typeface;

@@ -4,7 +4,7 @@ package com.phungnlg.hellodoctor;
  * Created by Phil on 07/05/2017.
  */
 
-public class Post {
+public class PostItem {
     private int vote;
     private int answer;
     private String uid;
@@ -15,10 +15,10 @@ public class Post {
     private String time;
     private String photoUrl;
 
-    public Post() {
+    public PostItem() {
     }
 
-    public Post(String _uid, String _tittle, String _body, int _vote, int _answer, String _username, String _tag,
+    public PostItem(String _uid, String _tittle, String _body, int _vote, int _answer, String _username, String _tag,
                 String _time) {
         this.uid = _uid;
         this.title = _tittle;

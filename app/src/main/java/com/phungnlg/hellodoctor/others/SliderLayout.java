@@ -1,4 +1,4 @@
-package com.phungnlg.hellodoctor.Others;
+package com.phungnlg.hellodoctor.others;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -446,53 +446,37 @@ public class SliderLayout extends RelativeLayout {
     public void setPresetTransformer(Transformer ts) {
         BaseTransformer t = null;
         switch (ts) {
-            case Default:
-                t = new DefaultTransformer();
+            case Default: t = new DefaultTransformer();
                 break;
-            case Accordion:
-                t = new AccordionTransformer();
+            case Accordion: t = new AccordionTransformer();
                 break;
-            case Background2Foreground:
-                t = new BackgroundToForegroundTransformer();
+            case Background2Foreground: t = new BackgroundToForegroundTransformer();
                 break;
-            case CubeIn:
-                t = new CubeInTransformer();
+            case CubeIn: t = new CubeInTransformer();
                 break;
-            case DepthPage:
-                t = new DepthPageTransformer();
+            case DepthPage: t = new DepthPageTransformer();
                 break;
-            case Fade:
-                t = new FadeTransformer();
+            case Fade: t = new FadeTransformer();
                 break;
-            case FlipHorizontal:
-                t = new FlipHorizontalTransformer();
+            case FlipHorizontal: t = new FlipHorizontalTransformer();
                 break;
-            case FlipPage:
-                t = new FlipPageViewTransformer();
+            case FlipPage: t = new FlipPageViewTransformer();
                 break;
-            case Foreground2Background:
-                t = new ForegroundToBackgroundTransformer();
+            case Foreground2Background: t = new ForegroundToBackgroundTransformer();
                 break;
-            case RotateDown:
-                t = new RotateDownTransformer();
+            case RotateDown: t = new RotateDownTransformer();
                 break;
-            case RotateUp:
-                t = new RotateUpTransformer();
+            case RotateUp: t = new RotateUpTransformer();
                 break;
-            case Stack:
-                t = new StackTransformer();
+            case Stack: t = new StackTransformer();
                 break;
-            case Tablet:
-                t = new TabletTransformer();
+            case Tablet: t = new TabletTransformer();
                 break;
-            case ZoomIn:
-                t = new ZoomInTransformer();
+            case ZoomIn: t = new ZoomInTransformer();
                 break;
-            case ZoomOutSlide:
-                t = new ZoomOutSlideTransformer();
+            case ZoomOutSlide: t = new ZoomOutSlideTransformer();
                 break;
-            case ZoomOut:
-                t = new ZoomOutTransformer();
+            case ZoomOut: t = new ZoomOutTransformer();
                 break;
         }
         setPagerTransformer(true, t);
@@ -678,7 +662,8 @@ public class SliderLayout extends RelativeLayout {
         }
 
         public boolean isEquals(String other) {
-            return (other == null) ? false : name.equals(other);
+            //return (other == null) ? false : name.equals(other);
+            return (other != null && name.equals(other));
         }
     }
 

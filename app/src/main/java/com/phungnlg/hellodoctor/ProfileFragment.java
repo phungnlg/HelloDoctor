@@ -107,16 +107,16 @@ public class ProfileFragment extends Fragment {
         });
         Query sortByTime = postDatabase.orderByChild("uid").equalTo(user.getUid());
 
-        final FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder> ADAPTER
-                = new FirebaseRecyclerAdapter<Post, NewsFeedFragment.Holder>(
-                Post.class,
+        final FirebaseRecyclerAdapter<PostItem, NewsFeedFragment.Holder> ADAPTER
+                = new FirebaseRecyclerAdapter<PostItem, NewsFeedFragment.Holder>(
+                PostItem.class,
                 R.layout.item_news_feed,
                 NewsFeedFragment.Holder.class,
                 //mDatabase
                 sortByTime
         ) {
             @Override
-            protected void populateViewHolder(final NewsFeedFragment.Holder viewHolder, Post model, int position) {
+            protected void populateViewHolder(final NewsFeedFragment.Holder viewHolder, PostItem model, int position) {
                 final String POSTKEY = getRef(position).getKey();
 
                 viewHolder.setBody(model.getBody());
@@ -137,8 +137,8 @@ public class ProfileFragment extends Fragment {
                         Bundle bundle = new Bundle();
                         bundle.putString("post_key", POSTKEY);
 
-                        SinglePostFragment f = new SinglePostFragment();
-                        f.setArguments(bundle);
+                        SinglePostFragment f = SinglePostFragment_.builder().postKey(POSTKEY).build();
+                        //f.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                         ft.replace(R.id.tab_profile, f);

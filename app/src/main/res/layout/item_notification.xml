@@ -35,7 +35,7 @@
                 android:weightSum="1"
                 >
 
-                <com.phungnlg.hellodoctor.Others.MyTextView
+                <com.phungnlg.hellodoctor.others.MyTextView
                     android:id="@+id/item_notification_tv_time"
                     android:layout_width="98dp"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:orientation="vertical"
                     >
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_notification_tv_body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

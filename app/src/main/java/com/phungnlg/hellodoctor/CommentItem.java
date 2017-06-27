@@ -6,16 +6,16 @@ package com.phungnlg.hellodoctor;
  * Created by Phil on 07/05/2017.
  */
 
-public class Comment {
+public class CommentItem {
     private String name;
     private String uid;
     private String comment;
     private String time;
 
-    public Comment() {
+    public CommentItem() {
     }
 
-    public Comment(String _name, String _uid, String _comment) {
+    public CommentItem(String _name, String _uid, String _comment) {
         this.comment = _comment;
         this.name = _name;
         this.uid = _uid;

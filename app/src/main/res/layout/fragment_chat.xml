@@ -54,7 +54,7 @@
             android:orientation="vertical">
 
 
-            <com.phungnlg.hellodoctor.Others.MyTextView
+            <com.phungnlg.hellodoctor.others.MyTextView
                 android:id="@+id/fragment_chat_tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <com.phungnlg.hellodoctor.Others.MyTextView
+            <com.phungnlg.hellodoctor.others.MyTextView
                 android:id="@+id/fragment_chat_tv_bio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
         android:id="@+id/linearLayout2"
         >
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_chat_et_message"
             android:layout_width="265dp"
             android:layout_height="50dp"

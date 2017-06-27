@@ -49,7 +49,7 @@
                     android:orientation="vertical"
                     >
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_doctor_tv_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -61,7 +61,7 @@
                         android:textSize="18dp"
                         />
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_doctor_tv_address"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                         android:textSize="14dp"
                         />
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_doctor_tv_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                         android:textSize="14dp"
                         />
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_doctor_tv_rating"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

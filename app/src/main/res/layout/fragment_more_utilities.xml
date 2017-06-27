@@ -15,7 +15,7 @@
         android:background="#00B873"
         >
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_more_btn_find_doctor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
             android:textSize="16sp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_more_btn_appointment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             android:textSize="16sp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_more_btn_sign_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

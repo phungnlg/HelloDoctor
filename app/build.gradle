@@ -76,6 +76,7 @@ dependencies {
     compile 'com.daimajia.slider:library:1.1.5@aar'
     compile 'jp.wasabeef:recyclerview-animators:2.2.6'
     compile 'ru.rambler.android:swipe-layout:1.0.14'
+    compile 'com.android.support:customtabs:25.3.1'
     testCompile 'junit:junit:4.12'
 }
 

@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.phungnlg.hellodoctor.Others.PlaceAutocompleteAdapter;
+import com.phungnlg.hellodoctor.others.PlaceAutocompleteAdapter;
 
 //import butterknife.Bind;
 import org.androidannotations.annotations.AfterViews;
@@ -313,50 +313,42 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
 
     public boolean validate() {
         boolean valid = true;
-
         String name = etName.getText().toString();
         String address = etAddress.getText().toString();
         String email = etEmail.getText().toString();
         String mobile = etMobileNumber.getText().toString();
         String password = etPassword.getText().toString();
         String reEnterPassword = etReenterPassword.getText().toString();
-
         if (name.isEmpty() || name.length() < 3) {
             etName.setError(getText(R.string.enter_valid_name));
             valid = false;
         } else {
             etName.setError(null);
         }
-
         if (address.isEmpty()) {
             etAddress.setError(getText(R.string.enter_valid_address));
             valid = false;
         } else {
             etAddress.setError(null);
         }
-
-
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             etEmail.setError(getText(R.string.enter_valid_email));
             valid = false;
         } else {
             etEmail.setError(null);
         }
-
         if (mobile.isEmpty() || mobile.length() < 10) {
             etMobileNumber.setError(getText(R.string.enter_valid_phone_number));
             valid = false;
         } else {
             etMobileNumber.setError(null);
         }
-
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
             etPassword.setError(getText(R.string.enter_valid_password));
             valid = false;
         } else {
             etPassword.setError(null);
         }
-
         if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 ||
             !(reEnterPassword.equals(password))) {
             etReenterPassword.setError(getText(R.string.enter_matched_password));
@@ -364,7 +356,6 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
         } else {
             etReenterPassword.setError(null);
         }
-
         return valid;
     }
 

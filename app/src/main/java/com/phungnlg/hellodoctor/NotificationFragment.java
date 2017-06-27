@@ -55,16 +55,16 @@ public class NotificationFragment extends Fragment {
         notificationList.setNestedScrollingEnabled(false);
         notificationList.setLayoutManager(layoutManager);
 
-        FirebaseRecyclerAdapter<Notification, NotiHolder> firebaseRecyclerAdapter
-                = new FirebaseRecyclerAdapter<Notification, NotiHolder>(
-                Notification.class,
+        FirebaseRecyclerAdapter<NotificationItem, NotiHolder> firebaseRecyclerAdapter
+                = new FirebaseRecyclerAdapter<NotificationItem, NotiHolder>(
+                NotificationItem.class,
                 R.layout.item_notification2,
                 NotiHolder.class,
                 mDatabase
         ) {
             @Override
             protected void populateViewHolder(final NotiHolder viewHolder,
-                                              final Notification model,
+                                              final NotificationItem model,
                                               final int position) {
                 final String NOTIFICATIONKEY = getRef(position).getKey();
                 final Boolean ISREADED;
@@ -94,84 +94,6 @@ public class NotificationFragment extends Fragment {
             tvCheckAll.setVisibility(View.VISIBLE);
         }
     }
-
-//    @Override
-//    public void onCreate(final Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        mPageNo = getArguments().getInt(ARG_PAGE);
-//
-//        final FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
-//
-//        mUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        mDatabase = DATABASE.getReference("Notifications")
-//                            .child(mUser.getUid());
-//        mDatabase.keepSynced(true);
-//
-//        //themeColor = getResources().getColor(R.color.themecolor);
-//    }
-
-//    @Override
-//    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-//                             final Bundle savedInstanceState) {
-//        final View VIEW = inflater.inflate(R.layout.fragment_notification, container, false);
-//
-//        btnCheckAll = (ImageButton) VIEW.findViewById(R.id.fragment_notification_ib_check_all);
-//        tvCheckAll = (TextView) VIEW.findViewById(R.id.fragment_notification_tv_check_all);
-//        tvCheckAll.setVisibility(View.GONE);
-//
-//        btnCheckAll.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isConfirmedCheckAll) {
-//                    mDatabase.removeValue();
-//                    tvCheckAll.setVisibility(View.GONE);
-//                    isConfirmedCheckAll = false;
-//                }
-//                else {
-//                    isConfirmedCheckAll = true;
-//                    tvCheckAll.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
-//
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
-//        layoutManager.setReverseLayout(true);
-//        layoutManager.setStackFromEnd(true);
-//
-//
-//        notificationList = (RecyclerView) VIEW.findViewById(R.id.fragment_notification_list_notification);
-//        notificationList.setHasFixedSize(true);
-//        notificationList.setNestedScrollingEnabled(false);
-//        notificationList.setLayoutManager(layoutManager);
-//
-//        FirebaseRecyclerAdapter<Notification, NotiHolder> firebaseRecyclerAdapter
-//                = new FirebaseRecyclerAdapter<Notification, NotiHolder>(
-//                Notification.class,
-//                R.layout.item_notification2,
-//                NotiHolder.class,
-//                mDatabase
-//        ) {
-//            @Override
-//            protected void populateViewHolder(final NotiHolder viewHolder,
-//                                              final Notification model,
-//                                              final int position) {
-//                final String NOTIFICATIONKEY = getRef(position).getKey();
-//                final Boolean ISREADED;
-//                viewHolder.setTime(model.getTime());
-//                viewHolder.setBody(model.getNotification());
-//
-//                viewHolder.btnDelete.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        mDatabase.child(NOTIFICATIONKEY).removeValue();
-//                    }
-//                });
-//            }
-//        };
-//        notificationList.setAdapter(firebaseRecyclerAdapter);
-//        return VIEW;
-//    }
 
     public static class NotiHolder extends RecyclerView.ViewHolder {
         private View mView;

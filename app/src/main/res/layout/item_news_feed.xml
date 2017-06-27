@@ -63,7 +63,7 @@
                         android:src="@drawable/img_profile_picture_small"
                         />
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_newsfeed_tv_user_name"
                         android:layout_width="158dp"
                         android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                         android:textStyle="bold"
                         />
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_newsfeed_tv_post_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                     android:orientation="vertical"
                     >
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_newsfeed_tv_post_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
                         android:textSize="17dp"
                         />
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_newsfeed_tv_post_body"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                         android:textSize="15dp"
                         />
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/item_newsfeed_tv_post_category"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

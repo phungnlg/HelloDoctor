@@ -1,4 +1,4 @@
-package com.phungnlg.hellodoctor.Others;
+package com.phungnlg.hellodoctor.others;
 
 import android.util.Log;
 import android.view.View;

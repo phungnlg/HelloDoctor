@@ -94,7 +94,7 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
         List<android.location.Address> addresses = null;
 
         geocoder = new Geocoder(this.getContext(), Locale.getDefault());
-        if(lastLocation != null) {
+        if (lastLocation != null) {
             try {
                 addresses = geocoder.getFromLocation(
                         lastLocation.getLatitude(),

@@ -4,15 +4,15 @@ package com.phungnlg.hellodoctor;
  * Created by Phil on 07/05/2017.
  */
 
-public class Notification {
+public class NotificationItem {
     private String time;
     private String notification;
     private Boolean isReaded;
 
-    public Notification() {
+    public NotificationItem() {
     }
 
-    public Notification(String _time, String _body, Boolean _isReaded) {
+    public NotificationItem(String _time, String _body, Boolean _isReaded) {
         this.time = _time;
         this.notification = _body;
         this.isReaded = _isReaded;

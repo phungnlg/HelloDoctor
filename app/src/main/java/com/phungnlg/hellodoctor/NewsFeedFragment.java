@@ -1,7 +1,10 @@
 package com.phungnlg.hellodoctor;
 
+import android.content.Intent;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,8 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.phungnlg.hellodoctor.Others.ChildAnimation;
-import com.phungnlg.hellodoctor.Others.SliderLayout;
+import com.phungnlg.hellodoctor.others.ChildAnimation;
+import com.phungnlg.hellodoctor.others.SliderLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
@@ -88,12 +91,12 @@ public class NewsFeedFragment extends Fragment {
 
         sliderLayout = (SliderLayout) VIEW.findViewById(R.id.fragment_newsfeed_slider);
         HashMap<String, Integer> fileMaps = new HashMap<String, Integer>();
-        fileMaps.put("Khám bệnh tại nhà", R.drawable.bg_slide3);
-        fileMaps.put("2", R.drawable.bg_slide4);
-        fileMaps.put("3", R.drawable.bg_slide6);
-        fileMaps.put("4", R.drawable.bg_slide7);
-        fileMaps.put("5", R.drawable.bg_slide5);
-        fileMaps.put("6", R.drawable.bg_slide1); 
+        fileMaps.put(getResources().getString(R.string.link3), R.drawable.bg_slide3);
+        fileMaps.put(getResources().getString(R.string.link4), R.drawable.bg_slide4);
+        fileMaps.put(getResources().getString(R.string.link6), R.drawable.bg_slide6);
+        fileMaps.put(getResources().getString(R.string.link7), R.drawable.bg_slide7);
+        fileMaps.put(getResources().getString(R.string.link5), R.drawable.bg_slide5);
+        fileMaps.put(getResources().getString(R.string.link1), R.drawable.bg_slide1);
         for (final String name : fileMaps.keySet()) {
             TextSliderView textSliderView = new TextSliderView(getContext());
             textSliderView
@@ -103,8 +106,12 @@ public class NewsFeedFragment extends Fragment {
                     .setOnSliderClickListener(new BaseSliderView.OnSliderClickListener() {
                         @Override
                         public void onSliderClick(BaseSliderView slider) {
-                            Toast.makeText(getContext(), "You have just clicked the banner number " + name,
-                                           Toast.LENGTH_SHORT).show();
+                            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                            builder.setToolbarColor(47219);
+                            CustomTabsIntent customTabsIntent = builder.build();
+                            //Toast.makeText(getContext(), name, Toast.LENGTH_LONG).show();
+
+                            customTabsIntent.launchUrl(getContext(), Uri.parse(name));
                         }
                     });
             textSliderView.bundle(new Bundle());
@@ -135,7 +142,7 @@ public class NewsFeedFragment extends Fragment {
         etQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                WritePostFragment f = new WritePostFragment();
+                WritePostFragment f = WritePostFragment_.builder().build();
                 //f.setArguments(bundle);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
@@ -147,8 +154,8 @@ public class NewsFeedFragment extends Fragment {
 
         Query sortByTime = mDatabase.orderByKey().limitToLast(50);
 
-        final FirebaseRecyclerAdapter<Post, Holder> ADAPTER = new FirebaseRecyclerAdapter<Post, Holder>(
-                Post.class,
+        final FirebaseRecyclerAdapter<PostItem, Holder> ADAPTER = new FirebaseRecyclerAdapter<PostItem, Holder>(
+                PostItem.class,
                 R.layout.item_news_feed,
                 Holder.class,
                 mDatabase
@@ -156,7 +163,7 @@ public class NewsFeedFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(final Holder viewHolder,
-                                              final Post model,
+                                              final PostItem model,
                                               int position) {
                 final String POSTKEY = getRef(position).getKey();
 
@@ -181,8 +188,8 @@ public class NewsFeedFragment extends Fragment {
                         Bundle bundle = new Bundle();
                         bundle.putString("post_key", POSTKEY);
 
-                        SinglePostFragment f = new SinglePostFragment();
-                        f.setArguments(bundle);
+                        SinglePostFragment f = SinglePostFragment_.builder().postKey(POSTKEY).build();
+                        //f.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                         ft.replace(R.id.newsfeed, f);
@@ -251,16 +258,27 @@ public class NewsFeedFragment extends Fragment {
 
         getActivity().setTitle("Bảng tin");
 
-        final FirebaseRecyclerAdapter<News, NewsHolder> NEWSADAPTER = new FirebaseRecyclerAdapter<News, NewsHolder>(
-                News.class,
+        final FirebaseRecyclerAdapter<NewsItem, NewsHolder> NEWSADAPTER =
+                new FirebaseRecyclerAdapter<NewsItem, NewsHolder>(
+                NewsItem.class,
                 R.layout.item_news,
                 NewsHolder.class,
                 newsDatabaseReference
         ) {
             @Override
-            protected void populateViewHolder(NewsHolder viewHolder, News model, int position) {
+            protected void populateViewHolder(NewsHolder viewHolder, final NewsItem model, int position) {
                 viewHolder.setPhoto(model.getPhotoUrl());
                 viewHolder.setTitle(model.getTitle());
+
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                        builder.setToolbarColor(47219);
+                        CustomTabsIntent customTabsIntent = builder.build();
+                        customTabsIntent.launchUrl(getContext(), Uri.parse(model.getContentUrl()));
+                    }
+                });
             }
         };
         newsList.setLayoutManager(NEWSLAYOUTMANAGER);

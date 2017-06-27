@@ -9,7 +9,7 @@
     android:background="@color/themecolor"
     >
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
@@ -30,7 +30,7 @@
                 android:layout_height="220dp"
                 >
 
-                <com.phungnlg.hellodoctor.Others.SliderLayout
+                <com.phungnlg.hellodoctor.others.SliderLayout
                     android:id="@+id/fragment_newsfeed_slider"
                     android:layout_width="match_parent"
                     android:layout_height="170dp"
@@ -53,7 +53,7 @@
                     android:orientation="vertical"
                     >
 
-                    <com.phungnlg.hellodoctor.Others.MyEditText
+                    <com.phungnlg.hellodoctor.others.MyEditText
                         android:id="@+id/fragment_newsfeed_et_question"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -109,5 +109,5 @@
                 android:paddingBottom="4dp"
                 />
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

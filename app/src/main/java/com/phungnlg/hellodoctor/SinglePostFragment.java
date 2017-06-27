@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -21,6 +19,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ViewById;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -29,46 +33,122 @@ import java.util.TimeZone;
 /**
  * Created by Phil on 07/05/2017.
  */
-
+@EFragment(R.layout.fragment_single_post)
 public class SinglePostFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private String postKey;
+    private OnFragmentInteractionListener mListener;
+
+    private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+
+    //private String postKey;
+    private String outputPattern = "h:mm a dd-MM-yyyy";
+    private String inputPattern = "yyyy-MM-dd HH:mm:ss";
+    private SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
+    private SimpleDateFormat outputFormat = new SimpleDateFormat(outputPattern);
+    private Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+    private Date localTime = cal.getTime();
 
     private DatabaseReference mDatabase;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference notificationDatabase;
 
-    private FirebaseUser user;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-    private TextView postName;
-    private TextView postStatus;
-    private TextView postTitle;
-    private TextView postTag;
-    private TextView postTime;
-    private TextView postLikeCount;
-    private ImageButton btnAnswer;
+    @FragmentArg
+    protected String postKey;
 
-    private EditText txtAnswer;
+    @ViewById(R.id.fragment_single_post_tv_user_name)
+    protected TextView postName;
+    @ViewById(R.id.fragment_single_post_tv_body)
+    protected TextView postStatus;
+    @ViewById(R.id.fragment_single_post_tv_title)
+    protected TextView postTitle;
+    @ViewById(R.id.fragment_single_post_tv_category)
+    protected TextView postTag;
+    @ViewById(R.id.fragment_single_post_tv_time)
+    protected TextView postTime;
+    @ViewById(R.id.fragment_single_post_tv_like_count)
+    protected TextView postLikeCount;
+    @ViewById(R.id.fragment_single_post_ib_send)
+    protected ImageButton btnAnswer;
+    @ViewById(R.id.fragment_single_post_et_comment)
+    protected EditText txtAnswer;
+    @ViewById(R.id.fragment_single_post_list_comment)
+    protected RecyclerView mCommentList;
 
     private String name;
 
     private long postPreviousVote;
     private long postPreviousAnswer;
 
-    private RecyclerView mCommentList;
-
-    private OnFragmentInteractionListener mListener;
-
     public SinglePostFragment() {
         // Required empty public constructor
+    }
+
+    @Click(R.id.fragment_single_post_ib_send)
+    public void setBtnAnswer() {
+        increaseCommentCount();
+        saveCommentToDatabase();
+        pushNotification();
+    }
+
+    public void increaseCommentCount() {
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mDatabase.child(postKey).child("answer").setValue(postPreviousAnswer + 1);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void saveCommentToDatabase() {
+        final DatabaseReference DATABASECOMMENT = FirebaseDatabase.getInstance().getReference().child("Comments")
+                                                                  .child(postKey).push();
+        DATABASECOMMENT.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DATABASECOMMENT.child("uid").setValue(user.getUid());
+                DATABASECOMMENT.child("comment").setValue(txtAnswer.getText().toString().trim());
+                DATABASECOMMENT.child("name").setValue(user.getDisplayName());
+                DATABASECOMMENT.child("time").setValue(outputFormat.format(localTime));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void pushNotification() {
+        mDatabase.child(postKey).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String postuid = (String) dataSnapshot.child("uid").getValue();
+                String postTitle1 = (String) dataSnapshot.child("title").getValue();
+                DatabaseReference n = notificationDatabase.child(postuid).push();
+                n.child("isReaded").setValue(false);
+                n.child("notification").setValue(
+                        user.getDisplayName() + " đã bình luận bài viết \"" + postTitle1.substring(0, 15) +
+                        "...\" của bạn");
+                n.child("time").setValue(outputFormat.format(localTime));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public static SinglePostFragment newInstance(String param1, String param2) {
@@ -80,48 +160,12 @@ public class SinglePostFragment extends Fragment {
         return fragment;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    public void initDatabaseConnection() {
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Posts");
         notificationDatabase = database.getReference("Notifications");
-
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            postKey = bundle.getString("post_key");
-        }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_single_post, container, false);
-
-        postName = (TextView) view.findViewById(R.id.fragment_single_post_tv_user_name);
-        postStatus = (TextView) view.findViewById(R.id.fragment_single_post_tv_body);
-        postTime = (TextView) view.findViewById(R.id.fragment_single_post_tv_time);
-        postTitle = (TextView) view.findViewById(R.id.fragment_single_post_tv_title);
-        postLikeCount = (TextView) view.findViewById(R.id.fragment_single_post_tv_like_count);
-        btnAnswer = (ImageButton) view.findViewById(R.id.fragment_single_post_ib_send);
-        txtAnswer = (EditText) view.findViewById(R.id.fragment_single_post_et_comment);
-        postTag = (TextView) view.findViewById(R.id.fragment_single_post_tv_category);
-
-        String outputPattern = "h:mm a dd-MM-yyyy";
-        String inputPattern = "yyyy-MM-dd HH:mm:ss";
-        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern);
-        final SimpleDateFormat OUTPUTFORMAT = new SimpleDateFormat(outputPattern);
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
-        final Date LOCALTIME = cal.getTime();
-
-        mCommentList = (RecyclerView) view.findViewById(R.id.fragment_single_post_list_comment);
-        mCommentList.setNestedScrollingEnabled(false);
-        mCommentList.setHasFixedSize(true);
-        mCommentList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-        name = txtAnswer.getText().toString();
-
+    public void getPost() {
         mDatabase.child(postKey).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -150,80 +194,59 @@ public class SinglePostFragment extends Fragment {
 
             }
         });
+    }
+
+    public void getPreviousComment() {
         final DatabaseReference DATABASECOMMENTLIST = FirebaseDatabase.getInstance().getReference().child("Comments")
-                                                                       .child(postKey);
-        FirebaseRecyclerAdapter<Comment, CommentHolder> firebaseRecyclerAdapter
-                = new FirebaseRecyclerAdapter<Comment, CommentHolder>(
-                Comment.class,
+                                                                      .child(postKey);
+        final FirebaseRecyclerAdapter<CommentItem, CommentHolder> COMMENTADAPTER
+                = new FirebaseRecyclerAdapter<CommentItem, CommentHolder>(
+                CommentItem.class,
                 R.layout.item_comment,
                 CommentHolder.class,
                 DATABASECOMMENTLIST
         ) {
             @Override
-            protected void populateViewHolder(CommentHolder viewHolder, Comment model, int position) {
+            protected void populateViewHolder(CommentHolder viewHolder, CommentItem model, int position) {
                 viewHolder.setName(model.getName());
                 viewHolder.setContent(model.getComment());
                 viewHolder.setTime(model.getTime());
             }
         };
-        mCommentList.setAdapter(firebaseRecyclerAdapter);
 
-        final DatabaseReference DATABASECOMMENT = FirebaseDatabase.getInstance().getReference().child("Comments")
-                                                                   .child(postKey).push();
-
-        btnAnswer.setOnClickListener(new View.OnClickListener() {
+        COMMENTADAPTER.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
-            public void onClick(View view) {
-                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        mDatabase.child(postKey).child("answer").setValue(postPreviousAnswer + 1);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-                DATABASECOMMENT.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        DATABASECOMMENT.child("uid").setValue(user.getUid());
-                        DATABASECOMMENT.child("comment").setValue(txtAnswer.getText().toString().trim());
-                        DATABASECOMMENT.child("name").setValue(user.getDisplayName());
-                        DATABASECOMMENT.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
-                mDatabase.child(postKey).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        String postuid = (String) dataSnapshot.child("uid").getValue();
-                        String postTitle1 = (String) dataSnapshot.child("title").getValue();
-                        DatabaseReference n = notificationDatabase.child(postuid).push();
-                        n.child("isReaded").setValue(false);
-                        n.child("notification").setValue(
-                                user.getDisplayName() + " đã bình luận bài viết \"" + postTitle1.substring(0, 15) +
-                                "...\" của bạn");
-                        n.child("time").setValue(OUTPUTFORMAT.format(LOCALTIME));
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
+            public void onItemRangeInserted(final int positionStart, final int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = COMMENTADAPTER.getItemCount();
+                int lastVisiblePosition =
+                        linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                if (lastVisiblePosition == -1
+                    || (positionStart >= (friendlyMessageCount - 1)
+                        && lastVisiblePosition == (positionStart - 1))) {
+                    mCommentList.scrollToPosition(positionStart);
+                }
             }
         });
 
-        return view;
+        mCommentList.setAdapter(COMMENTADAPTER);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+    @AfterViews
+    public void init() {
+        initDatabaseConnection();
+        getPost();
+        getCommentList();
+        getPreviousComment();
+    }
+
+    public void getCommentList() {
+        mCommentList.setNestedScrollingEnabled(false);
+        mCommentList.setHasFixedSize(true);
+        linearLayoutManager.setReverseLayout(true);
+        mCommentList.setLayoutManager(linearLayoutManager);
+    }
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

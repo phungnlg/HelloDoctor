@@ -27,7 +27,7 @@
             android:weightSum="1"
             >
 
-            <com.phungnlg.hellodoctor.Others.MyTextView
+            <com.phungnlg.hellodoctor.others.MyTextView
                 android:id="@+id/fragment_cv_tv_username"
                 android:layout_width="236dp"
                 android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
                 />
         </LinearLayout>
 
-        <com.phungnlg.hellodoctor.Others.MyTextView
+        <com.phungnlg.hellodoctor.others.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
@@ -61,7 +61,7 @@
             android:textSize="14sp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_cv_et_academiclevel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
             android:textSize="14dp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyTextView
+        <com.phungnlg.hellodoctor.others.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -91,7 +91,7 @@
             android:textSize="14sp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_cv_et_background"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
             android:textSize="14dp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyTextView
+        <com.phungnlg.hellodoctor.others.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -121,7 +121,7 @@
             android:textSize="14sp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_cv_et_clinicname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
             android:textSize="14dp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyTextView
+        <com.phungnlg.hellodoctor.others.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -151,7 +151,7 @@
             android:textSize="14sp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_cv_et_clinicaddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -169,7 +169,7 @@
             android:textSize="14dp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyTextView
+        <com.phungnlg.hellodoctor.others.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -181,7 +181,7 @@
             android:textSize="14sp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_cv_et_adward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
             android:textSize="14dp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyTextView
+        <com.phungnlg.hellodoctor.others.MyTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -211,7 +211,7 @@
             android:textSize="14sp"
             />
 
-        <com.phungnlg.hellodoctor.Others.MyEditText
+        <com.phungnlg.hellodoctor.others.MyEditText
             android:id="@+id/fragment_cv_et_association"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

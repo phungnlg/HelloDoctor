@@ -107,12 +107,7 @@ public class TabHomeActivity extends AppCompatActivity {
         fab.show();
     }
 
-    ;
-
     public void hideFloatingActionButton() {
         fab.hide();
     }
-
-    ;
-
 }

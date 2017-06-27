@@ -22,7 +22,7 @@
             android:layout_height="150dp"
             android:background="@drawable/bg_gradient"
             />
-        <com.phungnlg.hellodoctor.Others.MyTextView
+        <com.phungnlg.hellodoctor.others.MyTextView
             android:id="@+id/item_news_tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     >
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/themecolor"
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
-                <com.phungnlg.hellodoctor.Others.MyTextView
+                <com.phungnlg.hellodoctor.others.MyTextView
                     android:id="@+id/fragment_profile_tv_user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
                     android:textStyle="bold"
                     />
 
-                <com.phungnlg.hellodoctor.Others.MyTextView
+                <com.phungnlg.hellodoctor.others.MyTextView
                     android:id="@+id/fragment_profile_tv_user_bio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
                         android:orientation="vertical"
                         >
 
-                        <com.phungnlg.hellodoctor.Others.MyTextView
+                        <com.phungnlg.hellodoctor.others.MyTextView
                             android:id="@+id/fragment_profile_tv_user_following"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                             android:textSize="20dp"
                             />
 
-                        <com.phungnlg.hellodoctor.Others.MyTextView
+                        <com.phungnlg.hellodoctor.others.MyTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Following"
@@ -149,7 +149,7 @@
                         android:orientation="vertical"
                         >
 
-                        <com.phungnlg.hellodoctor.Others.MyTextView
+                        <com.phungnlg.hellodoctor.others.MyTextView
                             android:id="@+id/fragment_profile_tv_user_follower"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
                             android:textSize="20dp"
                             />
 
-                        <com.phungnlg.hellodoctor.Others.MyTextView
+                        <com.phungnlg.hellodoctor.others.MyTextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Followers"
@@ -181,7 +181,7 @@
                     android:orientation="vertical"
                     >
 
-                    <com.phungnlg.hellodoctor.Others.MyTextView
+                    <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/fragment_profile_tv_Test"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -207,5 +207,5 @@
                 >
             </android.support.v7.widget.RecyclerView>
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

@@ -1,19 +1,19 @@
 package com.phungnlg.hellodoctor;
 
 /**
- * Created by Phil on 6/21/2017.
+ * Created by Phil on 6/27/2017.
  */
 
-public class News {
+public class NewsItem {
     private String title;
     private String photoUrl;
     private String contentUrl;
 
-    public News() {
+    public NewsItem() {
 
     }
 
-    public News(String title, String photoUrl, String contentUrl) {
+    public NewsItem(String title, String photoUrl, String contentUrl) {
         this.title = title;
         this.photoUrl = photoUrl;
         this.contentUrl = contentUrl;

@@ -1,10 +1,6 @@
 package com.phungnlg.hellodoctor;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,11 +10,13 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -28,82 +26,69 @@ import java.util.TimeZone;
 /**
  * Created by Phil on 07/05/2017.
  */
-
+@EFragment(R.layout.fragment_write_post)
 public class WritePostFragment extends Fragment {
-    private Spinner spnMajor;
-    private EditText etTitle;
-    private EditText etBody;
-    private TextView tvUserName;
-    private ImageButton ibSend;
-
-    private FirebaseUser mCurrentUser;
+    private FirebaseUser mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Posts");
+
+    private String outputPattern = "h:mm a dd-MM-yyyy";
+
+    private SimpleDateFormat outputformat = new SimpleDateFormat(outputPattern);
+    private Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+    private Date curentLocalTime = cal.getTime();
+
+    @ViewById(R.id.fragment_write_post_spn_major)
+    protected Spinner spnMajor;
+    @ViewById(R.id.fragment_write_post_et_title)
+    protected EditText etTitle;
+    @ViewById(R.id.fragment_write_post_et_content)
+    protected EditText etBody;
+    @ViewById(R.id.fragment_write_post_tv_username)
+    protected TextView tvUserName;
+    @ViewById(R.id.fragment_write_post_ib_send)
+    protected ImageButton ibSend;
 
     public WritePostFragment() {
     }
 
-    public void onBackPressed() {
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_write_post, container, false);
-        spnMajor = (Spinner) view.findViewById(R.id.fragment_write_post_spn_major);
+    public void setAdapterSpnMajor() {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter
                 .createFromResource(getContext(), R.array.major, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnMajor.setAdapter(adapter);
+    }
 
-        tvUserName = (TextView) view.findViewById(R.id.fragment_write_post_tv_username);
-        etTitle = (EditText) view.findViewById(R.id.fragment_write_post_et_title);
-        etBody = (EditText) view.findViewById(R.id.fragment_write_post_et_content);
-        ibSend = (ImageButton) view.findViewById(R.id.fragment_write_post_ib_send);
+    @Click(R.id.fragment_write_post_ib_send)
+    public void setBtnSend() {
+        if (etTitle.length() < 16 || etBody.length() <= 25) {
+            Toast.makeText(getContext(),
+                           R.string.post_too_short,
+                           Toast.LENGTH_SHORT).show();
+        } else {
+            final DatabaseReference POST = mDatabase.push();
 
-        String outputPattern = "h:mm a dd-MM-yyyy";
-        String inputPattern = "yyyy-MM-dd HH:mm:ss";
-        final SimpleDateFormat OUTPUTFORMAT = new SimpleDateFormat(outputPattern);
+            POST.child("answer").setValue(0);
+            POST.child("body").setValue(etBody.getText().toString());
+            POST.child("tag").setValue(spnMajor.getSelectedItem().toString());
+            POST.child("time").setValue(outputformat.format(curentLocalTime));
+            POST.child("title").setValue(etTitle.getText().toString());
+            POST.child("uid").setValue(mCurrentUser.getUid().toString());
+            POST.child("username").setValue(tvUserName.getText().toString());
+            POST.child("vote").setValue(0);
 
-        Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
-        final Date CURENTLOCALTIME = cal.getTime();
-        mCurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        final DatabaseReference POST = mDatabase.push();
-        DatabaseReference userInfo = database.getReference("User").child(mCurrentUser.getUid());
-        userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                tvUserName.setText(dataSnapshot.child("name").getValue().toString());
-            }
+            Toast.makeText(getContext(), "Bài viết '" + etTitle.getText() + "' đã được đăng thành công!",
+                           Toast.LENGTH_SHORT).show();
+        }
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+    @AfterViews
+    public void init() {
+        setAdapterSpnMajor();
+        tvUserName.setText(mCurrentUser.getDisplayName());
+    }
 
-            }
-        });
-        ibSend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (etTitle.length() < 16 || etBody.length() <= 25) {
-                    Toast.makeText(getContext(),
-                                   R.string.post_too_short,
-                                   Toast.LENGTH_SHORT).show();
-                } else {
-                    POST.child("answer").setValue(0);
-                    POST.child("body").setValue(etBody.getText().toString());
-                    POST.child("tag").setValue(spnMajor.getSelectedItem().toString());
-                    POST.child("time").setValue(OUTPUTFORMAT.format(CURENTLOCALTIME));
-                    POST.child("title").setValue(etTitle.getText().toString());
-                    POST.child("uid").setValue(mCurrentUser.getUid().toString());
-                    POST.child("username").setValue(tvUserName.getText().toString());
-                    POST.child("vote").setValue(0);
+    public void onBackPressed() {
 
-                    Toast.makeText(getContext(), "Bài viêt '" + etTitle.getText() + "' đã được đăng thành công!",
-                                   Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        return view;
     }
 }

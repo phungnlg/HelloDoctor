@@ -1,4 +1,4 @@
-package com.phungnlg.hellodoctor.Others;
+package com.phungnlg.hellodoctor.others;
 
 /**
  * Created by Phil on 6/15/2017.
@@ -119,24 +119,16 @@ public class PlaceAutocompleteAdapter
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults results = new FilterResults();
-
-                // We need a separate list to store the results, since
-                // this is run asynchronously.
                 ArrayList<AutocompletePrediction> filterData = new ArrayList<>();
-
-                // Skip the autocomplete query if no constraints are given.
                 if (constraint != null) {
-                    // Query the autocomplete API for the (constraint) search string.
                     filterData = getAutocomplete(constraint);
                 }
-
                 results.values = filterData;
                 if (filterData != null) {
                     results.count = filterData.size();
                 } else {
                     results.count = 0;
                 }
-
                 return results;
             }
 
@@ -144,19 +136,15 @@ public class PlaceAutocompleteAdapter
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
                 if (results != null && results.count > 0) {
-                    // The API returned at least one result, update the data.
                     mResultList = (ArrayList<AutocompletePrediction>) results.values;
                     notifyDataSetChanged();
                 } else {
-                    // The API did not return any results, invalidate the data set.
                     notifyDataSetInvalidated();
                 }
             }
 
             @Override
             public CharSequence convertResultToString(Object resultValue) {
-                // Override this method to display a readable result in the AutocompleteTextView
-                // when clicked.
                 if (resultValue instanceof AutocompletePrediction) {
                     return ((AutocompletePrediction) resultValue).getFullText(null);
                 } else {
