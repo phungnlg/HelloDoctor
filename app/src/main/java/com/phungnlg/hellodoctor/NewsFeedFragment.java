@@ -1,10 +1,13 @@
 package com.phungnlg.hellodoctor;
 
 //import android.content.Intent;
+//import android.content.Context;
+//import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +27,9 @@ import android.widget.TextView;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+//import com.goka.blurredgridmenu.BlurredGridMenuConfig;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +41,8 @@ import com.phungnlg.hellodoctor.others.SliderLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+
+//import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 //import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 //import ss.com.bannerslider.banners.DrawableBanner;
@@ -52,6 +60,8 @@ public class NewsFeedFragment extends Fragment {
 
     private DatabaseReference mDatabase;
     private DatabaseReference newsDatabaseReference;
+    private DatabaseReference voteData= FirebaseDatabase.getInstance().getReference("Vote");
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     private RecyclerView mBlogList;
 
@@ -79,7 +89,11 @@ public class NewsFeedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View VIEW = inflater.inflate(R.layout.fragment_news_feed, container, false); 
+        final View VIEW = inflater.inflate(R.layout.fragment_news_feed, container, false);
+
+        /*final TabLayout tabs = (TabLayout)getActivity().findViewById(R.id.tab_layout);
+        tabs.setVisibility(View.GONE);*/
+
 
         final LinearLayoutManager LAYOUTMANAGER = new LinearLayoutManager(this.getContext());
         LAYOUTMANAGER.setReverseLayout(true);
@@ -181,8 +195,14 @@ public class NewsFeedFragment extends Fragment {
                 viewHolder.setPhoto(model.getPhotoUrl());
 
                 final long PREVIOUSVOTE = model.getVote();
+                final String PREVIOUSVOTER = model.getVoter();
 
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                if(PREVIOUSVOTER.contains(user.getUid())) {
+                    int myColor = getResources().getColor(R.color.themecolor);
+                    viewHolder.btnLike.setColorFilter(myColor, PorterDuff.Mode.SRC_ATOP);
+                }
+
+                viewHolder.tvTitle.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Bundle bundle = new Bundle();
@@ -218,21 +238,40 @@ public class NewsFeedFragment extends Fragment {
                 viewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int myColor = getResources().getColor(R.color.themecolor);
-                        viewHolder.btnLike.setColorFilter(myColor, PorterDuff.Mode.SRC_ATOP);
+                        if(PREVIOUSVOTER.contains(user.getUid())) {
+                            int myColor = getResources().getColor(R.color.black);
+                            viewHolder.btnLike.setColorFilter(myColor, PorterDuff.Mode.SRC_ATOP);
 
-                        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                mDatabase.child(POSTKEY).child("vote").setValue(PREVIOUSVOTE + 1);
-                                isLiked = false;
-                            }
+                            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    mDatabase.child(POSTKEY).child("vote").setValue(PREVIOUSVOTE - 1);
+                                    mDatabase.child(POSTKEY).child("voter")
+                                             .setValue(PREVIOUSVOTER.replaceAll(user.getUid() + "_", ""));
+                                }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+                        }
+                        else {
+                            int myColor = getResources().getColor(R.color.themecolor);
+                            viewHolder.btnLike.setColorFilter(myColor, PorterDuff.Mode.SRC_ATOP);
 
-                            }
-                        });
+                            mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    mDatabase.child(POSTKEY).child("vote").setValue(PREVIOUSVOTE + 1);
+                                    mDatabase.child(POSTKEY).child("voter")
+                                             .setValue(PREVIOUSVOTER + user.getUid() + "_");
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -310,12 +349,14 @@ public class NewsFeedFragment extends Fragment {
         private View mView;
         private ImageButton btnLike;
         private TextView tvUserName;
+        private TextView tvTitle;
 
         public Holder(View itemView) {
             super(itemView);
             mView = itemView;
             btnLike = (ImageButton) mView.findViewById(R.id.item_newsfeed_ib_like);
             tvUserName = (TextView) mView.findViewById(R.id.item_newsfeed_tv_user_name);
+            tvTitle = (TextView) mView.findViewById(R.id.item_newsfeed_tv_post_title);
         }
 
         public View getmView() {

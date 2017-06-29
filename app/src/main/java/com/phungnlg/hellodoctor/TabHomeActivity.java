@@ -35,8 +35,14 @@ public class TabHomeActivity extends AppCompatActivity {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         hideFloatingActionButton();
 
+        View decorView = getWindow().getDecorView();
+        //int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(uiOptions);
+
         // Setup the viewPager
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setOffscreenPageLimit(4);
         MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         if (viewPager != null) {
             viewPager.setAdapter(pagerAdapter);
@@ -82,7 +88,7 @@ public class TabHomeActivity extends AppCompatActivity {
                     return NewsFeedFragment.newInstance(1);
 
                 case 1:
-                    return ProfileFragment.newInstance(2);
+                    return ProfileFragment_.newInstance(2);
                 case 2:
                     return NotificationFragment_.newInstance(3);
                 case 3:

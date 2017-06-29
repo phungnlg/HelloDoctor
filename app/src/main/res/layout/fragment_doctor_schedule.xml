@@ -26,6 +26,16 @@
             android:orientation="horizontal"
             android:weightSum="1"
             >
+            <ImageButton
+                android:id="@+id/fragment_schedule_ib_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_left_arrow"
+                />
 
             <com.phungnlg.hellodoctor.others.MyTextView
                 android:id="@+id/fragment_schedule_tv_username"
@@ -33,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.98"
                 android:gravity="left"
-                android:text="Tên người dùng"
+                android:text="Tên người dùng qúa dài thì giờ phải làm sao tới 2 dòng lận"
                 android:textColor="@color/white"
                 android:textSize="16dp"
                 />

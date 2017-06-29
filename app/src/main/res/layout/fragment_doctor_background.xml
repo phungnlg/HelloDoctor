@@ -27,6 +27,17 @@
             android:weightSum="1"
             >
 
+            <ImageButton
+                android:id="@+id/fragment_cv_ib_back"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="10dp"
+                android:layout_gravity="center_vertical"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_left_arrow"
+                />
+
             <com.phungnlg.hellodoctor.others.MyTextView
                 android:id="@+id/fragment_cv_tv_username"
                 android:layout_width="236dp"

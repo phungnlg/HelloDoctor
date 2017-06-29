@@ -91,7 +91,7 @@ public class ChatFragment extends Fragment {
 
     @Click(R.id.fragment_chat_ib_back)
     public void setBtnBack() {
-        Toast.makeText(getContext(), "Chưa back được", Toast.LENGTH_SHORT).show();
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(this).commit();
     }
 
     public void initDatabaseConnection() {

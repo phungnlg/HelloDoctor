@@ -29,6 +29,7 @@ public class MyTextView extends TextView {
         if (!isInEditMode()) {
             //Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Lato-Regular.ttf");
             Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto.ttf");
+            Typeface tfBold = Typeface.createFromAsset(getContext().getAssets(), "fonts/Roboto-Bold.ttf");
             setTypeface(tf);
         }
     }

@@ -76,6 +76,7 @@ public class WritePostFragment extends Fragment {
             POST.child("uid").setValue(mCurrentUser.getUid().toString());
             POST.child("username").setValue(tvUserName.getText().toString());
             POST.child("vote").setValue(0);
+            POST.child("voter").setValue("_");
 
             Toast.makeText(getContext(), "Bài viết '" + etTitle.getText() + "' đã được đăng thành công!",
                            Toast.LENGTH_SHORT).show();

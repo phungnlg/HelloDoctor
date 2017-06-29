@@ -91,21 +91,38 @@
                     android:orientation="vertical"
                     android:layout_marginTop="30dp"
                     >
-                <TextView
-                    android:id="@+id/fragment_find_doctor_tv_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="15dp"
-                    android:text="Vị trí hiện tại"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:layout_marginBottom="10dp"
-                    android:layout_weight="3.40"
-                    />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:orientation="horizontal">
+
+                        <ImageButton
+                            android:id="@+id/fragment_find_doctor_ib_back"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="5dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_left_arrow"
+                            />
+
+                        <TextView
+                            android:id="@+id/fragment_find_doctor_tv_location"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:text="Tìm trong vòng 3 km từ vị trí hiện tại"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:layout_marginBottom="0dp"
+                            android:layout_weight="3.40"
+                            />
+                    </LinearLayout>
 
                     <com.phungnlg.hellodoctor.others.MyEditText
                         android:id="@+id/fragment_find_doctor_et_location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/rect"

@@ -108,11 +108,13 @@
                     android:orientation="horizontal"
                     >
 
-                    <ImageView
+                    <ImageButton
+                        android:id="@+id/fragment_profile_btn_like"
                         android:layout_width="0dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:background="@android:color/transparent"
                         android:src="@drawable/ic_thumb_up_black_24dp"
                         />
 

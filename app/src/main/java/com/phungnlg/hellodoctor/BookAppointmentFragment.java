@@ -116,6 +116,7 @@ public class BookAppointmentFragment extends Fragment {
                             @Override
                             public void onClick(View v) {
                                 Uri gmmIntentUri = Uri.parse("google.navigation:q=" + DOCTORADDRESS);
+                                //Uri gmmIntentUri = Uri.parse("google.direction:q=" + DOCTORADDRESS);
                                 Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
                                 mapIntent.setPackage("com.google.android.apps.maps");
                                 startActivity(mapIntent);
@@ -169,13 +170,14 @@ public class BookAppointmentFragment extends Fragment {
         btnSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 bundle.putBoolean("isEditMode", false);
                 bundle.putString("key", doctorKey);
-                bundle.putString("doctorName", doctorName);
+                bundle.putString("doctorName", doctorName);*/
 
-                ScheduleFragment f = new ScheduleFragment();
-                f.setArguments(bundle);
+                ScheduleFragment f = ScheduleFragment_.builder().isEditMode(false).key(doctorKey)
+                                                      .doctorName(doctorName).build();
+                //f.setArguments(bundle);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                 ft.replace(R.id.book_appointment, f);
@@ -184,16 +186,24 @@ public class BookAppointmentFragment extends Fragment {
             }
         });
 
+        view.findViewById(R.id.fragment_book_ib_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(BookAppointmentFragment.this).commit();
+            }
+        });
+
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 bundle.putBoolean("isEditMode", false);
                 bundle.putString("key", doctorKey);
-                bundle.putString("doctorName", doctorName);
+                bundle.putString("doctorName", doctorName);*/
 
-                CVFragment f = new CVFragment();
-                f.setArguments(bundle);
+                CVFragment f = CVFragment_.builder().isEditMode(false).key(doctorKey)
+                                          .doctorName(doctorName).build();
+                //f.setArguments(bundle);
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                 ft.replace(R.id.book_appointment, f);

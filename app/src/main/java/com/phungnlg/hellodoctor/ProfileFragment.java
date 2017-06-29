@@ -1,18 +1,25 @@
 package com.phungnlg.hellodoctor;
 
 import android.os.Bundle;
+//import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 //import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+//import android.view.LayoutInflater;
 import android.view.View;
+//import android.view.ViewGroup;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.goka.blurredgridmenu.GridMenu;
+import com.goka.blurredgridmenu.GridMenuFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,60 +29,135 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+//import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import jp.wasabeef.blurry.Blurry;
+
 /**
  * Created by Phil on 07/05/2017.
  */
-
+@EFragment(R.layout.fragment_profile)
 public class ProfileFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
 
-    private TextView name;
-    private TextView bio;
-    private TextView following;
-    private TextView follower;
-
-    private TextView tvTest;
-    private RecyclerView listPost;
+    @ViewById(R.id.fragment_profile_tv_user_name)
+    protected TextView name;
+    @ViewById(R.id.fragment_profile_tv_user_bio)
+    protected TextView bio;
+    @ViewById(R.id.fragment_profile_tv_user_following)
+    protected TextView following;
+    @ViewById(R.id.fragment_profile_tv_user_follower)
+    protected TextView follower;
+    @ViewById(R.id.fragment_profile_list_user_post)
+    protected RecyclerView listPost;
+    @ViewById(R.id.tab_profile)
+    protected RelativeLayout rootView;
 
     private Boolean isDoctor;
     private com.makeramen.roundedimageview.RoundedImageView ivProfilePic;
-    private ImageButton btnProfile;
-    private ImageButton btnSchedule;
+    @ViewById(R.id.fragment_profile_btn_profile1)
+    protected ImageButton btnProfile;
+    @ViewById(R.id.fragment_profile_btn_Schedule1)
+    protected ImageButton btnSchedule;
+    @ViewById(R.id.fragment_profile_btn_like)
+    protected ImageButton btnLike;
 
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("User");
     private DatabaseReference postDatabase = FirebaseDatabase.getInstance().getReference("Posts");
-    private FirebaseUser user;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+    private LinearLayoutManager layoutManagerProfile;
+
+    private GridMenuFragment mGridMenuFragment;
+
+    private FirebaseRecyclerAdapter<PostItem, NewsFeedFragment.Holder> firebaseRecyclerAdapter;
 
     public ProfileFragment() {
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("User");
-        user = FirebaseAuth.getInstance().getCurrentUser();
+    private void setupGridMenu() {
+        List<GridMenu> menus = new ArrayList<>();
+        menus.add(new GridMenu("Dị ứng", R.drawable.app_images_specialities_di_ung));
+        menus.add(new GridMenu("Da liễu", R.drawable.app_images_specialities_da_lieu));
+        menus.add(new GridMenu("Dinh dưỡng", R.drawable.app_images_specialities_dinh_duong));
+        menus.add(new GridMenu("Hô hấp", R.drawable.app_images_specialities_ho_hap));
+        menus.add(new GridMenu("Nhãn khoa", R.drawable.app_images_specialities_mat));
+        menus.add(new GridMenu("Nam khoa", R.drawable.app_images_specialities_nam_khoa));
+        menus.add(new GridMenu("Ngạo khoa", R.drawable.app_images_specialities_ngoai_khoa));
+        menus.add(new GridMenu("Nhi khoa", R.drawable.app_images_specialities_nhi_khoa));
+        menus.add(new GridMenu("Nội tiết", R.drawable.app_images_specialities_noi_tiet));
+        menus.add(new GridMenu("Phục hồi chức năng", R.drawable.app_images_specialities_phuc_hoi_chuc_nang));
+        menus.add(new GridMenu("Răng hàm mặt", R.drawable.app_images_specialities_rang_ham_mat));
+        menus.add(new GridMenu("Sản phụ khoa", R.drawable.app_images_specialities_san_phu_khoa));
+        menus.add(new GridMenu("Tai mũi họng", R.drawable.app_images_specialities_tai_mui_hong));
+        menus.add(new GridMenu("Tâm lý", R.drawable.app_images_specialities_tam_ly_tam_than));
+        mGridMenuFragment.setupMenu(menus);
+    }
 
-        btnProfile = (ImageButton) view.findViewById(R.id.fragment_profile_btn_profile1);
-        btnSchedule = (ImageButton) view.findViewById(R.id.fragment_profile_btn_Schedule1);
+    @Click(R.id.fragment_profile_btn_like)
+    public void setBtnLike() {
+        Blurry.with(getContext()).radius(25).sampling(2).onto(rootView);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager()
+                                                       .beginTransaction().
+                                                               setCustomAnimations(R.anim.anim_fade_in,
+                                                                                   R.anim.anim_fade_out);
+        transaction.replace(R.id.tab_profile, mGridMenuFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
-        name = (TextView) view.findViewById(R.id.fragment_profile_tv_user_name);
-        bio = (TextView) view.findViewById(R.id.fragment_profile_tv_user_bio);
-        following = (TextView) view.findViewById(R.id.fragment_profile_tv_user_following);
-        follower = (TextView) view.findViewById(R.id.fragment_profile_tv_user_follower);
-        ivProfilePic = (com.makeramen.roundedimageview.RoundedImageView) view
-                .findViewById(R.id.fragment_profile_iv_image);
-        tvTest = (TextView) view.findViewById(R.id.fragment_profile_tv_Test);
-        listPost = (RecyclerView) view.findViewById(R.id.fragment_profile_list_user_post);
+    @Click(R.id.fragment_profile_btn_profile1)
+    public void setBtnProfile() {
+        CVFragment f = CVFragment_.builder().isEditMode(true).key(user.getUid()).build();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
+        ft.replace(R.id.tab_profile, f);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
-        final LinearLayoutManager LAYOUTMANAGER = new LinearLayoutManager(this.getContext());
-        LAYOUTMANAGER.setReverseLayout(true);
-        LAYOUTMANAGER.setStackFromEnd(true);
-        listPost.setNestedScrollingEnabled(false);
-        listPost.setHasFixedSize(true);
-        listPost.setLayoutManager(LAYOUTMANAGER);
-        listPost.setFocusable(false);
+    @Click(R.id.fragment_profile_btn_Schedule1)
+    public void setBtnSchedule() {
+        ScheduleFragment f = ScheduleFragment_.builder().isEditMode(true).key(user.getUid()).build();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
+        ft.replace(R.id.tab_profile, f);
+        ft.addToBackStack(null);
+        ft.commit();
+    }
 
+    @AfterViews
+    public void init() {
+        loadUserInfo();
+        mGridMenuFragment = GridMenuFragment.newInstance(R.drawable.bg_gradient);
+        mGridMenuFragment.setOnClickMenuListener(new GridMenuFragment.OnClickMenuListener() {
+            @Override
+            public void onClickMenu(GridMenu gridMenu, int position) {
+                Blurry.delete(rootView);
+                Toast.makeText(getActivity(), "Title:" + gridMenu.getTitle() + ", Position:" + position,
+                               Toast.LENGTH_SHORT).show();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                             .setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out).
+                                     remove(mGridMenuFragment).commit();
+//                mGridMenuFragment.setupMenu(null);
+//                setupGridMenu();
+            }
+        });
+        setupGridMenu();
+
+        initRecyclerView();
+
+        loadUserPosts();
+    }
+
+    public void loadUserInfo() {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -97,7 +179,6 @@ public class ProfileFragment extends Fragment {
                     btnSchedule.setVisibility(View.GONE);
                 } else {
                 }
-
             }
 
             @Override
@@ -105,20 +186,29 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        Query sortByTime = postDatabase.orderByChild("uid").equalTo(user.getUid());
+    }
 
-        final FirebaseRecyclerAdapter<PostItem, NewsFeedFragment.Holder> ADAPTER
-                = new FirebaseRecyclerAdapter<PostItem, NewsFeedFragment.Holder>(
+    public void initRecyclerView() {
+        layoutManagerProfile = new LinearLayoutManager(this.getContext());
+        layoutManagerProfile.setReverseLayout(true);
+        layoutManagerProfile.setStackFromEnd(true);
+        listPost.setNestedScrollingEnabled(false);
+        listPost.setHasFixedSize(true);
+        listPost.setLayoutManager(layoutManagerProfile);
+        listPost.setFocusable(false);
+    }
+
+    public void loadUserPosts() {
+        Query sortByTime = postDatabase.orderByChild("uid").equalTo(user.getUid());
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<PostItem, NewsFeedFragment.Holder>(
                 PostItem.class,
                 R.layout.item_news_feed,
                 NewsFeedFragment.Holder.class,
-                //mDatabase
                 sortByTime
         ) {
             @Override
             protected void populateViewHolder(final NewsFeedFragment.Holder viewHolder, PostItem model, int position) {
                 final String POSTKEY = getRef(position).getKey();
-
                 viewHolder.setBody(model.getBody());
                 viewHolder.setHashTag(model.getTag());
                 viewHolder.setName(model.getUsername());
@@ -128,17 +218,10 @@ public class ProfileFragment extends Fragment {
                         .setLikeCount("   " + model.getVote() + " người có câu hỏi tương tự, " +
                                       model.getAnswer() + " trả lời.");
                 viewHolder.setPhoto(model.getPhotoUrl());
-
-                final long PREVIOUSVOTE = model.getVote();
-
                 viewHolder.getmView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Bundle bundle = new Bundle();
-                        bundle.putString("post_key", POSTKEY);
-
                         SinglePostFragment f = SinglePostFragment_.builder().postKey(POSTKEY).build();
-                        //f.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                         ft.replace(R.id.tab_profile, f);
@@ -146,52 +229,20 @@ public class ProfileFragment extends Fragment {
                         ft.commit();
                     }
                 });
-
             }
         };
-        listPost.setAdapter(ADAPTER);
+        registerAdapterDataObserver();
+        listPost.setAdapter(firebaseRecyclerAdapter);
+    }
 
-        btnProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                /*Bundle bundle = new Bundle();
-                bundle.putBoolean("isEditMode", true);
-                bundle.putString("key", user.getUid());*/
-
-                //CVFragment f = new CVFragment_();
-                CVFragment f = CVFragment_.builder().isEditMode(true).key(user.getUid()).build();
-                //f.setArguments(bundle);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
-                ft.replace(R.id.tab_profile, f);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
-        btnSchedule.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("isEditMode", true);
-                bundle.putString("key", user.getUid());
-
-                ScheduleFragment f = new ScheduleFragment();
-                f.setArguments(bundle);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
-                ft.replace(R.id.tab_profile, f);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
-
-        ADAPTER.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+    public void registerAdapterDataObserver() {
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = ADAPTER.getItemCount();
+                int friendlyMessageCount = firebaseRecyclerAdapter.getItemCount();
                 int lastVisiblePosition =
-                        LAYOUTMANAGER.findLastCompletelyVisibleItemPosition();
+                        layoutManagerProfile.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition == -1 ||
                     (positionStart >= (friendlyMessageCount - 1) &&
                      lastVisiblePosition == (positionStart - 1))) {
@@ -199,15 +250,12 @@ public class ProfileFragment extends Fragment {
                 }
             }
         });
-
-        return view;
     }
 
     public static ProfileFragment newInstance(int pageNo) {
-
         Bundle args = new Bundle();
         args.putInt(ARG_PAGE, pageNo);
-        ProfileFragment fragment = new ProfileFragment();
+        ProfileFragment fragment = new ProfileFragment_();
         fragment.setArguments(args);
         return fragment;
     }

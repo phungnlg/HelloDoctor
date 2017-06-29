@@ -103,6 +103,11 @@ public class CVFragment extends Fragment {
         }
     }
 
+    @Click(R.id.fragment_cv_ib_back)
+    public void setBtnBAck() {
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(this).commit();
+    }
+
     @Click(R.id.fragment_cv_btn_Save)
     public void setBtnSave() {
         if (etAcademicLevel.getText().toString() != null) {

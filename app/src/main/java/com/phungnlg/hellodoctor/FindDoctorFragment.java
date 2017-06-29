@@ -72,6 +72,13 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
         tvLocation = (TextView) VIEW.findViewById(R.id.fragment_find_doctor_tv_location);
         etLocation = (EditText) VIEW.findViewById(R.id.fragment_find_doctor_et_location);
 
+        VIEW.findViewById(R.id.fragment_find_doctor_ib_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(FindDoctorFragment.this).commit();
+            }
+        });
+
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED &&
             ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION) ==
@@ -203,9 +210,7 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                                                 Intent intent = new Intent(Intent.ACTION_CALL);
                                                 intent.setData(Uri.parse("tel:" + model.getMobile()));
 
-                                                if (ActivityCompat.
-                                                                          checkSelfPermission(getContext(),
-                                                                                              android.Manifest.permission.CALL_PHONE) !=
+                                                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.CALL_PHONE) !=
                                                     PackageManager.PERMISSION_GRANTED) {
                                                     return;
                                                 } else {
@@ -222,13 +227,14 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                         viewHolder.btnSchedule.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Bundle bundle = new Bundle();
+                                /*Bundle bundle = new Bundle();
                                 bundle.putBoolean("isEditMode", false);
                                 bundle.putString("key", DOCTORKEY);
-                                bundle.putString("doctorName", DOCTORNAME);
+                                bundle.putString("doctorName", DOCTORNAME);*/
 
-                                ScheduleFragment f = new ScheduleFragment();
-                                f.setArguments(bundle);
+                                ScheduleFragment f = ScheduleFragment_.builder().isEditMode(false).key(DOCTORKEY)
+                                                                      .doctorName(DOCTORNAME).build();
+                                //f.setArguments(bundle);
                                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                                 ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
                                 ft.replace(R.id.find_doctor, f);

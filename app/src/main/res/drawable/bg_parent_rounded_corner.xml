@@ -4,12 +4,12 @@
     android:shape="rectangle"
     >
     <!-- view background color -->
-    <solid android:color="@color/feed_item_bg"></solid>
+    <solid android:color="@color/themecolor"></solid>
     <!-- view border color and width -->
     <stroke
         android:width="@dimen/feed_item_border_width"
-        android:color="@color/feed_item_border"
+        android:color="@color/themecolor"
         ></stroke>
     <!-- Here is the corner radius -->
-    <corners android:radius="@dimen/feed_item_corner_radius"></corners>
+    <corners android:radius="10dp"></corners>
 </shape>

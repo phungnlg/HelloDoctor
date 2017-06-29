@@ -24,6 +24,8 @@ android {
         versionCode 4
         versionName "1.03"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 22
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
@@ -77,6 +79,9 @@ dependencies {
     compile 'jp.wasabeef:recyclerview-animators:2.2.6'
     compile 'ru.rambler.android:swipe-layout:1.0.14'
     compile 'com.android.support:customtabs:25.3.1'
+    compile 'uk.co.chrisjenx:calligraphy:2.3.0'
+    compile 'com.github.goka.blurredgridmenu:blurredgridmenu:1.0.2'
+    compile 'jp.wasabeef:blurry:2.1.1'
     testCompile 'junit:junit:4.12'
 }
 

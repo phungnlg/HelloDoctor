@@ -33,6 +33,9 @@ public class NotificationFragment extends Fragment {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Notifications");
     private FirebaseUser mUser = FirebaseAuth.getInstance().getCurrentUser();
 
+    private FirebaseRecyclerAdapter<NotificationItem, NotiHolder> firebaseRecyclerAdapter;
+    private LinearLayoutManager layoutManager;
+
     @ViewById(R.id.fragment_notification_list_notification)
     protected RecyclerView notificationList;
     @ViewById(R.id.fragment_notification_ib_check_all)
@@ -42,21 +45,38 @@ public class NotificationFragment extends Fragment {
 
     private Boolean isConfirmedCheckAll = false;
 
-    @AfterViews
-    public void afterView() {
+    public void initRecyclerView() {
         mDatabase = mDatabase.child(mUser.getUid());
         tvCheckAll.setVisibility(View.GONE);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        layoutManager = new LinearLayoutManager(this.getContext());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
         notificationList.setHasFixedSize(true);
         notificationList.setNestedScrollingEnabled(false);
         notificationList.setLayoutManager(layoutManager);
+    }
 
-        FirebaseRecyclerAdapter<NotificationItem, NotiHolder> firebaseRecyclerAdapter
-                = new FirebaseRecyclerAdapter<NotificationItem, NotiHolder>(
+    public void registerAdapterDataObserver() {
+        firebaseRecyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = firebaseRecyclerAdapter.getItemCount();
+                int lastVisiblePosition =
+                        layoutManager.findLastCompletelyVisibleItemPosition();
+                if (lastVisiblePosition == -1 ||
+                    (positionStart >= (friendlyMessageCount - 1) &&
+                     lastVisiblePosition == (positionStart - 1))) {
+                    notificationList.scrollToPosition(positionStart);
+                }
+            }
+        });
+    }
+
+    public void initFirebaseRecyclerAdapter() {
+        firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<NotificationItem, NotiHolder>(
                 NotificationItem.class,
                 R.layout.item_notification2,
                 NotiHolder.class,
@@ -79,6 +99,13 @@ public class NotificationFragment extends Fragment {
                 });
             }
         };
+    }
+
+    @AfterViews
+    public void afterView() {
+        initRecyclerView();
+        initFirebaseRecyclerAdapter();
+        registerAdapterDataObserver();
         notificationList.setAdapter(firebaseRecyclerAdapter);
     }
 

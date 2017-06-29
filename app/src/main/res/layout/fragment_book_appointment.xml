@@ -81,6 +81,16 @@
                     android:orientation="horizontal"
                     android:padding="16dp"
                     >
+                    <ImageButton
+                        android:id="@+id/fragment_book_ib_back"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_left_arrow"
+                        />
 
                     <com.phungnlg.hellodoctor.others.MyTextView
                         android:id="@+id/fragment_book_doctorname"

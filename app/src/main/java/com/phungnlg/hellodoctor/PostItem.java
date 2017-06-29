@@ -14,6 +14,7 @@ public class PostItem {
     private String tag;
     private String time;
     private String photoUrl;
+    private String voter;
 
     public PostItem() {
     }
@@ -108,5 +109,13 @@ public class PostItem {
 
     public void setTittle(String tittle) {
         this.title = tittle;
+    }
+
+    public String getVoter() {
+        return voter;
+    }
+
+    public void setVoter(String voter) {
+        this.voter = voter;
     }
 }

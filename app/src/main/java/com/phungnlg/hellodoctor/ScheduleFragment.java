@@ -1,11 +1,11 @@
 package com.phungnlg.hellodoctor;
 
-import android.os.Bundle;
+//import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
-import android.view.LayoutInflater;
+//import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+//import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,34 +19,60 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.ViewById;
+
 /**
  * Created by Phil on 07/05/2017.
  */
-
+@EFragment(R.layout.fragment_doctor_schedule)
 public class ScheduleFragment extends Fragment {
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Schedule").child(user.getUid());
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    private TextView tvName;
-    private EditText edMonday;
-    private EditText edTuesday;
-    private EditText edWednesday;
-    private EditText edThursday;
-    private EditText edFriday;
-    private EditText edSaturday;
-    private EditText edSunday;
-    private EditText edMonday2;
-    private EditText edTuesday2;
-    private EditText edWednesday2;
-    private EditText edThursday2;
-    private EditText edFriday2;
-    private EditText edSaturday2;
-    private EditText edSunday2;
-    private ImageButton btnSave;
-    private Boolean isEditMode;
-    private String key;
-    private String doctorName;
+    @ViewById(R.id.fragment_schedule_tv_username)
+    protected TextView tvName;
+    @ViewById(R.id.fragment_schedule_et_mon)
+    protected EditText edMonday;
+    @ViewById(R.id.fragment_schedule_et_tue)
+    protected EditText edTuesday;
+    @ViewById(R.id.fragment_schedule_et_wed)
+    protected EditText edWednesday;
+    @ViewById(R.id.fragment_schedule_et_thu)
+    protected EditText edThursday;
+    @ViewById(R.id.fragment_schedule_et_fri)
+    protected EditText edFriday;
+    @ViewById(R.id.fragment_schedule_et_sat)
+    protected EditText edSaturday;
+    @ViewById(R.id.fragment_schedule_et_sun)
+    protected EditText edSunday;
+    @ViewById(R.id.fragment_schedule_et_mon2)
+    protected EditText edMonday2;
+    @ViewById(R.id.fragment_schedule_et_tue2)
+    protected EditText edTuesday2;
+    @ViewById(R.id.fragment_schedule_et_wed2)
+    protected EditText edWednesday2;
+    @ViewById(R.id.fragment_schedule_et_thu2)
+    protected EditText edThursday2;
+    @ViewById(R.id.fragment_schedule_et_fri2)
+    protected EditText edFriday2;
+    @ViewById(R.id.fragment_schedule_et_sat2)
+    protected EditText edSaturday2;
+    @ViewById(R.id.fragment_schedule_et_sun2)
+    protected EditText edSunday2;
+    @ViewById(R.id.fragment_schedule_btn_Save)
+    protected ImageButton btnSave;
+
+    @FragmentArg
+    protected Boolean isEditMode;
+    @FragmentArg
+    protected String key;
+    @FragmentArg
+    protected String doctorName;
 
     public static final String MON = "Mon";
     public static final String TUE = "Tue";
@@ -61,40 +87,39 @@ public class ScheduleFragment extends Fragment {
     public ScheduleFragment() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @Click(R.id.fragment_schedule_btn_Save)
+    public void setBtnSave() {
+        mDatabase.child(MON).child(FROM).setValue(edMonday.getText().toString());
+        mDatabase.child(MON).child(TO).setValue(edMonday2.getText().toString());
+        mDatabase.child(TUE).child(FROM).setValue(edTuesday.getText().toString());
+        mDatabase.child(TUE).child(TO).setValue(edTuesday2.getText().toString());
+        mDatabase.child(WED).child(FROM).setValue(edWednesday.getText().toString());
+        mDatabase.child(WED).child(TO).setValue(edWednesday2.getText().toString());
+        mDatabase.child(THU).child(FROM).setValue(edThursday.getText().toString());
+        mDatabase.child(THU).child(TO).setValue(edThursday2.getText().toString());
+        mDatabase.child(FRI).child(FROM).setValue(edFriday.getText().toString());
+        mDatabase.child(FRI).child(TO).setValue(edFriday2.getText().toString());
+        mDatabase.child(SAT).child(FROM).setValue(edSaturday.getText().toString());
+        mDatabase.child(SAT).child("to").setValue(edSaturday2.getText().toString());
+        mDatabase.child(SUN).child(FROM).setValue(edSunday.getText().toString());
+        mDatabase.child(SUN).child("to").setValue(edSunday2.getText().toString());
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            isEditMode = bundle.getBoolean("isEditMode");
-            key = bundle.getString("key");
-            doctorName = bundle.getString("doctorName");
-        }
+        Toast.makeText(getContext(), R.string.sche_update_successfully, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final View VIEW = inflater.inflate(R.layout.fragment_doctor_schedule, container, false);
+    @Click(R.id.fragment_schedule_ib_back)
+    public void setBtnBack() {
+        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(this).commit();
+    }
 
-        tvName = (TextView) VIEW.findViewById(R.id.fragment_schedule_tv_username);
-        btnSave = (ImageButton) VIEW.findViewById(R.id.fragment_schedule_btn_Save);
-        edMonday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_mon);
-        edTuesday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_tue);
-        edWednesday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_wed);
-        edThursday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_thu);
-        edFriday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_fri);
-        edSaturday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_sat);
-        edSunday = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_sun);
-        edMonday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_mon2);
-        edTuesday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_tue2);
-        edWednesday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_wed2);
-        edThursday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_thu2);
-        edFriday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_fri2);
-        edSaturday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_sat2);
-        edSunday2 = (EditText) VIEW.findViewById(R.id.fragment_schedule_et_sun2);
+    @AfterViews
+    public void init() {
+        initViewMode();
+        loadData();
+    }
 
+    //Check if edit mode should be enabled or not
+    public void initViewMode() {
         if (!isEditMode) {
             tvName.setText(getText(R.string.sche_1) + " - BS " + doctorName);
             tvName.setGravity(Gravity.CENTER);
@@ -114,21 +139,12 @@ public class ScheduleFragment extends Fragment {
             edSunday.setEnabled(false);
             edSunday2.setEnabled(false);
         } else {
-            DatabaseReference userInfo = database.getReference("User").child(key);
-            userInfo.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    tvName.setText(
-                            "Chào " + dataSnapshot.child("name").getValue().toString() + ", hãy sắp xếp lịch của bạn");
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
+            tvName.setText(
+                    "Chào " + user.getDisplayName() + ", hãy sắp xếp lịch của bạn");
         }
+    }
 
+    public void loadData() {
         DatabaseReference schedule = database.getReference("Schedule").child(key);
         schedule.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -154,30 +170,6 @@ public class ScheduleFragment extends Fragment {
 
             }
         });
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDatabase.child(MON).child(FROM).setValue(edMonday.getText().toString());
-                mDatabase.child(MON).child(TO).setValue(edMonday2.getText().toString());
-                mDatabase.child(TUE).child(FROM).setValue(edTuesday.getText().toString());
-                mDatabase.child(TUE).child(TO).setValue(edTuesday2.getText().toString());
-                mDatabase.child(WED).child(FROM).setValue(edWednesday.getText().toString());
-                mDatabase.child(WED).child(TO).setValue(edWednesday2.getText().toString());
-                mDatabase.child(THU).child(FROM).setValue(edThursday.getText().toString());
-                mDatabase.child(THU).child(TO).setValue(edThursday2.getText().toString());
-                mDatabase.child(FRI).child(FROM).setValue(edFriday.getText().toString());
-                mDatabase.child(FRI).child(TO).setValue(edFriday2.getText().toString());
-                mDatabase.child(SAT).child(FROM).setValue(edSaturday.getText().toString());
-                mDatabase.child(SAT).child("to").setValue(edSaturday2.getText().toString());
-                mDatabase.child(SUN).child(FROM).setValue(edSunday.getText().toString());
-                mDatabase.child(SUN).child("to").setValue(edSunday2.getText().toString());
-
-                Toast.makeText(getContext(), R.string.sche_update_successfully, Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        return VIEW;
     }
+
 }
