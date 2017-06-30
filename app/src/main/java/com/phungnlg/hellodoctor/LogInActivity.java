@@ -2,14 +2,19 @@ package com.phungnlg.hellodoctor;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+//import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+//import android.support.customtabs.CustomTabsIntent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Button;
+//import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.daimajia.slider.library.SliderTypes.BaseSliderView;
+import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,24 +23,29 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.phungnlg.hellodoctor.others.ChildAnimation;
+import com.phungnlg.hellodoctor.others.SliderLayout;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-@EActivity(R.layout.activity_login)
+import java.util.HashMap;
+
+@EActivity(R.layout.activity_sign_in)
 public class LogInActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static final int RC_SIGN_IN = 0;
+    private SliderLayout sliderLayout;
 
     @ViewById(R.id.activity_login_tv_email)
     protected EditText etEmail;
     @ViewById(R.id.activity_login_tv_password)
     protected EditText etPassword;
     @ViewById(R.id.activity_login_btn_log_in)
-    protected Button btnLogIn;
+    protected TextView btnLogIn;
     @ViewById(R.id.activity_login_link)
     protected TextView linkSignUp;
 
@@ -60,8 +70,36 @@ public class LogInActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
+        setUpSlider();
         progressDialog = new ProgressDialog(LogInActivity.this,
                                             R.style.AppTheme_Dark_Dialog);
+    }
+
+    public void setUpSlider() {
+        sliderLayout = (SliderLayout) findViewById(R.id.activity_login_slider);
+        HashMap<String, Integer> fileMaps = new HashMap<String, Integer>();
+        fileMaps.put(getResources().getString(R.string.link3), R.drawable.bg_sign_in_1);
+        fileMaps.put(getResources().getString(R.string.link4), R.drawable.bg_sign_in_2);
+        fileMaps.put(getResources().getString(R.string.link6), R.drawable.bg_sign_in_3);
+        fileMaps.put(getResources().getString(R.string.link7), R.drawable.bg_sign_in_4);
+        fileMaps.put(getResources().getString(R.string.link5), R.drawable.bg_sign_in_5);
+        fileMaps.put(getResources().getString(R.string.link1), R.drawable.bg_sign_in_6);
+        for (final String name : fileMaps.keySet()) {
+            TextSliderView textSliderView = new TextSliderView(this);
+            textSliderView
+                    .description(name)
+                    .image(fileMaps.get(name))
+                    .setScaleType(BaseSliderView.ScaleType.CenterCrop);
+            textSliderView.bundle(new Bundle());
+            textSliderView.getBundle().putString("extra", name);
+
+            sliderLayout.addSlider(textSliderView);
+        }
+        sliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
+        sliderLayout.setPresetIndicator(SliderLayout.PresetIndicators.Right_Bottom);
+        sliderLayout.setCustomAnimation(new ChildAnimation());
+        sliderLayout.setDuration(5000);
+        sliderLayout.startAutoCycle();
     }
 
     @Click(R.id.activity_login_link)

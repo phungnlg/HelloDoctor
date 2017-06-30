@@ -21,19 +21,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
+//import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+//import android.widget.Toast;
+//import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.geniusforapp.fancydialog.FancyAlertDialog;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+//import com.google.android.gms.location.FusedLocationProviderApi;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.LocationSource;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.phungnlg.hellodoctor.others.PlaceAutocompleteAdapter;
+//import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import java.io.IOException;
 //import java.util.ArrayList;
@@ -44,25 +55,41 @@ import java.util.Locale;
  * Created by Phil on 07/05/2017.
  */
 
-public class FindDoctorFragment extends Fragment implements LocationSource.OnLocationChangedListener {
+public class FindDoctorFragment extends Fragment implements LocationSource.OnLocationChangedListener,
+                                                            GoogleApiClient.OnConnectionFailedListener {
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("message")
                                                           .child("user-doctor");
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     private RecyclerView doctorList;
     private TextView tvLocation;
-    private EditText etLocation;
+    private AutoCompleteTextView etLocation;
 
     private Spinner spnMajor;
+    private GoogleApiClient mGoogleApiClient;
 
     private Location lastLocation;
 
     private Query sortMajor;
     private ImageButton btnSearch;
+    private PlaceAutocompleteAdapter mAdapter;
+    private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
+            new LatLng(10.562400, 106.580979), new LatLng(10.998982, 106.699151));
 
     private Geocoder geocoder;
 
     public FindDoctorFragment() {
+    }
+
+    public void setEtAddress() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getContext())
+                .enableAutoManage(getActivity(), 0, FindDoctorFragment.this)
+                .addApi(Places.GEO_DATA_API)
+                .build();
+
+        mAdapter = new PlaceAutocompleteAdapter(getContext(), mGoogleApiClient, BOUNDS_GREATER_SYDNEY,
+                                                null);
+        etLocation.setAdapter(mAdapter);
     }
 
     @Override
@@ -70,12 +97,15 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                              Bundle savedInstanceState) {
         final View VIEW = inflater.inflate(R.layout.fragment_find_doctor, container, false);
         tvLocation = (TextView) VIEW.findViewById(R.id.fragment_find_doctor_tv_location);
-        etLocation = (EditText) VIEW.findViewById(R.id.fragment_find_doctor_et_location);
+        etLocation = (AutoCompleteTextView) VIEW.findViewById(R.id.fragment_find_doctor_et_location);
+        setEtAddress();
 
         VIEW.findViewById(R.id.fragment_find_doctor_ib_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(FindDoctorFragment.this).commit();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                             .setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out)
+                             .remove(FindDoctorFragment.this).commit();
             }
         });
 
@@ -95,8 +125,12 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                 .getSystemService(getContext().LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         //Vị trí hiện tại
+        /*lastLocation = locationManager.getLastKnownLocation(
+                locationManager.getBestProvider(criteria, false));*/
+
         lastLocation = locationManager.getLastKnownLocation(
-                locationManager.getBestProvider(criteria, false));
+                LocationManager.NETWORK_PROVIDER);
+
 
         List<android.location.Address> addresses = null;
 
@@ -115,6 +149,7 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
         }
 
         etLocation.setHint(addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
+        //etLocation.setHint("Your location here");
 
         doctorList = (RecyclerView) VIEW.findViewById(R.id.fragment_find_doctor_list);
         doctorList.setHasFixedSize(true);
@@ -210,7 +245,8 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                                                 Intent intent = new Intent(Intent.ACTION_CALL);
                                                 intent.setData(Uri.parse("tel:" + model.getMobile()));
 
-                                                if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.CALL_PHONE) !=
+                                                if (ActivityCompat.checkSelfPermission(getContext()
+                                                        , android.Manifest.permission.CALL_PHONE) !=
                                                     PackageManager.PERMISSION_GRANTED) {
                                                     return;
                                                 } else {
@@ -278,6 +314,22 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
         });
 
         return VIEW;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mGoogleApiClient.stopAutoManage(getActivity());
+        mGoogleApiClient.disconnect();
+        Log.d("Location P", "onStop");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mGoogleApiClient.stopAutoManage(getActivity());
+        mGoogleApiClient.disconnect();
+        Log.d("Location P", "onDestroy");
     }
 
     @Override
@@ -354,6 +406,13 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
         dist = rad2deg(dist);
         dist = dist * 60 * 1.1515;
         return (dist);
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+        Log.e("", "onConnectionFailed: ConnectionResult.getErrorCode() = "
+                   + connectionResult.getErrorCode());
     }
 
     private double deg2rad(double deg) {

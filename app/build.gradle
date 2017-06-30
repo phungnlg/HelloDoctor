@@ -82,10 +82,10 @@ dependencies {
     compile 'uk.co.chrisjenx:calligraphy:2.3.0'
     compile 'com.github.goka.blurredgridmenu:blurredgridmenu:1.0.2'
     compile 'jp.wasabeef:blurry:2.1.1'
+    compile 'com.github.florent37:materialtextfield:1.0.7'
+    compile 'com.yarolegovich:lovely-dialog:1.0.7'
     testCompile 'junit:junit:4.12'
 }
-
-
 
 apply plugin: 'com.google.gms.google-services'
 apply from: '../quality/quality.gradle'

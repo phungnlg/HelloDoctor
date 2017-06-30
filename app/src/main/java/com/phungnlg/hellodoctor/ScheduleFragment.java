@@ -109,7 +109,9 @@ public class ScheduleFragment extends Fragment {
 
     @Click(R.id.fragment_schedule_ib_back)
     public void setBtnBack() {
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(this).commit();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                     .setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out)
+                     .remove(this).commit();
     }
 
     @AfterViews

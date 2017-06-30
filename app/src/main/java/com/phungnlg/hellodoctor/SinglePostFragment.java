@@ -92,12 +92,16 @@ public class SinglePostFragment extends Fragment {
 
     @Click(R.id.fragment_single_post_iv_user_pic)
     public void setBtnBack() {
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(this).commit();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                     .setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out)
+                     .remove(this).commit();
     }
 
     @Click(R.id.cardView)
     public void setBack() {
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(this).commit();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                     .setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out)
+                     .remove(this).commit();
     }
 
     @Click(R.id.fragment_single_post_ib_send)

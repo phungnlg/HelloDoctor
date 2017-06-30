@@ -7,7 +7,7 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.TabLayout;
+//import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -60,7 +60,7 @@ public class NewsFeedFragment extends Fragment {
 
     private DatabaseReference mDatabase;
     private DatabaseReference newsDatabaseReference;
-    private DatabaseReference voteData= FirebaseDatabase.getInstance().getReference("Vote");
+    private DatabaseReference voteData = FirebaseDatabase.getInstance().getReference("Vote");
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     private RecyclerView mBlogList;
@@ -197,7 +197,7 @@ public class NewsFeedFragment extends Fragment {
                 final long PREVIOUSVOTE = model.getVote();
                 final String PREVIOUSVOTER = model.getVoter();
 
-                if(PREVIOUSVOTER.contains(user.getUid())) {
+                if (PREVIOUSVOTER.contains(user.getUid())) {
                     int myColor = getResources().getColor(R.color.themecolor);
                     viewHolder.btnLike.setColorFilter(myColor, PorterDuff.Mode.SRC_ATOP);
                 }
@@ -238,7 +238,7 @@ public class NewsFeedFragment extends Fragment {
                 viewHolder.btnLike.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(PREVIOUSVOTER.contains(user.getUid())) {
+                        if (PREVIOUSVOTER.contains(user.getUid())) {
                             int myColor = getResources().getColor(R.color.black);
                             viewHolder.btnLike.setColorFilter(myColor, PorterDuff.Mode.SRC_ATOP);
 

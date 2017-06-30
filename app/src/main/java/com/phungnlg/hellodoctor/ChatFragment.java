@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -91,7 +91,9 @@ public class ChatFragment extends Fragment {
 
     @Click(R.id.fragment_chat_ib_back)
     public void setBtnBack() {
-        getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(this).commit();
+        getActivity().getSupportFragmentManager().beginTransaction()
+                     .setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out)
+                     .remove(this).commit();
     }
 
     public void initDatabaseConnection() {

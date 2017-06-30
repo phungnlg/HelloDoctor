@@ -189,7 +189,9 @@ public class BookAppointmentFragment extends Fragment {
         view.findViewById(R.id.fragment_book_ib_back).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out).remove(BookAppointmentFragment.this).commit();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                             .setCustomAnimations(R.anim.push_right_in, R.anim.push_right_out)
+                             .remove(BookAppointmentFragment.this).commit();
             }
         });
 
