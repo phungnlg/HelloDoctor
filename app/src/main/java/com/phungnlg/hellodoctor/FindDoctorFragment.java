@@ -222,6 +222,22 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                             }
                         });
 
+                        viewHolder.btnMessage.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Bundle bundle = new Bundle();
+                                bundle.putString("uid", DOCTORKEY);
+                                bundle.putString("userName", DOCTORNAME);
+                                ChatFragment chatFragment = new ChatFragment_();
+                                chatFragment.setArguments(bundle);
+                                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                                ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
+                                ft.replace(R.id.find_doctor, chatFragment);
+                                ft.addToBackStack(null);
+                                ft.commit();
+                            }
+                        });
+
                         viewHolder.btnCall.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

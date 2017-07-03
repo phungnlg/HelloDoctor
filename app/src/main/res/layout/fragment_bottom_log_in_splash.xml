@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/themecolor"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:id="@+id/activity_login_splash"
+    >
+
+    <com.phungnlg.hellodoctor.others.MyTextView
+        android:id="@+id/activity_login_splash_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="HelloDoctor"
+        android:textColor="@color/white"
+        android:textSize="42sp"
+        android:textAlignment="center"
+        />
+    <com.phungnlg.hellodoctor.others.MyTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="© 2017 @phungnlg. All rights reserved."
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_marginTop="180dp"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"
+        />
+</LinearLayout>

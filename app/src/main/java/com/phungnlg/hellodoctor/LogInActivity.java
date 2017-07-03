@@ -1,14 +1,21 @@
 package com.phungnlg.hellodoctor;
 
+//import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
-//import android.net.Uri;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
-//import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-//import android.widget.Button;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,9 +36,15 @@ import com.phungnlg.hellodoctor.others.SliderLayout;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.HashMap;
+
+//import android.net.Uri;
+//import android.support.customtabs.CustomTabsIntent;
+//import android.widget.Button;
+//import com.google.firebase.database.Transaction;
 
 @EActivity(R.layout.activity_sign_in)
 public class LogInActivity extends AppCompatActivity {
@@ -53,26 +66,45 @@ public class LogInActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(
-                    @NonNull
-                            FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
+        @Override
+        public void onAuthStateChanged(
+                @NonNull
+                        FirebaseAuth firebaseAuth) {
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+            } else {
+                Log.d(TAG, "onAuthStateChanged:signed_out");
             }
-        };
+        }
+    };
     private boolean isLogInSuccessfully;
     private boolean isLogInByFacebook = false;
+    private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @AfterViews
     void init() {
         setUpSlider();
         progressDialog = new ProgressDialog(LogInActivity.this,
                                             R.style.AppTheme_Dark_Dialog);
+        final FragmentManager FM = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = FM.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+        SplashFragment splashFragment = new SplashFragment();
+        fragmentTransaction.add(R.id.activity_login_container, splashFragment, "HELLO");
+        fragmentTransaction.commit();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                SignInFragment_ hello = new SignInFragment_();
+                FragmentTransaction ft = FM.beginTransaction();
+                ft.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
+                ft.replace(R.id.activity_login_container, hello);
+                ft.commit();
+            }
+        }, 3000);
     }
 
     public void setUpSlider() {
@@ -141,13 +173,12 @@ public class LogInActivity extends AppCompatActivity {
 
         auth();
 
-        new android.os.Handler().postDelayed(
+        new Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         if (isLogInSuccessfully) {
                             onLoginSuccess();
-                        }
-                        else {
+                        } else {
                             onLoginFailed();
                         }
                         progressDialog.dismiss();
@@ -274,6 +305,26 @@ public class LogInActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+    
+    @EFragment(R.layout.fragment_bottom_log_in_fields)
+    public static class FieldsFragment extends android.support.v4.app.Fragment {
+
+    }
+
+    public static class SplashFragment extends android.support.v4.app.Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            /** Inflating the layout for this fragment **/
+            View v = inflater.inflate(R.layout.fragment_bottom_log_in_splash, null);
+            TextView tv = (TextView) v.findViewById(R.id.activity_login_splash_name);
+            Animation animation = AnimationUtils.loadAnimation(getContext(), R.anim.anim_fade_in);
+            animation.setDuration(2000);
+            tv.startAnimation(animation);
+            Typeface type = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Painter.ttf");
+            tv.setTypeface(type);
+            return v;
+        }
     }
 
 }

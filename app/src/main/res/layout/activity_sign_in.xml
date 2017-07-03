@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/themecolor"
+    android:orientation="vertical"
+    android:id="@+id/fragment_log_in"
     >
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="325dp"
         android:scaleType="centerCrop"
         >
 
@@ -23,96 +26,30 @@
             android:layout_height="325dp"
             android:background="@drawable/bg_gradient_2"
             />
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="100dp"
+            android:src="@drawable/ic_doctor_blue_big"
+            />
     </FrameLayout>
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="210dp"
-        android:src="@drawable/ic_doctor_blue_big"
-        />
-
     <LinearLayout
-        android:id="@+id/linear"
+        android:id="@+id/activity_login_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_above="@+id/activity_login_link"
-        android:layout_alignParentStart="true"
-        >
-
-        <EditText
-            android:id="@+id/activity_login_tv_email"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rect1"
-            android:drawableLeft="@drawable/email"
-            android:drawablePadding="16dp"
-            android:hint="Email"
-            android:paddingBottom="16dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="16dp"
-            android:textColor="#fff"
-            android:textColorHint="#ffffff"
-            android:textSize="14sp"
-            android:inputType="textEmailAddress"
-            >
-        </EditText>
-
-        <EditText
-            android:id="@+id/activity_login_tv_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/rect1"
-            android:drawableLeft="@drawable/pass"
-            android:drawablePadding="16dp"
-            android:hint="Password"
-            android:paddingBottom="16dp"
-            android:paddingLeft="20dp"
-            android:paddingTop="16dp"
-            android:textColor="#fff"
-            android:textColorHint="#ffffff"
-            android:textSize="14sp"
-            android:inputType="textPassword"
-            >
-        </EditText>
-
-        <TextView
-            android:id="@+id/activity_login_btn_log_in"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/terms"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/rect2"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="Đăng nhập"
-            android:textColor="#ffffff"
-            android:textSize="14sp"
-            />
+        android:layout_height="280dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/activity_login_link"
+    <!--<include
+        android:id="@+id/fragment_bottom"
+        layout="@layout/fragment_bottom_log_in_fields"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="22dp"
-        android:gravity="center"
-        android:lines="1"
-        android:text="Đăng kí ngay!"
-        android:textColor="@color/white"
-        />
-</RelativeLayout>
+        android:layout_height="280dp"
+        android:layout_marginBottom="10dp"
+        />-->
+</LinearLayout>

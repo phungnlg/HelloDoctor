@@ -10,7 +10,7 @@
     <string name="phoneNumber">Số điện thoại</string>
     <string name="major">Chuyên khoa</string>
     <string name="workplace">Nơi công tác</string>
-    <string name="link_createAccount">Chưa có tài khoản? Đăng kí ngay!</string>
+    <string name="link_createAccount"><u>Chưa có tài khoản? Đăng kí ngay!</u></string>
     <string name="link_alreadyAMember">Đã là thành viên? Đăng nhập!</string>
     <string name="creatAccount">Tạo tài khoản</string>
     <string name="auth_failed">Lỗi đăng nhập</string>

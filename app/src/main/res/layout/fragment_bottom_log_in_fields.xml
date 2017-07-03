@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/themecolor"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:id="@+id/activity_login_fields"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        >
+
+        <com.phungnlg.hellodoctor.others.MyEditText
+            android:id="@+id/activity_login_tv_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/rect1"
+            android:drawableLeft="@drawable/email"
+            android:drawablePadding="-35sp"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:paddingBottom="16dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="16dp"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textColorHint="#ffffff"
+            android:textSize="16sp"
+            >
+        </com.phungnlg.hellodoctor.others.MyEditText>
+
+        <com.phungnlg.hellodoctor.others.MyEditText
+            android:id="@+id/activity_login_tv_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rect1"
+            android:drawableLeft="@drawable/pass"
+            android:drawablePadding="-35sp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingBottom="16dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="16dp"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textColorHint="#ffffff"
+            android:textSize="16sp"
+            >
+        </com.phungnlg.hellodoctor.others.MyEditText>
+
+        <TextView
+            android:id="@+id/activity_login_btn_log_in"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/terms"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rect2"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Đăng nhập"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            />
+
+        <TextView
+            android:id="@+id/activity_login_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:lines="1"
+            android:text="@string/link_createAccount"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+</LinearLayout>

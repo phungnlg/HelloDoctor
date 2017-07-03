@@ -76,36 +76,6 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="top"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    >
-                    <ImageButton
-                        android:id="@+id/fragment_book_ib_back"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_gravity="center_vertical"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_left_arrow"
-                        />
-
-                    <com.phungnlg.hellodoctor.others.MyTextView
-                        android:id="@+id/fragment_book_doctorname"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="110dp"
-                        android:gravity="center"
-                        android:text="Chào mừng bạn đến với phòng mạch bác sỹ Hồ Hà"
-                        android:textColor="@color/white"
-                        android:textSize="16dp"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -129,6 +99,37 @@
                         android:layout_weight="1"
                         android:drawableLeft="@drawable/ic_schedule_black_18dp"
                         android:text="LỊCH KHÁM"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="top"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    >
+
+                    <ImageButton
+                        android:id="@+id/fragment_book_ib_back"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/ic_left_arrow"
+                        />
+
+                    <com.phungnlg.hellodoctor.others.MyTextView
+                        android:id="@+id/fragment_book_doctorname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="110dp"
+                        android:gravity="center"
+                        android:text="Chào mừng bạn đến với phòng mạch bác sỹ Hồ Hà"
+                        android:textColor="@color/white"
+                        android:textSize="16dp"
                         />
                 </LinearLayout>
             </FrameLayout>
