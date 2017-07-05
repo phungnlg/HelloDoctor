@@ -1,17 +1,11 @@
 package com.phungnlg.hellodoctor;
 
 import android.os.Bundle;
-//import android.support.annotation.Nullable;
-//import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-//import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-//import android.view.LayoutInflater;
 import android.view.View;
-//import android.view.ViewGroup;
-//import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -32,13 +26,20 @@ import com.google.firebase.database.ValueEventListener;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-//import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.blurry.Blurry;
+
+//import android.support.annotation.Nullable;
+//import android.support.design.widget.TabLayout;
+//import android.support.v7.widget.AppCompatButton;
+//import android.view.LayoutInflater;
+//import android.view.ViewGroup;
+//import android.view.ViewGroup;
+//import org.androidannotations.annotations.FragmentArg;
 
 /**
  * Created by Phil on 07/05/2017.

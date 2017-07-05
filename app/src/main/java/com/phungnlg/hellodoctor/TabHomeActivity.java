@@ -1,6 +1,5 @@
 package com.phungnlg.hellodoctor;
 
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -12,14 +11,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
+
 /**
  * Created by Phil on 07/05/2017.
  */
-
+@EActivity(R.layout.activity_home)
 public class TabHomeActivity extends AppCompatActivity {
-    private TabLayout mTabLayout;
+    @ViewById(R.id.tab_layout)
+    protected TabLayout mTabLayout;
 
-    private FloatingActionButton fab;
+    @ViewById(R.id.fab)
+    protected FloatingActionButton fab;
+
+    @ViewById(R.id.view_pager)
+    protected ViewPager viewPager;
 
     private int[] mTabsIcons = {
             R.drawable.ic_home_white_24dp,
@@ -27,7 +35,36 @@ public class TabHomeActivity extends AppCompatActivity {
             R.drawable.ic_notifications_white_24dp,
             R.drawable.ic_reorder_white_24dp};
 
-    @Override
+    @AfterViews
+    public void init() {
+        hideFloatingActionButton();
+        //Hide the navigation bar when app start
+        View decorView = getWindow().getDecorView();
+        //int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(uiOptions);
+
+        viewPager.setOffscreenPageLimit(4);
+        MyPagerAdapter pagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        if (viewPager != null) {
+            viewPager.setAdapter(pagerAdapter);
+        }
+
+        if (mTabLayout != null) {
+            mTabLayout.setupWithViewPager(viewPager);
+
+            for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+                TabLayout.Tab tab = mTabLayout.getTabAt(i);
+                if (tab != null) {
+                    tab.setCustomView(pagerAdapter.getTabView(i));
+                }
+            }
+
+            mTabLayout.getTabAt(0).getCustomView().setSelected(true);
+        }
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
@@ -61,7 +98,7 @@ public class TabHomeActivity extends AppCompatActivity {
 
             mTabLayout.getTabAt(0).getCustomView().setSelected(true);
         }
-    }
+    }*/
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
@@ -83,16 +120,14 @@ public class TabHomeActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int pos) {
             switch (pos) {
-
                 case 0:
                     return NewsFeedFragment.newInstance(1);
-
                 case 1:
                     return ProfileFragment_.newInstance(2);
                 case 2:
                     return NotificationFragment_.newInstance(3);
                 case 3:
-                    return MoreFragment.newInstance(4);
+                    return MoreFragment_.newInstance(4);
             }
             return null;
         }

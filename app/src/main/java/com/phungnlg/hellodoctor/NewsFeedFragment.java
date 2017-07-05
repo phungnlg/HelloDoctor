@@ -3,11 +3,11 @@ package com.phungnlg.hellodoctor;
 //import android.content.Intent;
 //import android.content.Context;
 //import android.graphics.Color;
+
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
-//import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,18 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-//import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-//import android.widget.Toast;
 
-//import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-//import com.goka.blurredgridmenu.BlurredGridMenuConfig;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -41,6 +37,12 @@ import com.phungnlg.hellodoctor.others.SliderLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
+
+//import android.support.design.widget.TabLayout;
+//import android.view.animation.OvershootInterpolator;
+//import android.widget.Toast;
+//import com.daimajia.slider.library.Indicators.PagerIndicator;
+//import com.goka.blurredgridmenu.BlurredGridMenuConfig;
 
 //import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 

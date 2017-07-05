@@ -4,9 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-//import android.os.Bundle;
 import android.util.Log;
-//import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,11 +26,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.phungnlg.hellodoctor.others.PlaceAutocompleteAdapter;
 
-//import butterknife.Bind;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+
+//import android.os.Bundle;
+//import android.view.View;
+//import butterknife.Bind;
 
 //import butterknife.ButterKnife;
 

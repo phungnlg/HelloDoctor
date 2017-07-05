@@ -22,18 +22,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-//import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-//import android.widget.Toast;
-//import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.geniusforapp.fancydialog.FancyAlertDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-//import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.model.LatLng;
@@ -44,12 +40,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.phungnlg.hellodoctor.others.PlaceAutocompleteAdapter;
-//import com.yarolegovich.lovelydialog.LovelyStandardDialog;
 
 import java.io.IOException;
-//import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+//import android.widget.EditText;
+//import android.widget.Toast;
+//import android.widget.Toast;
+//import com.google.android.gms.location.FusedLocationProviderApi;
+//import com.yarolegovich.lovelydialog.LovelyStandardDialog;
+//import java.util.ArrayList;
 
 /**
  * Created by Phil on 07/05/2017.

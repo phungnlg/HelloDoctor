@@ -3,9 +3,7 @@ package com.phungnlg.hellodoctor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
-//import android.view.LayoutInflater;
 import android.view.View;
-//import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,6 +22,9 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+
+//import android.view.LayoutInflater;
+//import android.view.ViewGroup;
 
 /**
  * Created by Phil on 07/05/2017.

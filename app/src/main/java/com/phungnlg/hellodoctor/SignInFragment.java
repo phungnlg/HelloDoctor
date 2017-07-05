@@ -7,12 +7,14 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.phungnlg.hellodoctor.others.SliderLayout;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -158,7 +160,7 @@ public class SignInFragment extends android.support.v4.app.Fragment {
 
         //TODO Get user's name
 
-        final Intent INTENT = new Intent(getContext(), TabHomeActivity.class);
+        final Intent INTENT = new Intent(getContext(), TabHomeActivity_.class);
         final FirebaseUser USER = FirebaseAuth.getInstance().getCurrentUser();
 
 

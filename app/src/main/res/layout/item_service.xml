@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="175dp"
+        android:layout_height="220dp"
+        android:layout_margin="0dp"
+        android:background="@drawable/bg_rounded_rect"
+        android:elevation="8dp"
+        android:orientation="vertical"
+        card_view:cardCornerRadius="10dp"
+        card_view:cardElevation="0dp"
+        card_view:cardPreventCornerOverlap="false"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:orientation="vertical"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                >
+
+                <ImageView
+                    android:id="@+id/item_newsfeed_iv_cover_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_alignParentRight="true"
+                    android:background="@drawable/bg_doctor"
+                    android:scaleType="fitXY"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bg_gradient_rounded"
+                    />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <com.phungnlg.hellodoctor.others.MyTextView
+                        android:id="@+id/item_newsfeed_tv_user_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="6dp"
+                        android:layout_marginTop="5dp"
+                        android:text="Hồ Chí Minh"
+                        android:textAlignment="textEnd"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:orientation="horizontal"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/item_newsfeed_tv_post_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="3dp"
+                        android:maxLines="3"
+                        android:text="Xét nghiệm cho người hút nhiều thuốc lá. Xét nghiệm cho người hút nhiều thuốc lá"
+                        android:textColor="@color/listtext"
+                        android:textSize="14sp"
+                        />
+
+                    <com.phungnlg.hellodoctor.others.MyTextView
+                        android:id="@+id/item_newsfeed_tv_post_body"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:lineSpacingExtra="3dp"
+                        android:text="1.560.000đ"
+                        android:textColor="@color/themecolor"
+                        android:drawableLeft="@drawable/ic_location_on_black_18dp"
+                        android:drawablePadding="3dp"
+                        android:drawableTint="@color/themecolor"
+                        android:textSize="15dp"
+                        />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.2dp"
+                        android:layout_marginTop="5dp"
+                        android:background="#c6cbcf"
+                        ></View>
+
+                    <TextView
+                        android:id="@+id/item_newsfeed_tv_like_count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:drawableLeft="@drawable/ic_location_on_black_18dp"
+                        android:drawablePadding="3dp"
+                        android:drawableTint="@color/themecolor"
+                        android:text="Trung tâm xét nghiệm y khoa Hùng Vương"
+                        android:textSize="10dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>

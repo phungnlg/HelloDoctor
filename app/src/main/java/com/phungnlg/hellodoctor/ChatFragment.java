@@ -1,21 +1,17 @@
 package com.phungnlg.hellodoctor;
 
 import android.graphics.Color;
-//import android.graphics.drawable.Drawable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-//import android.view.animation.Animation;
-//import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-//import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +29,11 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.HashMap;
 import java.util.Map;
+
+//import android.graphics.drawable.Drawable;
+//import android.view.animation.Animation;
+//import android.view.animation.AnimationUtils;
+//import android.widget.Toast;
 
 /**
  * Created by Phil on 6/23/2017.
