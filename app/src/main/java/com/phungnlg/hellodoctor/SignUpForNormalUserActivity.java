@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Length;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 import com.phungnlg.hellodoctor.others.PlaceAutocompleteAdapter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -31,25 +39,12 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-//import android.os.Bundle;
-//import android.view.View;
-//import butterknife.Bind;
-
-//import butterknife.ButterKnife;
+import java.util.List;
 
 @EActivity(R.layout.activity_sign_up_for_normal_user)
 public class SignUpForNormalUserActivity extends AppCompatActivity
-        implements GoogleApiClient.OnConnectionFailedListener {
+        implements GoogleApiClient.OnConnectionFailedListener, Validator.ValidationListener {
     private static final String TAG = "SignupActivity";
-
-//    private EditText etName;
-//    private AutoCompleteTextView etAddress;
-//    private EditText etEmail;
-//    private EditText etMobileNumber;
-//    private EditText etPassword;
-//    private EditText etReenterPassword;
-//    private Button btnSignUp;
-//    private TextView linkSignIn;
 
     private boolean isSignUpSuccessfully;
 
@@ -69,19 +64,34 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
     private DatabaseReference myNotification = database.getReference("Notifications");
 
     private ProgressDialog progressDialog;
+    private Boolean isValid;
+    private Validator validator;
 
+    @Length(min = 3, message = "Ít nhất 3 kí tự")
     @ViewById(R.id.activity_sign_up_et_name)
     protected EditText etName;
+
+    @NotEmpty(message = "Vui lòng nhập địa chỉ chính xác")
     @ViewById(R.id.activity_sign_up_et_address)
     protected AutoCompleteTextView etAddress;
+
+    @Email(message = "Định dạng email không đúng")
     @ViewById(R.id.activity_sign_up_et_email)
     protected EditText etEmail;
+
+    @Length(min = 10, message = "Số điện thoại phải có ít nhất 10 kí tự số")
     @ViewById(R.id.activity_sign_up_et_mobile)
     protected EditText etMobileNumber;
+
+    @Password
+    @Length(min = 4, max = 10, message = "Mật khẩu có từ 4 - 10 kí tự")
     @ViewById(R.id.activity_sign_up_et_password)
     protected EditText etPassword;
+
+    @ConfirmPassword(message = "Mật khẩu không khớp")
     @ViewById(R.id.activity_sign_up_et_reenter_password)
     protected EditText etReenterPassword;
+
     @ViewById(R.id.activity_sign_up_btn_signup)
     protected Button btnSignUp;
     @ViewById(R.id.activity_sign_up_link)
@@ -104,6 +114,8 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
     public void init() {
         progressDialog = new ProgressDialog(SignUpForNormalUserActivity.this,
                                             R.style.AppTheme_Dark_Dialog);
+        validator = new Validator(this);
+        validator.setValidationListener(this);
         setEtAddress();
         setmAuthListener();
     }
@@ -142,56 +154,6 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
         progressDialog.setMessage(getText(R.string.creating_account));
         progressDialog.show();
     }
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_sign_up_for_normal_user);
-//        ButterKnife.bind(this);
-//
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .enableAutoManage(this, 0 /* clientId */, this)
-//                .addApi(Places.GEO_DATA_API)
-//                .build();
-//        mAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient, BOUNDS_GREATER_SYDNEY,
-//                                                null);
-//        etAddress.setAdapter(mAdapter);
-//
-//        //mAuth = FirebaseAuth.getInstance();
-//
-//        btnSignUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                signup();
-//            }
-//        });
-//
-//        linkSignIn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Finish the registration screen and return to the Login activity
-//                Intent intent = new Intent(getApplicationContext(), LogInActivity.class);
-//                startActivity(intent);
-//                finish();
-//                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-//            }
-//        });
-//        mAuthListener = new FirebaseAuth.AuthStateListener() {
-//            @Override
-//            public void onAuthStateChanged(
-//                    @NonNull
-//                            FirebaseAuth firebaseAuth) {
-//                FirebaseUser user = firebaseAuth.getCurrentUser();
-//                if (user != null) {
-//                    // User is signed in
-//                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-//                } else {
-//                    // User is signed out
-//                    Log.d(TAG, "onAuthStateChanged:signed_out");
-//                }
-//                // ...
-//            }
-//        };
-//    }
 
     public void createUser(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -270,7 +232,7 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
 
     public void signup() {
 
-        if (!validate()) {
+        if (!saripaarValidate()) {
             onSignupFailed();
             return;
         }
@@ -300,7 +262,7 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
         setResult(RESULT_OK, null);
         Toast.makeText(getBaseContext(), R.string.create_account_successfully, Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(getApplicationContext(), TabHomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TabHomeActivity_.class);
         intent.putExtra("isDoctor", false);
         startActivity(intent);
         finish();
@@ -310,54 +272,6 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
     public void onSignupFailed() {
         Toast.makeText(getBaseContext(), R.string.create_account_unsuccessfully, Toast.LENGTH_LONG).show();
         btnSignUp.setEnabled(true);
-    }
-
-    public boolean validate() {
-        boolean valid = true;
-        String name = etName.getText().toString();
-        String address = etAddress.getText().toString();
-        String email = etEmail.getText().toString();
-        String mobile = etMobileNumber.getText().toString();
-        String password = etPassword.getText().toString();
-        String reEnterPassword = etReenterPassword.getText().toString();
-        if (name.isEmpty() || name.length() < 3) {
-            etName.setError(getText(R.string.enter_valid_name));
-            valid = false;
-        } else {
-            etName.setError(null);
-        }
-        if (address.isEmpty()) {
-            etAddress.setError(getText(R.string.enter_valid_address));
-            valid = false;
-        } else {
-            etAddress.setError(null);
-        }
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError(getText(R.string.enter_valid_email));
-            valid = false;
-        } else {
-            etEmail.setError(null);
-        }
-        if (mobile.isEmpty() || mobile.length() < 10) {
-            etMobileNumber.setError(getText(R.string.enter_valid_phone_number));
-            valid = false;
-        } else {
-            etMobileNumber.setError(null);
-        }
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            etPassword.setError(getText(R.string.enter_valid_password));
-            valid = false;
-        } else {
-            etPassword.setError(null);
-        }
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 ||
-            !(reEnterPassword.equals(password))) {
-            etReenterPassword.setError(getText(R.string.enter_matched_password));
-            valid = false;
-        } else {
-            etReenterPassword.setError(null);
-        }
-        return valid;
     }
 
     @Override
@@ -370,5 +284,32 @@ public class SignUpForNormalUserActivity extends AppCompatActivity
         Toast.makeText(this,
                        "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
                        Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean saripaarValidate() {
+        if (validator != null) {
+            validator.validate();
+        }
+        return isValid;
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        isValid = true;
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        isValid = false;
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +14,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Length;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.phungnlg.hellodoctor.others.SliderLayout;
 
 import org.androidannotations.annotations.AfterViews;
@@ -20,18 +26,25 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.List;
+
 /**
  * Created by Phil on 7/2/2017.
  */
 @EFragment(R.layout.fragment_bottom_log_in_fields)
-public class SignInFragment extends android.support.v4.app.Fragment {
+public class SignInFragment extends android.support.v4.app.Fragment implements Validator.ValidationListener {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static final int RC_SIGN_IN = 0;
     private SliderLayout sliderLayout;
 
+    @NotEmpty(message = "Bạn chưa nhập email")
+    @Email(message = "Email không hợp lệ")
     @ViewById(R.id.activity_login_tv_email)
     protected EditText etEmail;
+    @NotEmpty(message = "Bạn chưa nhập mật khẩu")
+    //@Password có vấn đề, do chỉ cần kiểm tra độ dài mật khẩu, tạm dùng @Length để thay thế
+    @Length(min = 4, max = 10, message = "Mật khẩu có từ 4 - 10 kí tự")
     @ViewById(R.id.activity_login_tv_password)
     protected EditText etPassword;
     @ViewById(R.id.activity_login_btn_log_in)
@@ -40,6 +53,8 @@ public class SignInFragment extends android.support.v4.app.Fragment {
     protected TextView linkSignUp;
 
     private ProgressDialog progressDialog;
+    private Boolean isValid;
+    private Validator validator;
 
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -62,6 +77,8 @@ public class SignInFragment extends android.support.v4.app.Fragment {
     void init() {
         progressDialog = new ProgressDialog(getActivity(),
                                             R.style.AppTheme_Dark_Dialog);
+        validator = new Validator(this);
+        validator.setValidationListener(this);
     }
 
     @Click(R.id.activity_login_link)
@@ -92,7 +109,8 @@ public class SignInFragment extends android.support.v4.app.Fragment {
     }
 
     public void login() {
-        if (!validate()) {
+
+        if (!saripaarValidate()) {
             onLoginFailed();
             return;
         }
@@ -209,5 +227,32 @@ public class SignInFragment extends android.support.v4.app.Fragment {
         }
 
         return valid;
+    }
+
+    public boolean saripaarValidate() {
+        if (validator != null) {
+            validator.validate();
+        }
+        return isValid;
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        isValid = true;
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        isValid = false;
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(getContext());
+
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

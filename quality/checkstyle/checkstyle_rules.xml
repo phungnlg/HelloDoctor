@@ -42,12 +42,12 @@
                 value="Global variable name ''{0}'' must use camelCase style." />
         </module>
 
-        <!-- Check local final variable name -->
+        <!-- Check local final variable name
         <module name="LocalFinalVariableName">
             <property name="format" value="^[A-Z][A-Z0-9]*$" />
             <message key="name.invalidPattern"
                 value="Local final variable name ''{0}'' must be UPPERCASE_WITH_UNDERSCORES style." />
-        </module>
+        </module>-->
 
         <!-- Check static variable name -->
         <module name="StaticVariableName">

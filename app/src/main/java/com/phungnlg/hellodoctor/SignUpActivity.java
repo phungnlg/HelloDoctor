@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -26,6 +27,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.mobsandgeeks.saripaar.ValidationError;
+import com.mobsandgeeks.saripaar.Validator;
+import com.mobsandgeeks.saripaar.annotation.ConfirmPassword;
+import com.mobsandgeeks.saripaar.annotation.Email;
+import com.mobsandgeeks.saripaar.annotation.Length;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Password;
 import com.phungnlg.hellodoctor.others.PlaceAutocompleteAdapter;
 
 import org.androidannotations.annotations.AfterViews;
@@ -33,17 +41,11 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-//import android.os.Bundle;
-//import android.view.View;
-//import com.google.firebase.database.DataSnapshot;
-//import com.google.firebase.database.DatabaseError;
-//import com.google.firebase.database.ValueEventListener;
-//import butterknife.Bind;
-
-//import butterknife.ButterKnife;
+import java.util.List;
 
 @EActivity(R.layout.activity_sign_up)
-public class SignUpActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class SignUpActivity extends AppCompatActivity
+        implements GoogleApiClient.OnConnectionFailedListener, Validator.ValidationListener {
     private static final String TAG = "SignupActivity";
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
             new LatLng(10.562400, 106.580979), new LatLng(10.998982, 106.699151));
@@ -62,26 +64,43 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private DatabaseReference doctorBackground = database.getReference("Profile");
 
     private ProgressDialog progressDialog;
+    private Boolean isValid;
+    private Validator validator;
 
     public static final String USERDOCTOR = "user-doctor";
     public static final String NOINFO = "Chưa có thông tin";
     public static final String FROM = "from";
     public static final String TO = "to";
 
+    @Length(min = 3, message = "Ít nhất 3 kí tự")
     @ViewById(R.id.activity_sign_up_et_name)
     protected EditText etName;
+
+    @NotEmpty(message = "Vui lòng nhập địa chỉ chính xác")
     @ViewById(R.id.activity_sign_up_et_address)
     protected AutoCompleteTextView etAddress;
+
+    @Email(message = "Định dạng email không đúng")
     @ViewById(R.id.activity_sign_up_et_email)
     protected EditText etEmail;
+
+    @Length(min = 10, message = "Số điện thoại phải có ít nhất 10 kí tự số")
     @ViewById(R.id.activity_sign_up_et_mobile)
     protected EditText etMobileNumber;
+
+    @Password
+    @Length(min = 4, max = 10, message = "Mật khẩu có từ 4 - 10 kí tự")
     @ViewById(R.id.activity_sign_up_et_password)
     protected EditText etPassword;
+
+    @ConfirmPassword(message = "Mật khẩu không khớp")
     @ViewById(R.id.activity_sign_up_et_reenter_password)
     protected EditText etReenterPassword;
+
     @ViewById(R.id.activity_sign_up_btn_signup)
     protected Button btnSignUp;
+
+    @NotEmpty(message = "Vui lòng nhập nơi bạn làm việc")
     @ViewById(R.id.activity_sign_up_et_workplace)
     protected EditText etWorkplace;
     @ViewById(R.id.activity_sign_up_link)
@@ -149,6 +168,8 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     public void init() {
         progressDialog = new ProgressDialog(SignUpActivity.this,
                                             R.style.AppTheme_Dark_Dialog);
+        validator = new Validator(this);
+        validator.setValidationListener(this);
         setEtAddress();
         setSpnMajor();
         setmAuthListener();
@@ -270,7 +291,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     public void signup() {
         Log.d(TAG, "Signup");
 
-        if (!validate()) {
+        if (!saripaarValidate()) {
             onSignupFailed();
             return;
         }
@@ -320,7 +341,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         setResult(RESULT_OK, null);
         Toast.makeText(getBaseContext(), R.string.create_account_successfully, Toast.LENGTH_LONG).show();
 
-        Intent intent = new Intent(getApplicationContext(), TabHomeActivity.class);
+        Intent intent = new Intent(getApplicationContext(), TabHomeActivity_.class);
         intent.putExtra("isDoctor", true);
         startActivity(intent);
         finish();
@@ -333,7 +354,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         btnSignUp.setEnabled(true);
     }
 
-    public boolean validate() {
+   /* public boolean validate() {
         boolean valid = true;
         String name = etName.getText().toString();
         String address = etAddress.getText().toString();
@@ -379,7 +400,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
             etReenterPassword.setError(null);
         }
         return valid;
-    }
+    }*/
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -391,5 +412,32 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         Toast.makeText(this,
                        "Could not connect to Google API Client: Error " + connectionResult.getErrorCode(),
                        Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean saripaarValidate() {
+        if (validator != null) {
+            validator.validate();
+        }
+        return isValid;
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        isValid = true;
+    }
+
+    @Override
+    public void onValidationFailed(List<ValidationError> errors) {
+        isValid = false;
+        for (ValidationError error : errors) {
+            View view = error.getView();
+            String message = error.getCollatedErrorMessage(this);
+
+            if (view instanceof EditText) {
+                ((EditText) view).setError(message);
+            } else {
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }
