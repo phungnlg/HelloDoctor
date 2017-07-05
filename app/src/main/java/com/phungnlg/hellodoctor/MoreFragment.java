@@ -42,7 +42,7 @@ public class MoreFragment extends Fragment {
 
     @Click(R.id.fragment_more_btn_find_doctor)
     public void setBook() {
-        FindDoctorFragment f = new FindDoctorFragment();
+        FindDoctorFragment f = new FindDoctorFragment_();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
         ft.replace(R.id.more_fragment, f);

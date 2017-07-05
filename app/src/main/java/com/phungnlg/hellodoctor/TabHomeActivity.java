@@ -100,6 +100,14 @@ public class TabHomeActivity extends AppCompatActivity {
         }
     }*/
 
+    public void showFloatingActionButton() {
+        fab.show();
+    }
+
+    public void hideFloatingActionButton() {
+        fab.hide();
+    }
+
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
         private final int pageCount = 4;
@@ -121,7 +129,7 @@ public class TabHomeActivity extends AppCompatActivity {
         public Fragment getItem(int pos) {
             switch (pos) {
                 case 0:
-                    return NewsFeedFragment.newInstance(1);
+                    return NewsFeedFragment_.newInstance(1);
                 case 1:
                     return ProfileFragment_.newInstance(2);
                 case 2:
@@ -142,13 +150,5 @@ public class TabHomeActivity extends AppCompatActivity {
             return mTabsTitle[position];
         }
 
-    }
-
-    public void showFloatingActionButton() {
-        fab.show();
-    }
-
-    public void hideFloatingActionButton() {
-        fab.hide();
     }
 }

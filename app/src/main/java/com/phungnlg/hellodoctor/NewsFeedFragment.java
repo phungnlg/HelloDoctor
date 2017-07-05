@@ -1,9 +1,5 @@
 package com.phungnlg.hellodoctor;
 
-//import android.content.Intent;
-//import android.content.Context;
-//import android.graphics.Color;
-
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,9 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -36,76 +30,66 @@ import com.phungnlg.hellodoctor.others.ChildAnimation;
 import com.phungnlg.hellodoctor.others.SliderLayout;
 import com.squareup.picasso.Picasso;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.ViewById;
+
 import java.util.HashMap;
-
-//import android.support.design.widget.TabLayout;
-//import android.view.animation.OvershootInterpolator;
-//import android.widget.Toast;
-//import com.daimajia.slider.library.Indicators.PagerIndicator;
-//import com.goka.blurredgridmenu.BlurredGridMenuConfig;
-
-//import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
-//import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-//import ss.com.bannerslider.banners.DrawableBanner;
-//import ss.com.bannerslider.views.BannerSlider;
 
 /**
  * Created by Phil on 07/05/2017.
  */
-
+@EFragment(R.layout.fragment_news_feed)
 public class NewsFeedFragment extends Fragment {
     public static final String ARG_PAGE = "ARG_PAGE";
     private static final String TAG = "NewsFeedFragment";
 
-    private EditText etQuestion;
-
+    @ViewById(R.id.fragment_newsfeed_et_question)
+    protected EditText etQuestion;
+    @ViewById(R.id.fragment_newsfeed_list)
+    protected RecyclerView mBlogList;
+    @ViewById(R.id.fragment_newsfeed_slider)
+    protected SliderLayout sliderLayout;
+    @ViewById(R.id.fragment_newsfeed_news)
+    protected RecyclerView newsList;
     private DatabaseReference mDatabase;
     private DatabaseReference newsDatabaseReference;
     private DatabaseReference voteData = FirebaseDatabase.getInstance().getReference("Vote");
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-    private RecyclerView mBlogList;
-
-    private SliderLayout sliderLayout;
-
     private Boolean isLiked = false;
     private int mPageNo;
+    private LinearLayoutManager postLayoutManager;
+    private LinearLayoutManager newsLayoutManager;
 
     public NewsFeedFragment() {
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mPageNo = getArguments().getInt(ARG_PAGE);
+    public static NewsFeedFragment newInstance(int pageNo) {
 
-        final FirebaseDatabase DATABASE = FirebaseDatabase.getInstance();
-
-        mDatabase = DATABASE.getReference("Posts");
-        mDatabase.keepSynced(true);
-
-        newsDatabaseReference = DATABASE.getReference("News");
+        Bundle args = new Bundle();
+        args.putInt(ARG_PAGE, pageNo);
+        NewsFeedFragment fragment = new NewsFeedFragment_();
+        fragment.setArguments(args);
+        return fragment;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final View VIEW = inflater.inflate(R.layout.fragment_news_feed, container, false);
+    public void setUpLayoutManager() {
+        postLayoutManager = new LinearLayoutManager(this.getContext());
+        postLayoutManager.setReverseLayout(true);
+        postLayoutManager.setStackFromEnd(true);
+        newsLayoutManager = new LinearLayoutManager(this.getContext(),
+                                                    LinearLayoutManager.HORIZONTAL, false);
+    }
 
-        /*final TabLayout tabs = (TabLayout)getActivity().findViewById(R.id.tab_layout);
-        tabs.setVisibility(View.GONE);*/
+    public void initDatabaseConnection() {
+        mPageNo = getArguments().getInt(ARG_PAGE);
+        mDatabase = FirebaseDatabase.getInstance().getReference("Posts");
+        mDatabase.keepSynced(true);
+        newsDatabaseReference = FirebaseDatabase.getInstance().getReference("News");
+    }
 
-
-        final LinearLayoutManager LAYOUTMANAGER = new LinearLayoutManager(this.getContext());
-        LAYOUTMANAGER.setReverseLayout(true);
-        LAYOUTMANAGER.setStackFromEnd(true);
-
-        final LinearLayoutManager NEWSLAYOUTMANAGER = new LinearLayoutManager(this.getContext(),
-                                                                              LinearLayoutManager.HORIZONTAL, false);
-
-
-        sliderLayout = (SliderLayout) VIEW.findViewById(R.id.fragment_newsfeed_slider);
+    public void setUpSliderBanner() {
         HashMap<String, Integer> fileMaps = new HashMap<String, Integer>();
         fileMaps.put(getResources().getString(R.string.link3), R.drawable.bg_slide3);
         fileMaps.put(getResources().getString(R.string.link4), R.drawable.bg_slide4);
@@ -126,7 +110,6 @@ public class NewsFeedFragment extends Fragment {
                             builder.setToolbarColor(47219);
                             CustomTabsIntent customTabsIntent = builder.build();
                             //Toast.makeText(getContext(), name, Toast.LENGTH_LONG).show();
-
                             customTabsIntent.launchUrl(getContext(), Uri.parse(name));
                         }
                     });
@@ -142,32 +125,16 @@ public class NewsFeedFragment extends Fragment {
         //sliderLayout.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Invisible);
         sliderLayout.startAutoCycle();
         //sliderLayout.addOnPageChangeListener(getContext());
+    }
 
-
-        mBlogList = (RecyclerView) VIEW.findViewById(R.id.fragment_newsfeed_list);
+    public void setUpRecyclerView() {
         mBlogList.setNestedScrollingEnabled(false);
         mBlogList.setHasFixedSize(true);
-
-        RecyclerView newsList = (RecyclerView) VIEW.findViewById(R.id.fragment_newsfeed_news);
         newsList.setNestedScrollingEnabled(false);
         newsList.setHasFixedSize(true);
+    }
 
-        //mBlogList.setItemAnimator(new FadeInAnimator());
-
-        etQuestion = (EditText) VIEW.findViewById(R.id.fragment_newsfeed_et_question);
-        etQuestion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                WritePostFragment f = WritePostFragment_.builder().build();
-                //f.setArguments(bundle);
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
-                ft.replace(R.id.newsfeed, f);
-                ft.addToBackStack(null);
-                ft.commit();
-            }
-        });
-
+    public void loadPost() {
         Query sortByTime = mDatabase.orderByKey().limitToLast(50);
 
         final FirebaseRecyclerAdapter<PostItem, Holder> ADAPTER = new FirebaseRecyclerAdapter<PostItem, Holder>(
@@ -256,8 +223,7 @@ public class NewsFeedFragment extends Fragment {
                                 public void onCancelled(DatabaseError databaseError) {
                                 }
                             });
-                        }
-                        else {
+                        } else {
                             int myColor = getResources().getColor(R.color.themecolor);
                             viewHolder.btnLike.setColorFilter(myColor, PorterDuff.Mode.SRC_ATOP);
 
@@ -285,7 +251,7 @@ public class NewsFeedFragment extends Fragment {
                 super.onItemRangeInserted(positionStart, itemCount);
                 int friendlyMessageCount = ADAPTER.getItemCount();
                 int lastVisiblePosition =
-                        LAYOUTMANAGER.findLastCompletelyVisibleItemPosition();
+                        postLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition == -1
                     || (positionStart >= (friendlyMessageCount - 1)
                         && lastVisiblePosition == (positionStart - 1))) {
@@ -294,46 +260,57 @@ public class NewsFeedFragment extends Fragment {
             }
         });
 
-        mBlogList.setLayoutManager(LAYOUTMANAGER);
+        mBlogList.setLayoutManager(postLayoutManager);
         mBlogList.setAdapter(ADAPTER);
-
-        getActivity().setTitle("Bảng tin");
-
-        final FirebaseRecyclerAdapter<NewsItem, NewsHolder> NEWSADAPTER =
-                new FirebaseRecyclerAdapter<NewsItem, NewsHolder>(
-                NewsItem.class,
-                R.layout.item_news,
-                NewsHolder.class,
-                newsDatabaseReference
-        ) {
-            @Override
-            protected void populateViewHolder(NewsHolder viewHolder, final NewsItem model, int position) {
-                viewHolder.setPhoto(model.getPhotoUrl());
-                viewHolder.setTitle(model.getTitle());
-
-                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-                        builder.setToolbarColor(47219);
-                        CustomTabsIntent customTabsIntent = builder.build();
-                        customTabsIntent.launchUrl(getContext(), Uri.parse(model.getContentUrl()));
-                    }
-                });
-            }
-        };
-        newsList.setLayoutManager(NEWSLAYOUTMANAGER);
-        newsList.setAdapter(NEWSADAPTER);
-        return VIEW;
     }
 
-    public static NewsFeedFragment newInstance(int pageNo) {
+    public void loadNews() {
+        final FirebaseRecyclerAdapter<NewsItem, NewsHolder> NEWSADAPTER =
+                new FirebaseRecyclerAdapter<NewsItem, NewsHolder>(
+                        NewsItem.class,
+                        R.layout.item_news,
+                        NewsHolder.class,
+                        newsDatabaseReference
+                ) {
+                    @Override
+                    protected void populateViewHolder(NewsHolder viewHolder, final NewsItem model, int position) {
+                        viewHolder.setPhoto(model.getPhotoUrl());
+                        viewHolder.setTitle(model.getTitle());
 
-        Bundle args = new Bundle();
-        args.putInt(ARG_PAGE, pageNo);
-        NewsFeedFragment fragment = new NewsFeedFragment();
-        fragment.setArguments(args);
-        return fragment;
+                        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+                                builder.setToolbarColor(47219);
+                                CustomTabsIntent customTabsIntent = builder.build();
+                                customTabsIntent.launchUrl(getContext(), Uri.parse(model.getContentUrl()));
+                            }
+                        });
+                    }
+                };
+        newsList.setLayoutManager(newsLayoutManager);
+        newsList.setAdapter(NEWSADAPTER);
+    }
+
+    @AfterViews
+    public void init() {
+        setUpLayoutManager();
+        initDatabaseConnection();
+        setUpSliderBanner();
+        setUpRecyclerView();
+        loadPost();
+        loadNews();
+    }
+
+    @Click(R.id.fragment_newsfeed_et_question)
+    public void setEtQuestion() {
+        WritePostFragment f = WritePostFragment_.builder().build();
+        //f.setArguments(bundle);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
+        ft.replace(R.id.newsfeed, f);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override
