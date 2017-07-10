@@ -168,8 +168,9 @@ public class ProfileFragment extends Fragment {
     @AfterViews
     public void init() {
         loadUserInfo();
-        //updateUserProfile();
-        setAvatar();
+        if (user.getPhotoUrl() != null) {
+            setAvatar();
+        }
         mGridMenuFragment = GridMenuFragment.newInstance(R.drawable.bg_gradient);
         mGridMenuFragment.setOnClickMenuListener(new GridMenuFragment.OnClickMenuListener() {
             @Override
@@ -252,7 +253,9 @@ public class ProfileFragment extends Fragment {
                         .setLikeCount("   " + model.getVote() + " người có câu hỏi tương tự, " +
                                       model.getAnswer() + " trả lời.");
                 viewHolder.setPhoto(model.getPhotoUrl());
-                viewHolder.setAvatar(user.getPhotoUrl().toString());
+                if (user.getPhotoUrl() != null) {
+                    viewHolder.setAvatar(user.getPhotoUrl().toString());
+                }
                 viewHolder.getmView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
