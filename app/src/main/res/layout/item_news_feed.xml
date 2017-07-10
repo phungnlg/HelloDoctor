@@ -55,13 +55,18 @@
                     android:orientation="horizontal"
                     >
 
-                    <ImageView
+                    <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/fragment_single_post_iv_user_pic"
                         android:layout_width="105px"
                         android:layout_height="105px"
                         android:layout_margin="10dp"
                         android:scaleType="centerCrop"
                         android:src="@drawable/img_profile_picture_small"
+                        card_view:riv_border_color="@android:color/transparent"
+                        card_view:riv_border_width="0dp"
+                        card_view:riv_corner_radius="30dip"
+                        card_view:riv_mutate_background="true"
+                        card_view:riv_oval="true"
                         />
 
                     <com.phungnlg.hellodoctor.others.MyTextView

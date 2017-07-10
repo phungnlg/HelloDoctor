@@ -1,10 +1,13 @@
 package com.phungnlg.hellodoctor;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
@@ -14,14 +17,18 @@ import android.widget.Toast;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.goka.blurredgridmenu.GridMenu;
 import com.goka.blurredgridmenu.GridMenuFragment;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -60,9 +67,11 @@ public class ProfileFragment extends Fragment {
     protected RecyclerView listPost;
     @ViewById(R.id.tab_profile)
     protected RelativeLayout rootView;
+    @ViewById(R.id.fragment_profile_iv_image)
+    protected com.makeramen.roundedimageview.RoundedImageView ivProfilePic;
 
     private Boolean isDoctor;
-    private com.makeramen.roundedimageview.RoundedImageView ivProfilePic;
+    //private com.makeramen.roundedimageview.RoundedImageView ivProfilePic;
     @ViewById(R.id.fragment_profile_btn_profile1)
     protected ImageButton btnProfile;
     @ViewById(R.id.fragment_profile_btn_Schedule1)
@@ -81,6 +90,28 @@ public class ProfileFragment extends Fragment {
     private FirebaseRecyclerAdapter<PostItem, NewsFeedFragment.Holder> firebaseRecyclerAdapter;
 
     public ProfileFragment() {
+    }
+
+    public void updateUserProfile() {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setPhotoUri(Uri.parse("http://james.microsite.com/wp-content/uploads/2014/11/doctor-profile-04.jpg"))
+                .build();
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(
+                            @NonNull
+                                    Task<Void> task) {
+                        Log.e("Profile Fragment", "Avatar updated");
+                    }
+                });
+    }
+
+    public void setAvatar() {
+        Picasso.with(getContext()).load(user.getPhotoUrl())
+                .resize(200, 200)
+                .centerCrop()
+                .into(ivProfilePic);
     }
 
     private void setupGridMenu() {
@@ -137,6 +168,8 @@ public class ProfileFragment extends Fragment {
     @AfterViews
     public void init() {
         loadUserInfo();
+        //updateUserProfile();
+        setAvatar();
         mGridMenuFragment = GridMenuFragment.newInstance(R.drawable.bg_gradient);
         mGridMenuFragment.setOnClickMenuListener(new GridMenuFragment.OnClickMenuListener() {
             @Override
@@ -219,6 +252,7 @@ public class ProfileFragment extends Fragment {
                         .setLikeCount("   " + model.getVote() + " người có câu hỏi tương tự, " +
                                       model.getAnswer() + " trả lời.");
                 viewHolder.setPhoto(model.getPhotoUrl());
+                viewHolder.setAvatar(user.getPhotoUrl().toString());
                 viewHolder.getmView().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

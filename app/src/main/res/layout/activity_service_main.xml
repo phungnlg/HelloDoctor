@@ -9,7 +9,7 @@
     android:background="@color/themecolor"
     >
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
@@ -22,7 +22,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:weightSum="1"
             >
             <FrameLayout
                 android:id="@+id/cover"
@@ -42,32 +41,18 @@
                     />
             </FrameLayout>
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:id="@+id/activity_service_main_exclusive"
-                android:layout_marginTop="0dp"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:id="@+id/activity_service_main_list"
+                android:layout_marginTop="7dp"
+                android:layout_weight="0.38"
+                android:background="@color/themecolor"
+                android:paddingBottom="4dp"
                 >
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:id="@+id/activity_service_main_medicare"
-                android:layout_marginTop="0dp"
-                android:orientation="vertical"
-                >
-            </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:id="@+id/activity_service_main_test"
-                android:layout_marginTop="0dp"
-                android:orientation="vertical"
-                >
-            </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 </RelativeLayout>

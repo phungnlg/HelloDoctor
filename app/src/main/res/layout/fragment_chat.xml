@@ -38,7 +38,7 @@
             android:layout_marginLeft="20dp"
             android:src="@drawable/ic_nurse_4"
             app:riv_border_color="#fff"
-            app:riv_border_width="5dip"
+            app:riv_border_width="0dip"
             app:riv_corner_radius="30dip"
             app:riv_mutate_background="true"
             app:riv_oval="true"

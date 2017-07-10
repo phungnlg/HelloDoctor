@@ -1,43 +1,55 @@
 package com.phungnlg.hellodoctor;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import com.mikepenz.fastadapter.commons.adapters.FastItemAdapter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Phil on 7/3/2017.
  */
 @EActivity(R.layout.activity_service_main)
 public class ServiceActivity extends AppCompatActivity {
+    @ViewById(R.id.activity_service_main_list)
+    protected RecyclerView listService;
+
+    private LinearLayoutManager layoutManager;
 
     @AfterViews
     public void init() {
-        FragmentManager fm = getSupportFragmentManager();
-        ServiceDashboardFragment exclusiveFragment =
-                ServiceDashboardFragment_.builder()
-                                         .title("Độc quyền").drawableBackground(R.drawable.bg_sign_in_1).build();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
-        ft.add(R.id.activity_service_main_exclusive, exclusiveFragment);
-        ft.commit();
+        FastItemAdapter fastAdapter = new FastItemAdapter();
+        ServiceDashboardItem itemExclusive = new ServiceDashboardItem();
+        itemExclusive.setName("Độc quyền");
+        itemExclusive.setDetail("Xem chi tiết");
+        //itemExclusive.setDrawable(R.drawable.bg_service1);
+        fastAdapter.add(itemExclusive);
 
-        ServiceDashboardFragment medicareFragment =
-                ServiceDashboardFragment_.builder().
-                        title("Dịch vụ y tế").drawableBackground(R.drawable.bg_sign_in_2).build();
-        FragmentTransaction ftMedicare = fm.beginTransaction();
-        ftMedicare.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
-        ftMedicare.add(R.id.activity_service_main_medicare, medicareFragment);
-        ftMedicare.commit();
+        ServiceDashboardItem itemMedicare = new ServiceDashboardItem();
+        itemMedicare.setName("Dịch vụ y tế");
+        itemMedicare.setDetail("Xem chi tiết");
+        ///itemMedicare.setDrawable(R.drawable.bg_service2);
+        fastAdapter.add(itemMedicare);
 
-        ServiceDashboardFragment testFragment =
-                ServiceDashboardFragment_.builder()
-                                         .title("Xét nghiệm").drawableBackground(R.drawable.bg_sign_in_3).build();
-        FragmentTransaction ftTest = fm.beginTransaction();
-        ftTest.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
-        ftTest.add(R.id.activity_service_main_test, testFragment);
-        ftTest.commit();
+        ServiceDashboardItem itemTest = new ServiceDashboardItem();
+        itemTest.setName("Xét nghiệm");
+        itemTest.setDetail("Xem chi tiết");
+        //itemTest.setDrawable(R.drawable.bg_service3);
+        fastAdapter.add(itemTest);
+
+
+        layoutManager = new LinearLayoutManager(this);
+
+        listService.setFocusable(false);
+        listService.setHasFixedSize(true);
+        listService.setNestedScrollingEnabled(false);
+        listService.setLayoutManager(layoutManager);
+        listService.setAdapter(fastAdapter);
+
+
     }
 }

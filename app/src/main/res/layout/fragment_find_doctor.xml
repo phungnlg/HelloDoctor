@@ -110,7 +110,7 @@
                             android:id="@+id/fragment_find_doctor_tv_location"
                             android:layout_width="match_parent"
                             android:layout_height="30dp"
-                            android:text="Tìm trong vòng 3 km từ vị trí hiện tại"
+                            android:text="Tìm trong vòng 5 km từ vị trí hiện tại"
                             android:gravity="center"
                             android:textColor="@color/white"
                             android:layout_marginBottom="0dp"

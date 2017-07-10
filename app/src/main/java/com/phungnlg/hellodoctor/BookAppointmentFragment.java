@@ -125,6 +125,26 @@ public class BookAppointmentFragment extends Fragment {
         ft.commit();
     }
 
+    @Click(R.id.fragment_book_btnDirection)
+    public void setBtnDirection() {
+        database.getReference("message").child("user-doctor").child(doctorKey).addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        final String DOCTORADDRESS = dataSnapshot.child("address").getValue().toString();
+                        Uri gmmIntentUri = Uri.parse("google.navigation:q=" + DOCTORADDRESS);
+                        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                        mapIntent.setPackage("com.google.android.apps.maps");
+                        startActivity(mapIntent);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+    }
+
     @Click(R.id.fragment_book_ib_back)
     public void setBtnBack() {
         getActivity().getSupportFragmentManager().beginTransaction()
@@ -245,7 +265,7 @@ public class BookAppointmentFragment extends Fragment {
                         final String DOCTORADDRESS = dataSnapshot.child("address").getValue().toString();
                         setCoverPhoto(getMapUrl(DOCTORADDRESS));
 
-                        coverPhoto.setOnClickListener(new View.OnClickListener() {
+                        /*coverPhoto.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Uri gmmIntentUri = Uri.parse("google.navigation:q=" + DOCTORADDRESS);
@@ -254,7 +274,7 @@ public class BookAppointmentFragment extends Fragment {
                                 mapIntent.setPackage("com.google.android.apps.maps");
                                 startActivity(mapIntent);
                             }
-                        });
+                        });*/
                     }
 
                     @Override

@@ -1,6 +1,7 @@
 package com.phungnlg.hellodoctor;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Gravity;
@@ -8,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -21,6 +24,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -48,6 +54,7 @@ public class ChatFragment extends Fragment {
 
     private String userName;
     private String userid;
+    private StorageReference imageRef = FirebaseStorage.getInstance().getReference("avatar");
 
     @ViewById(R.id.fragment_chat_ib_send)
     protected ImageButton ibSend;
@@ -59,6 +66,8 @@ public class ChatFragment extends Fragment {
     protected RelativeLayout layoutRelative;
     @ViewById(R.id.fragment_chat_scrollView)
     protected ScrollView scrollView;
+    @ViewById(R.id.fragment_chat_iv_image)
+    protected ImageView ivAvatar;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -75,6 +84,14 @@ public class ChatFragment extends Fragment {
             userName = bundle.getString("userName");
             userid = bundle.getString("uid");
         }
+    }
+
+    public void setIvAvatar(String photoUrl) {
+        Picasso.with(getContext())
+               .load(photoUrl)
+               .resize(150, 150)
+               .centerCrop()
+               .into(ivAvatar);
     }
 
     @Click(R.id.fragment_chat_ib_send)
@@ -161,11 +178,19 @@ public class ChatFragment extends Fragment {
     @AfterViews
     public void init() {
         getBundle();
+
+        StorageReference avatar = imageRef.child(userid + ".jpg");
+        avatar.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                setIvAvatar(uri.toString());
+            }
+        });
+
         performFullScroll();
         setChatWithUserInfo();
         initDatabaseConnection();
         getPreviousMessages();
-        //etMessage.requestFocus();
     }
 
     public void addMessageBox(String message, int type) {

@@ -1,5 +1,6 @@
 package com.phungnlg.hellodoctor;
 
+import android.app.ProgressDialog;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.phungnlg.hellodoctor.others.ChildAnimation;
 import com.phungnlg.hellodoctor.others.SliderLayout;
 import com.squareup.picasso.Picasso;
@@ -61,8 +65,17 @@ public class NewsFeedFragment extends Fragment {
     private int mPageNo;
     private LinearLayoutManager postLayoutManager;
     private LinearLayoutManager newsLayoutManager;
+    private ProgressDialog progressDialog;
+    private FirebaseRecyclerAdapter<PostItem, Holder> postAdapter;
+    private StorageReference imageRef = FirebaseStorage.getInstance().getReference("avatar");
 
     public NewsFeedFragment() {
+    }
+
+    private void showDialog() {
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Đang tải bài viết");
+        progressDialog.show();
     }
 
     public static NewsFeedFragment newInstance(int pageNo) {
@@ -75,7 +88,27 @@ public class NewsFeedFragment extends Fragment {
     }
 
     public void setUpLayoutManager() {
-        postLayoutManager = new LinearLayoutManager(this.getContext());
+        postLayoutManager = new LinearLayoutManager(this.getContext()) {
+            @Override
+            public void onLayoutChildren(final RecyclerView.Recycler recycler, final RecyclerView.State state) {
+                super.onLayoutChildren(recycler, state);
+                //TODO if the items are filtered, considered hiding the fast scroller here
+                final int firstVisibleItemPosition = findFirstVisibleItemPosition();
+                if (firstVisibleItemPosition != 0) {
+                    if (firstVisibleItemPosition == -1) {
+                        showDialog();
+                    }
+                    return;
+                }
+                final int lastVisibleItemPosition = findLastVisibleItemPosition();
+                int itemsShown = lastVisibleItemPosition - firstVisibleItemPosition + 1;
+                if (postAdapter.getItemCount() > itemsShown) {
+                    showDialog();
+                } else {
+                    progressDialog.dismiss();
+                }
+            }
+        };
         postLayoutManager.setReverseLayout(true);
         postLayoutManager.setStackFromEnd(true);
         newsLayoutManager = new LinearLayoutManager(this.getContext(),
@@ -137,7 +170,7 @@ public class NewsFeedFragment extends Fragment {
     public void loadPost() {
         Query sortByTime = mDatabase.orderByKey().limitToLast(50);
 
-        final FirebaseRecyclerAdapter<PostItem, Holder> ADAPTER = new FirebaseRecyclerAdapter<PostItem, Holder>(
+        postAdapter = new FirebaseRecyclerAdapter<PostItem, Holder>(
                 PostItem.class,
                 R.layout.item_news_feed,
                 Holder.class,
@@ -162,6 +195,14 @@ public class NewsFeedFragment extends Fragment {
                                       " người có câu hỏi tương tự, " + model.getAnswer() +
                                       " trả lời.");
                 viewHolder.setPhoto(model.getPhotoUrl());
+                StorageReference avatar = imageRef.child(model.getUid() + ".jpg");
+                avatar.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        viewHolder.setAvatar(uri.toString());
+                    }
+                });
+                //viewHolder.setAvatar(avatarUrl);
 
                 final long PREVIOUSVOTE = model.getVote();
                 final String PREVIOUSVOTER = model.getVoter();
@@ -245,11 +286,11 @@ public class NewsFeedFragment extends Fragment {
             }
         };
 
-        ADAPTER.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        postAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(final int positionStart, final int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = ADAPTER.getItemCount();
+                int friendlyMessageCount = postAdapter.getItemCount();
                 int lastVisiblePosition =
                         postLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition == -1
@@ -261,7 +302,7 @@ public class NewsFeedFragment extends Fragment {
         });
 
         mBlogList.setLayoutManager(postLayoutManager);
-        mBlogList.setAdapter(ADAPTER);
+        mBlogList.setAdapter(postAdapter);
     }
 
     public void loadNews() {
@@ -294,6 +335,8 @@ public class NewsFeedFragment extends Fragment {
 
     @AfterViews
     public void init() {
+        progressDialog = new ProgressDialog(getActivity(),
+                                            R.style.AppTheme_Dark_Dialog);
         setUpLayoutManager();
         initDatabaseConnection();
         setUpSliderBanner();
@@ -389,6 +432,15 @@ public class NewsFeedFragment extends Fragment {
             Picasso.with(mView.getContext())
                    .load(photoUrl)
                    .resize(300, 150)
+                   .centerCrop()
+                   .into(iv);
+        }
+
+        public void setAvatar(String photoUrl) {
+            ImageView iv = (ImageView) mView.findViewById(R.id.fragment_single_post_iv_user_pic);
+            Picasso.with(mView.getContext())
+                   .load(photoUrl)
+                   .resize(105, 105)
                    .centerCrop()
                    .into(iv);
         }

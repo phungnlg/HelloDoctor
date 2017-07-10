@@ -2,9 +2,9 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout_service_dashboard"
     >
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="220dp"
@@ -38,13 +38,13 @@
 
 
             <com.phungnlg.hellodoctor.others.MyTextView
-                android:id="@+id/shop"
+                android:id="@+id/layout_service_dashboard_tv_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="130dp"
                 android:layout_marginRight="130dp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/rect1"
+                android:background="@drawable/rect3"
                 android:gravity="center"
                 android:padding="5dp"
                 android:text="Xem chi tiết"

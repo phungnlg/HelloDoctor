@@ -1,6 +1,7 @@
 package com.phungnlg.hellodoctor;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -18,9 +19,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -32,12 +36,16 @@ import com.google.android.gms.location.places.Places;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.phungnlg.hellodoctor.others.PlaceAutocompleteAdapter;
+import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -57,6 +65,7 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
     private DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("message")
                                                           .child("user-doctor");
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private StorageReference imageRef = FirebaseStorage.getInstance().getReference("avatar");
 
     @ViewById(R.id.fragment_find_doctor_list)
     protected RecyclerView doctorList;
@@ -68,17 +77,47 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
     protected Spinner spnMajor;
     private GoogleApiClient mGoogleApiClient;
 
+    private FirebaseRecyclerAdapter<Doctor, dHolder> adapter;
     private Location lastLocation;
-    private LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+    private LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext()) {
+        @Override
+        public void onLayoutChildren(final RecyclerView.Recycler recycler, final RecyclerView.State state) {
+            super.onLayoutChildren(recycler, state);
+            //TODO if the items are filtered, considered hiding the fast scroller here
+            final int firstVisibleItemPosition = findFirstVisibleItemPosition();
+            if (firstVisibleItemPosition != 0) {
+                // this avoids trying to handle un-needed calls
+                if (firstVisibleItemPosition == -1) {
+                    //not initialized, or no items shown, so hide fast-scroller
+                    showDialog();
+                }
+                return;
+            }
+            final int lastVisibleItemPosition = findLastVisibleItemPosition();
+            int itemsShown = lastVisibleItemPosition - firstVisibleItemPosition + 1;
+            //if all items are shown, hide the fast-scroller
+            if (adapter.getItemCount() > itemsShown) {
+                showDialog();
+            } else {
+                progressDialog.dismiss();
+            }
+        }
+    };
     private Query sortMajor;
     private ImageButton btnSearch;
     private PlaceAutocompleteAdapter mAdapter;
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
             new LatLng(10.562400, 106.580979), new LatLng(10.998982, 106.699151));
-
+    private ProgressDialog progressDialog;
     private Geocoder geocoder;
 
     public FindDoctorFragment() {
+    }
+
+    private void showDialog() {
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Đang tải danh sách");
+        progressDialog.show();
     }
 
     @Click(R.id.fragment_find_doctor_ib_back)
@@ -90,6 +129,8 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
 
     @AfterViews
     public void init() {
+        progressDialog = new ProgressDialog(getActivity(),
+                                            R.style.AppTheme_Dark_Dialog);
         setEtAddress();
         setEtLocation();
         setSpnMajor();
@@ -155,18 +196,24 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
         sortMajor = mDatabase.orderByChild("major").equalTo(spnMajor.getSelectedItem().toString());
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-        final FirebaseRecyclerAdapter<Doctor, dHolder> ADAPTER
-                = new FirebaseRecyclerAdapter<Doctor, dHolder>(
+        adapter = new FirebaseRecyclerAdapter<Doctor, dHolder>(
                 Doctor.class,
                 R.layout.item_doctor,
                 dHolder.class,
                 sortMajor
         ) {
             @Override
-            protected void populateViewHolder(dHolder viewHolder, final Doctor model, int position) {
+            protected void populateViewHolder(final dHolder viewHolder, final Doctor model, int position) {
                 viewHolder.setName(model.getName());
                 viewHolder.setAddress(model.getAddress());
                 viewHolder.setBio("Bác sỹ " + model.getMajor() + " tại " + model.getWorkplace());
+                StorageReference avatar = imageRef.child(getRef(position).getKey() + ".jpg");
+                avatar.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        viewHolder.setAvatar(uri.toString());
+                    }
+                });
 
                 try {
                     List<Address> doctorLocation = geocoder.getFromLocationName(
@@ -178,6 +225,10 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                             location.getLatitude(),
                             location.getLongitude());
                     viewHolder.setRating("  " + Math.round(distance) + " km");
+                    if (Math.round((distance)) > 5) {
+                        //viewHolder.view.setVisibility(View.GONE);
+                        viewHolder.hideView();
+                    }
                 } catch (IOException e) {
                     //e.printStackTrace();
                 }
@@ -292,11 +343,11 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                 });
             }
         };
-        ADAPTER.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(final int positionStart, final int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = ADAPTER.getItemCount();
+                int friendlyMessageCount = adapter.getItemCount();
                 int lastVisiblePosition =
                         layoutManager.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition == -1
@@ -306,9 +357,20 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                 }
             }
         });
+//        adapter.notifyAll();
         doctorList.setNestedScrollingEnabled(false);
         doctorList.setLayoutManager(layoutManager);
-        doctorList.setAdapter(ADAPTER);
+        doctorList.setAdapter(adapter);
+
+        /*adapter.notifyDataSetChanged();
+        showDialog();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        }, 3000);*/
     }
 
     @Override
@@ -359,6 +421,8 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
         private ImageButton btnMessage;
         private ImageButton btnSchedule;
         private ImageButton btnWorkingExperience;
+        private LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                                 ViewGroup.LayoutParams.WRAP_CONTENT);
 
         public dHolder(View itemView) {
             super(itemView);
@@ -367,6 +431,11 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
             btnMessage = (ImageButton) itemView.findViewById(R.id.item_doctor_ib_message);
             btnSchedule = (ImageButton) itemView.findViewById(R.id.item_doctor_ib_schedule);
             btnWorkingExperience = (ImageButton) itemView.findViewById(R.id.item_doctor_ib_working_experience);
+        }
+
+        public void hideView() {
+            params.height = 0;
+            view.setLayoutParams(params);
         }
 
         public void setName(String _name) {
@@ -387,6 +456,15 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
         public void setRating(String _mobile) {
             TextView mobile = (TextView) view.findViewById(R.id.item_doctor_tv_rating);
             mobile.setText(_mobile);
+        }
+
+        public void setAvatar(String photoUrl) {
+            ImageView iv = (ImageView) view.findViewById(R.id.fragment_profile_iv_image);
+            Picasso.with(view.getContext())
+                   .load(photoUrl)
+                   .resize(300, 300)
+                   .centerCrop()
+                   .into(iv);
         }
     }
 
