@@ -30,6 +30,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.phungnlg.hellodoctor.adapter.Connect;
+import com.phungnlg.hellodoctor.adapter.NewsAdapter;
 import com.phungnlg.hellodoctor.others.ChildAnimation;
 import com.phungnlg.hellodoctor.others.SliderLayout;
 import com.squareup.picasso.Picasso;
@@ -40,6 +42,10 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.HashMap;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Phil on 07/05/2017.
@@ -68,6 +74,8 @@ public class NewsFeedFragment extends Fragment {
     private ProgressDialog progressDialog;
     private FirebaseRecyclerAdapter<PostItem, Holder> postAdapter;
     private StorageReference imageRef = FirebaseStorage.getInstance().getReference("avatar");
+
+    private NewsAdapter newsAdapter;
 
     public NewsFeedFragment() {
     }
@@ -324,13 +332,25 @@ public class NewsFeedFragment extends Fragment {
                                 CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
                                 builder.setToolbarColor(47219);
                                 CustomTabsIntent customTabsIntent = builder.build();
-                                customTabsIntent.launchUrl(getContext(), Uri.parse(model.getContentUrl()));
+                                customTabsIntent.launchUrl(v.getContext(), Uri.parse(model.getContentUrl()));
                             }
                         });
                     }
                 };
         newsList.setLayoutManager(newsLayoutManager);
         newsList.setAdapter(NEWSADAPTER);
+    }
+
+    public void rloadNews() {
+        Observable.defer(() -> Connect.getRetrofit().getNewsList())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(NewsItemHashMap -> {
+                    newsAdapter = new NewsAdapter(NewsItemHashMap);
+                    newsAdapter.notifyDataSetChanged();
+                    newsList.setLayoutManager(newsLayoutManager);
+                    newsList.setAdapter(newsAdapter);
+                });
     }
 
     @AfterViews
@@ -342,7 +362,7 @@ public class NewsFeedFragment extends Fragment {
         setUpSliderBanner();
         setUpRecyclerView();
         loadPost();
-        loadNews();
+        rloadNews();
     }
 
     @Click(R.id.fragment_newsfeed_et_question)

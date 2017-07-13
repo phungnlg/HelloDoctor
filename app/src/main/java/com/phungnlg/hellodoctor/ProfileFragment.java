@@ -22,12 +22,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
+import com.phungnlg.hellodoctor.adapter.Connect;
 import com.squareup.picasso.Picasso;
 
 import org.androidannotations.annotations.AfterViews;
@@ -39,6 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.blurry.Blurry;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 //import android.support.annotation.Nullable;
 //import android.support.design.widget.TabLayout;
@@ -97,21 +98,21 @@ public class ProfileFragment extends Fragment {
                 .setPhotoUri(Uri.parse("http://james.microsite.com/wp-content/uploads/2014/11/doctor-profile-04.jpg"))
                 .build();
         user.updateProfile(profileUpdates)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(
-                            @NonNull
-                                    Task<Void> task) {
-                        Log.e("Profile Fragment", "Avatar updated");
-                    }
-                });
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(
+                        @NonNull
+                                Task<Void> task) {
+                    Log.e("Profile Fragment", "Avatar updated");
+                }
+            });
     }
 
     public void setAvatar() {
         Picasso.with(getContext()).load(user.getPhotoUrl())
-                .resize(200, 200)
-                .centerCrop()
-                .into(ivProfilePic);
+               .resize(200, 200)
+               .centerCrop()
+               .into(ivProfilePic);
     }
 
     private void setupGridMenu() {
@@ -192,7 +193,7 @@ public class ProfileFragment extends Fragment {
         loadUserPosts();
     }
 
-    public void loadUserInfo() {
+    /*public void loadUserInfo() {
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -221,6 +222,24 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+    }*/
+
+    public void loadUserInfo() {
+        Observable.defer(() -> Connect.getRetrofit().getUserInfo(user.getUid()))
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe(userInfo -> {
+                      name.setText(userInfo.getName());
+                      bio.setText(userInfo.getBio());
+                      follower.setText(String.valueOf(userInfo.getFollower()));
+                      following.setText(String.valueOf(userInfo.getFollowing()));
+                      if (!userInfo.getDoctor()) {
+                          btnProfile.setVisibility(View.GONE);
+                          btnSchedule.setVisibility(View.GONE);
+                      }
+                      else {
+                      }
+                  });
     }
 
     public void initRecyclerView() {

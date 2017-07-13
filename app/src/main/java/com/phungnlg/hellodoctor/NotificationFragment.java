@@ -13,11 +13,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.phungnlg.hellodoctor.adapter.IApiService;
+import com.phungnlg.hellodoctor.adapter.NotificationAdapter;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 //import android.view.LayoutInflater;
 //import android.view.ViewGroup;
@@ -36,6 +47,8 @@ public class NotificationFragment extends Fragment {
 
     private FirebaseRecyclerAdapter<NotificationItem, NotiHolder> firebaseRecyclerAdapter;
     private LinearLayoutManager layoutManager;
+    private Retrofit retrofit;
+    private IApiService iApiService;
 
     @ViewById(R.id.fragment_notification_list_notification)
     protected RecyclerView notificationList;
@@ -45,6 +58,40 @@ public class NotificationFragment extends Fragment {
     protected TextView tvCheckAll;
 
     private Boolean isConfirmedCheckAll = false;
+
+    private ArrayList<NotificationItem> listNotification = new ArrayList<>();
+    private NotificationAdapter notificationAdapter;
+
+    void loadNotification() {
+        initRetrofit();
+
+        iApiService.getNotification(mUser.getUid()).enqueue(new Callback<LinkedHashMap<String, NotificationItem>>() {
+            @Override
+            public void onResponse(Call<LinkedHashMap<String, NotificationItem>> call,
+                                   Response<LinkedHashMap<String, NotificationItem>> response) {
+                for (LinkedHashMap.Entry<String, NotificationItem> list : response.body().entrySet()) {
+                    listNotification.add(list.getValue());
+                }
+                notificationAdapter = new NotificationAdapter(listNotification);
+                notificationAdapter.notifyDataSetChanged();
+                notificationList.setAdapter(notificationAdapter);
+            }
+
+            @Override
+            public void onFailure(Call<LinkedHashMap<String, NotificationItem>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void initRetrofit() {
+        retrofit = new Retrofit.Builder()
+        .baseUrl("https://newhellodoctor.firebaseio.com/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .build();
+
+        iApiService = retrofit.create(IApiService.class);
+    }
 
     public void initRecyclerView() {
         mDatabase = mDatabase.child(mUser.getUid());
@@ -105,6 +152,8 @@ public class NotificationFragment extends Fragment {
     @AfterViews
     public void afterView() {
         initRecyclerView();
+        //loadNotification();
+
         initFirebaseRecyclerAdapter();
         registerAdapterDataObserver();
         notificationList.setAdapter(firebaseRecyclerAdapter);

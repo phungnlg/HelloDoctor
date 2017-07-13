@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.phungnlg.hellodoctor.adapter.CommentAdapter;
+import com.phungnlg.hellodoctor.adapter.Connect;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -29,6 +31,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by Phil on 07/05/2017.
@@ -44,6 +50,9 @@ public class SinglePostFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this.getContext());
+
+    //private LinkedHashMap<String, CommentItem> listComment = new LinkedHashMap<>();
+    private CommentAdapter commentAdapter;
 
     //private String postKey;
     private String outputPattern = "h:mm a dd-MM-yyyy";
@@ -109,6 +118,8 @@ public class SinglePostFragment extends Fragment {
         increaseCommentCount();
         saveCommentToDatabase();
         pushNotification();
+        loadComments();
+
     }
 
     public void increaseCommentCount() {
@@ -210,6 +221,17 @@ public class SinglePostFragment extends Fragment {
         });
     }
 
+    private Observable test() {
+        getPreviousComment();
+        return Observable.just(1);
+    }
+
+    private void doSomething() {
+        test().observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+    }
+
     public void getPreviousComment() {
         final DatabaseReference DATABASECOMMENTLIST = FirebaseDatabase.getInstance().getReference().child("Comments")
                                                                       .child(postKey);
@@ -246,12 +268,44 @@ public class SinglePostFragment extends Fragment {
         mCommentList.setAdapter(COMMENTADAPTER);
     }
 
+    public void registerAdapterDataObserver() {
+        commentAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(final int positionStart, final int itemCount) {
+                super.onItemRangeInserted(positionStart, itemCount);
+                int friendlyMessageCount = commentAdapter.getItemCount();
+                int lastVisiblePosition =
+                        linearLayoutManager.findLastCompletelyVisibleItemPosition();
+                if (lastVisiblePosition == -1
+                    || (positionStart >= (friendlyMessageCount - 1)
+                        && lastVisiblePosition == (positionStart - 1))) {
+                    mCommentList.scrollToPosition(positionStart);
+                }
+            }
+        });
+    }
+
+    public void loadComments() {
+        Observable.defer(() -> Connect.getRetrofit().getComments(postKey))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(CommentItemLinkedHashMap -> {
+                    commentAdapter = new CommentAdapter(CommentItemLinkedHashMap);
+                    commentAdapter.notifyDataSetChanged();
+                    registerAdapterDataObserver();
+                    mCommentList.setAdapter(commentAdapter);
+                });
+    }
+
     @AfterViews
     public void init() {
         initDatabaseConnection();
         getPost();
         getCommentList();
-        getPreviousComment();
+        //getPreviousComment();
+        doSomething();
+        //loadComments();
+        //registerAdapterDataObserver();
     }
 
     public void getCommentList() {
