@@ -165,7 +165,6 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
         lastLocation = locationManager.getLastKnownLocation(
                 LocationManager.NETWORK_PROVIDER);
 
-
         List<android.location.Address> addresses = null;
 
         geocoder = new Geocoder(this.getContext(), Locale.getDefault());
@@ -181,7 +180,12 @@ public class FindDoctorFragment extends Fragment implements LocationSource.OnLoc
                 // Catch invalid latitude or longitude values.
             }
         }
-        etLocation.setHint(addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
+        try {
+            etLocation.setHint(addresses.get(0).getAddressLine(0) + ", " + addresses.get(0).getLocality());
+        } catch (NullPointerException e) {
+            etLocation.setHint("Vui lòng nhập địa chỉ");
+        }
+
     }
 
     public void setSpnMajor() {

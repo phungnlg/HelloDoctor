@@ -16,12 +16,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.phungnlg.hellodoctor.adapter.Connect;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 //import android.view.LayoutInflater;
 //import android.view.ViewGroup;
@@ -66,6 +71,8 @@ public class CVFragment extends Fragment {
         //getBundle();
         initUI();
         loadData();
+        //Load doctor profile using Retrofit, slower than the original Firebase-provided function
+        //loadDoctorProfile();
     }
 
     public void getBundle() {
@@ -152,6 +159,22 @@ public class CVFragment extends Fragment {
         Toast.makeText(getContext(), R.string.ho_so_cap_nhat_thanh_cong, Toast.LENGTH_SHORT).show();
     }
 
+    //RxAndroid + Retrofit
+    public void loadDoctorProfile() {
+        Observable.defer(() -> Connect.getRetrofit().getDoctorProfile(key))
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe(doctorProfile -> {
+                      etAcademicLevel.setText(doctorProfile.getAl());
+                      etAssociation.setText(doctorProfile.getAs());
+                      etAward.setText(doctorProfile.getAw());
+                      etBackground.setText(doctorProfile.getBg());
+                      etClinicAddress.setText(doctorProfile.getCa());
+                      etClinicName.setText(doctorProfile.getCn());
+                  });
+    }
+
+    //Firebase
     public void loadData() {
         DatabaseReference m = database.getReference("Profile").child(key);
         m.addListenerForSingleValueEvent(new ValueEventListener() {

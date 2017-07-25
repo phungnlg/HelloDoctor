@@ -101,7 +101,7 @@ public class NotificationFragment extends Fragment {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        notificationList.setHasFixedSize(true);
+        //notificationList.setHasFixedSize(true);
         notificationList.setNestedScrollingEnabled(false);
         notificationList.setLayoutManager(layoutManager);
     }

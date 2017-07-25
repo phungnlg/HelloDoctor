@@ -3,6 +3,7 @@ package com.phungnlg.hellodoctor.adapter;
 import com.phungnlg.hellodoctor.CommentItem;
 import com.phungnlg.hellodoctor.NewsItem;
 import com.phungnlg.hellodoctor.NotificationItem;
+import com.phungnlg.hellodoctor.object.DoctorProfile;
 import com.phungnlg.hellodoctor.object.UserInfo;
 
 import java.util.LinkedHashMap;
@@ -28,4 +29,7 @@ public interface IApiService {
 
     @GET("Comments/{id}.json")
     Observable<LinkedHashMap<String, CommentItem>> getComments(@Path("id") String id);
+
+    @GET("Profile/{id}.json")
+    Observable<DoctorProfile> getDoctorProfile(@Path("id") String id);
 }

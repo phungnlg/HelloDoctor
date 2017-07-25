@@ -2,6 +2,7 @@ package com.phungnlg.hellodoctor;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.phungnlg.hellodoctor.adapter.CommentAdapter;
 import com.phungnlg.hellodoctor.adapter.Connect;
+import com.phungnlg.hellodoctor.task.LoadCommentsTask;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -67,6 +70,7 @@ public class SinglePostFragment extends Fragment {
     private DatabaseReference notificationDatabase;
 
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseRecyclerAdapter<CommentItem, CommentHolder> recyclerAdapter;
 
     @FragmentArg
     protected String postKey;
@@ -118,8 +122,7 @@ public class SinglePostFragment extends Fragment {
         increaseCommentCount();
         saveCommentToDatabase();
         pushNotification();
-        loadComments();
-
+        Toast.makeText(getContext(), "Câu trả lời của bạn đã được gửi đi", Toast.LENGTH_SHORT).show();
     }
 
     public void increaseCommentCount() {
@@ -191,7 +194,7 @@ public class SinglePostFragment extends Fragment {
     }
 
     public void getPost() {
-        mDatabase.child(postKey).addValueEventListener(new ValueEventListener() {
+        mDatabase.child(postKey).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String postTitle1 = (String) dataSnapshot.child("title").getValue();
@@ -221,22 +224,11 @@ public class SinglePostFragment extends Fragment {
         });
     }
 
-    private Observable test() {
-        getPreviousComment();
-        return Observable.just(1);
-    }
-
-    private void doSomething() {
-        test().observeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe();
-    }
-
+    //Fetch data using Firebase Recycler Adapter
     public void getPreviousComment() {
         final DatabaseReference DATABASECOMMENTLIST = FirebaseDatabase.getInstance().getReference().child("Comments")
                                                                       .child(postKey);
-        final FirebaseRecyclerAdapter<CommentItem, CommentHolder> COMMENTADAPTER
-                = new FirebaseRecyclerAdapter<CommentItem, CommentHolder>(
+        recyclerAdapter = new FirebaseRecyclerAdapter<CommentItem, CommentHolder>(
                 CommentItem.class,
                 R.layout.item_comment,
                 CommentHolder.class,
@@ -250,11 +242,17 @@ public class SinglePostFragment extends Fragment {
             }
         };
 
-        COMMENTADAPTER.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        //registerDO();
+
+        mCommentList.setAdapter(recyclerAdapter);
+    }
+
+    public void registerDO() {
+        recyclerAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(final int positionStart, final int itemCount) {
                 super.onItemRangeInserted(positionStart, itemCount);
-                int friendlyMessageCount = COMMENTADAPTER.getItemCount();
+                int friendlyMessageCount = recyclerAdapter.getItemCount();
                 int lastVisiblePosition =
                         linearLayoutManager.findLastCompletelyVisibleItemPosition();
                 if (lastVisiblePosition == -1
@@ -264,8 +262,6 @@ public class SinglePostFragment extends Fragment {
                 }
             }
         });
-
-        mCommentList.setAdapter(COMMENTADAPTER);
     }
 
     public void registerAdapterDataObserver() {
@@ -285,6 +281,7 @@ public class SinglePostFragment extends Fragment {
         });
     }
 
+    //Fetch data using Retrofit + RxAndroid, fast but cannot listen to data changed
     public void loadComments() {
         Observable.defer(() -> Connect.getRetrofit().getComments(postKey))
                 .subscribeOn(Schedulers.io())
@@ -297,20 +294,48 @@ public class SinglePostFragment extends Fragment {
                 });
     }
 
+    //Sane as the afforementioned function, without a DataObserver inside, to avoid duplication
+    public void loadCommentsWithoutRegisterDO() {
+        Observable.defer(() -> Connect.getRetrofit().getComments(postKey))
+                  .subscribeOn(Schedulers.io())
+                  .observeOn(AndroidSchedulers.mainThread())
+                  .subscribe(CommentItemLinkedHashMap -> {
+                      commentAdapter = new CommentAdapter(CommentItemLinkedHashMap);
+                      commentAdapter.notifyDataSetChanged();
+                      mCommentList.setAdapter(commentAdapter);
+                  });
+    }
+
+    //Fetch data using Firebase Recycler Adapter, with AsyncTask, problem hasn't been solved
+    public void loadCommentAsyncTask() {
+        LoadCommentsTask task = new LoadCommentsTask(getActivity(), postKey, linearLayoutManager);
+        task.execute();
+    }
+
     @AfterViews
     public void init() {
         initDatabaseConnection();
         getPost();
         getCommentList();
+        //To avoid the rough feeling when the Single post fragment being loaded,
+        //delay the getPreviousComment() function for 0.5s
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getPreviousComment();
+            }
+        }, 500);
+
         //getPreviousComment();
-        doSomething();
+        //register();
+        //getPreviousComment();
         //loadComments();
-        //registerAdapterDataObserver();
     }
 
     public void getCommentList() {
         mCommentList.setNestedScrollingEnabled(false);
-        mCommentList.setHasFixedSize(true);
+        //mCommentList.setHasFixedSize(true);
         linearLayoutManager.setReverseLayout(true);
         mCommentList.setLayoutManager(linearLayoutManager);
     }

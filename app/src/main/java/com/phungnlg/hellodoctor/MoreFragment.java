@@ -52,10 +52,17 @@ public class MoreFragment extends Fragment {
 
     @Click(R.id.fragment_more_btn_appointment)
     public void setBtnT() {
-        Intent intent = new Intent(getActivity(), ServiceActivity_.class);
+        /*Intent intent = new Intent(getActivity(), AppointmentDoctorFragment_.class);
         startActivity(intent);
         //getActivity().finish();
-        getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);*/
+
+        AppointmentDoctorFragment f = new AppointmentDoctorFragment_();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
+        ft.replace(R.id.more_fragment, f);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     public static MoreFragment newInstance(int pageNo) {

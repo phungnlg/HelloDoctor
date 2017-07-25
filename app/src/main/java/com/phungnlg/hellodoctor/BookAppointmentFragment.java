@@ -183,6 +183,8 @@ public class BookAppointmentFragment extends Fragment {
                                                             tvBookTime.getText());
                         doctorNotificationDatabase.child(TIME).setValue(outputformat.format(localtime));
 
+                        pushAppointment();
+
                         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
@@ -241,6 +243,25 @@ public class BookAppointmentFragment extends Fragment {
         doctorNotificationDatabase.child(TIME).setValue(outputformat.format(localtime));
 
         Toast.makeText(getContext(), R.string.appointment_success, Toast.LENGTH_SHORT).show();
+    }
+
+    public void pushAppointment() {
+        DatabaseReference client = FirebaseDatabase.getInstance()
+                                                   .getReference("Appointment").child(user.getUid()).push();
+        DatabaseReference doctor = FirebaseDatabase.getInstance()
+                                                   .getReference("Appointment").child(doctorKey).push();
+
+        client.child("title").setValue("Lịch hẹn với BS " + doctorName);
+        client.child("time").setValue(String.valueOf(tvBookTime.getText()));
+        client.child("address").setValue("Đang cập nhật");
+        client.child("isConfirmed").setValue(false);
+        client.child("link").setValue(String.valueOf(doctor.getKey()));
+
+        doctor.child("title").setValue("Lịch hẹn với " + user.getDisplayName());
+        doctor.child("time").setValue(String.valueOf(tvBookTime.getText()));
+        doctor.child("address").setValue("Phòng mạch");
+        doctor.child("isConfirmed").setValue(false);
+        doctor.child("link").setValue(String.valueOf(client.getKey()));
     }
 
     public void loadUserInfo() {

@@ -239,6 +239,8 @@ public class ProfileFragment extends Fragment {
                       }
                       else {
                       }
+                  }, throwable -> {
+                      Toast.makeText(getContext(), "Load thông tin tài khoản thất bại", Toast.LENGTH_SHORT).show();
                   });
     }
 

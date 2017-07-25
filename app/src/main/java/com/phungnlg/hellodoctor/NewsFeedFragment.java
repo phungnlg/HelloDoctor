@@ -230,6 +230,7 @@ public class NewsFeedFragment extends Fragment {
                         //f.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
+                        //ft.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
                         ft.replace(R.id.newsfeed, f);
                         ft.addToBackStack(null);
                         ft.commit();
@@ -247,6 +248,7 @@ public class NewsFeedFragment extends Fragment {
                         chatFragment.setArguments(bundle);
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.setCustomAnimations(R.anim.push_left_in, R.anim.push_left_out);
+                        //ft.setCustomAnimations(R.anim.anim_fade_in, R.anim.anim_fade_out);
                         ft.replace(R.id.newsfeed, chatFragment);
                         ft.addToBackStack(null);
                         ft.commit();

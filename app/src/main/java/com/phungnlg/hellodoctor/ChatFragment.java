@@ -196,7 +196,6 @@ public class ChatFragment extends Fragment {
     public void addMessageBox(String message, int type) {
         TextView textView = new TextView(getContext());
         textView.setText(message);
-
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
                                                                       ViewGroup.LayoutParams.WRAP_CONTENT);
         layoutParams.weight = 1.0f;
@@ -227,7 +226,11 @@ public class ChatFragment extends Fragment {
 //        textView.startAnimation(animation);
 
         textView.setMaxWidth(600);
-        layout.addView(textView);
-        performFullScroll();
+        try {
+            layout.addView(textView);
+            performFullScroll();
+        } catch (NullPointerException e) {
+            //Toast.makeText(getContext(), "Có lỗi khi tải tin nhắn", Toast.LENGTH_SHORT).show();
+        }
     }
 }
